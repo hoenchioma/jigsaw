@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.UUID;
 
 /**
@@ -33,7 +34,7 @@ public class ServerLoginHandler implements Runnable {
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            log("Login failed");
+            log("Failed to read socket");
             e.printStackTrace();
         }
     }
@@ -63,17 +64,20 @@ public class ServerLoginHandler implements Runnable {
         String username = in.readUTF();
         String password = in.readUTF();
 
-        if (server.getResource().usernameExists(username)) {
+        if (!server.getResource().usernameExists(username)) {
             out.writeUTF("username not found");
             log("username not found");
         }
         else {
             Pair<String, String> passwordSaltPair = server.getResource().getUserPass(username);
             String storedPasswordHash = passwordSaltPair.getKey();
-            byte[] salt = passwordSaltPair.getValue().getBytes();
+            String salt = passwordSaltPair.getValue();
 
             // hash the given password
             String hashedPassword = get_SHA_256_SecurePassword(password, salt);
+
+            log(hashedPassword);
+            log(storedPasswordHash);
 
             if (hashedPassword.equals(storedPasswordHash)) {
                 out.writeUTF("success");
@@ -83,6 +87,9 @@ public class ServerLoginHandler implements Runnable {
                 User user = server.getResource().findUser(username);
                 // generate a random sessionID
                 String sessionID = UUID.randomUUID().toString();
+
+                // send the session ID to client
+                out.writeUTF(sessionID);
 
                 ClientHandler handler = new ClientHandler(socket, user, sessionID);
                 // add the handler to the server
@@ -108,10 +115,11 @@ public class ServerLoginHandler implements Runnable {
     /**
      * Get SHA1 hashed password using given salt
      * @param passwordToHash password to be hashed
-     * @param salt extra random bytes added to the hash to make it more secure
+     * @param saltInBytes extra random bytes added to the hash to make it more secure (Base64 encoded)
      * @return secure hashed password
      */
-    private static String get_SHA_256_SecurePassword(String passwordToHash, byte[] salt) {
+    public static String get_SHA_256_SecurePassword(String passwordToHash, String saltInBytes) {
+        byte[] salt = Base64.getDecoder().decode(saltInBytes);
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -131,16 +139,28 @@ public class ServerLoginHandler implements Runnable {
 
     /**
      * Gives us a random salt for hashing
-     * @return a byte array containing our string
+     * @return a Base64 encoded byte array of random bits (salt)
      */
-    private static byte[] getSalt() throws NoSuchAlgorithmException {
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-        byte[] salt = new byte[16];
-        sr.nextBytes(salt);
-        return salt;
+    public static String getSalt() {
+        try {
+            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+            byte[] salt = new byte[16];
+            sr.nextBytes(salt);
+            return Base64.getEncoder().encodeToString(salt);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void log(String str) {
         System.out.println(this.getClass().getCanonicalName() + ": " + str);
     }
+
+//    public static void main(String[] args) {
+//        Resource resource = Resource.loadFromFile();
+//        String salt = ServerLoginHandler.getSalt();
+//        String hashPass = ServerLoginHandler.get_SHA_256_SecurePassword("palu", salt);
+//        resource.addUser(new User("id", "malu", new Pair<>(hashPass, salt)));
+//    }
 }

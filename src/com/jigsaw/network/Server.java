@@ -44,4 +44,10 @@ public class Server {
     public Resource getResource() {
         return resource;
     }
+
+    public static void main(String[] args) throws Exception {
+        int port = 4444;
+        if (args.length >= 1) port = Integer.parseInt(args[0]);
+        new Server(port);
+    }
 }

@@ -30,9 +30,7 @@ public class Resource implements Serializable {
     }
 
     public Pair<String, String> getUserPass(String username) {
-        if (userPassDictionary.containsKey(username)) {
-            return null;
-        }
+        if (!userPassDictionary.containsKey(username)) return null;
         return userPassDictionary.get(username);
     }
 
@@ -71,6 +69,9 @@ public class Resource implements Serializable {
     }
 
     public static void saveObjToFile(Object obj, String filePath) {
+        // create the enclosing folders if it doesn't exist
+        File dir = new File(new File(filePath).getParentFile().getAbsolutePath());
+        dir.mkdirs();
         try {
             FileOutputStream file = new FileOutputStream(filePath);
             ObjectOutputStream out = new ObjectOutputStream(file);
