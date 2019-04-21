@@ -76,9 +76,6 @@ public class ServerLoginHandler implements Runnable {
             // hash the given password
             String hashedPassword = get_SHA_256_SecurePassword(password, salt);
 
-            log(hashedPassword);
-            log(storedPasswordHash);
-
             if (hashedPassword.equals(storedPasswordHash)) {
                 out.writeUTF("success");
                 log("login successful");
@@ -118,7 +115,7 @@ public class ServerLoginHandler implements Runnable {
      * @param saltInBytes extra random bytes added to the hash to make it more secure (Base64 encoded)
      * @return secure hashed password
      */
-    public static String get_SHA_256_SecurePassword(String passwordToHash, String saltInBytes) {
+    private static String get_SHA_256_SecurePassword(String passwordToHash, String saltInBytes) {
         byte[] salt = Base64.getDecoder().decode(saltInBytes);
         String generatedPassword = null;
         try {
@@ -126,7 +123,7 @@ public class ServerLoginHandler implements Runnable {
             md.update(salt);
             byte[] bytes = md.digest(passwordToHash.getBytes());
             StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++) {
+            for (int i=0; i< bytes.length ;i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
@@ -141,7 +138,7 @@ public class ServerLoginHandler implements Runnable {
      * Gives us a random salt for hashing
      * @return a Base64 encoded byte array of random bits (salt)
      */
-    public static String getSalt() {
+    private static String getSalt() {
         try {
             SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
             byte[] salt = new byte[16];

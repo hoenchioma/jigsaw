@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="13.3">
-  <zoom_level>4</zoom_level>
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>108</x>
-      <y>308</y>
-      <w>120</w>
-      <h>100</h>
+      <x>424</x>
+      <y>616</y>
+      <w>240</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>ClientHandler
 --
@@ -30,27 +30,25 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>360</x>
-      <y>200</y>
-      <w>132</w>
-      <h>104</h>
+      <x>928</x>
+      <y>400</y>
+      <w>320</w>
+      <h>208</h>
     </coordinates>
     <panel_attributes>Resourse
 --
-...
-- userLedger: Map &lt;long, String&gt;
-- userNameDictionary: Map &lt;String, String&gt;
-- projectLedger: Map &lt;long, String&gt;
+- userPassDictionary: Map&lt;String, Pair&lt;String, String&gt;&gt;
 ...
 --
-- initLoad(): void
-+ loadProjectLedger(): void
-+ loadUserLedger(): void
-+ saveProjectLedger(): void
-+ saveUserLedger(): void
+_+ loadFromFile(): Resource_
++ saveToFile(): void
 + refresh(): void
-+ findUser(id: long): User
-+ findTeam(teamId: long): Team
++ findUser(username: String): User
++ findTeam(teamId: String): Team
++ addUser(user: User): void
++ updateUser(user: User): void
++ usernameExists(username: String): boolean
++ getUserPass(username: String): Pair&lt;String, String&gt;
 ...
 </panel_attributes>
     <additional_attributes/>
@@ -58,10 +56,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>664</x>
-      <y>204</y>
-      <w>120</w>
-      <h>96</h>
+      <x>1536</x>
+      <y>408</y>
+      <w>240</w>
+      <h>192</h>
     </coordinates>
     <panel_attributes>Project
 --
@@ -84,10 +82,10 @@ _+ loadFromFile(file: File): Team_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>112</x>
-      <y>172</y>
-      <w>128</w>
-      <h>80</h>
+      <x>432</x>
+      <y>240</y>
+      <w>256</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>Server
 --
@@ -97,23 +95,23 @@ _+ loadFromFile(file: File): Team_
 --
 + Server (port: int)
 + restart (port: int): void
-+ handleClient (socket: Socket): void
++ addHandler(handler: ClientHandler): voi
 + removeClient (client: ClientHandler): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>640</x>
-      <y>348</y>
-      <w>148</w>
-      <h>80</h>
+      <x>1488</x>
+      <y>696</y>
+      <w>296</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>User
 --
 - id: int
 - username: String
-- hashedPassword: String
+- passwordSaltPair: Pair &lt;String, String&gt;
 - profile: Profile
 - projects: ArrayList &lt;Project&gt;
 --
@@ -127,10 +125,10 @@ _+ loadFromFile(file: File): User_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>224</x>
-      <y>372</y>
-      <w>424</w>
-      <h>12</h>
+      <x>656</x>
+      <y>744</y>
+      <w>848</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;1040.0;10.0</additional_attributes>
@@ -138,10 +136,10 @@ _+ loadFromFile(file: File): User_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>224</x>
-      <y>296</y>
-      <w>496</w>
-      <h>28</h>
+      <x>656</x>
+      <y>592</y>
+      <w>992</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;1220.0;50.0;1220.0;10.0</additional_attributes>
@@ -149,70 +147,70 @@ _+ loadFromFile(file: File): User_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>236</x>
-      <y>204</y>
-      <w>132</w>
-      <h>16</h>
+      <x>680</x>
+      <y>312</y>
+      <w>264</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 contains</panel_attributes>
-    <additional_attributes>10.0;20.0;310.0;20.0</additional_attributes>
+    <additional_attributes>10.0;10.0;310.0;140.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>128</x>
-      <y>248</y>
-      <w>28</w>
-      <h>68</h>
+      <x>592</x>
+      <y>392</y>
+      <w>56</w>
+      <h>240</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 stores</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;280.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>488</x>
-      <y>264</y>
-      <w>172</w>
-      <h>92</h>
+      <x>1240</x>
+      <y>528</y>
+      <w>288</w>
+      <h>184</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 loads from</panel_attributes>
-    <additional_attributes>10.0;10.0;410.0;210.0</additional_attributes>
+    <additional_attributes>10.0;10.0;340.0;210.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>488</x>
-      <y>236</y>
-      <w>184</w>
-      <h>16</h>
+      <x>1240</x>
+      <y>472</y>
+      <w>312</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 loads from</panel_attributes>
-    <additional_attributes>10.0;20.0;440.0;20.0</additional_attributes>
+    <additional_attributes>10.0;20.0;370.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>184</x>
-      <y>248</y>
-      <w>32</w>
-      <h>68</h>
+      <x>376</x>
+      <y>392</y>
+      <w>144</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 creates</panel_attributes>
-    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;90.0;160.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>784</x>
-      <y>248</y>
-      <w>40</w>
-      <h>24</h>
+      <x>1776</x>
+      <y>496</y>
+      <w>80</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>Serializable</panel_attributes>
     <additional_attributes/>
@@ -220,10 +218,10 @@ creates</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>780</x>
-      <y>252</y>
-      <w>28</w>
-      <h>12</h>
+      <x>1768</x>
+      <y>504</y>
+      <w>56</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
@@ -231,10 +229,10 @@ creates</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>784</x>
-      <y>372</y>
-      <w>32</w>
-      <h>12</h>
+      <x>1776</x>
+      <y>744</y>
+      <w>64</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;60.0;10.0</additional_attributes>
@@ -242,10 +240,10 @@ creates</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>792</x>
-      <y>368</y>
-      <w>40</w>
-      <h>24</h>
+      <x>1792</x>
+      <y>736</y>
+      <w>80</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>Serializable</panel_attributes>
     <additional_attributes/>
@@ -253,10 +251,10 @@ creates</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>68</x>
-      <y>324</y>
-      <w>32</w>
-      <h>24</h>
+      <x>344</x>
+      <y>648</y>
+      <w>64</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>Runnable</panel_attributes>
     <additional_attributes/>
@@ -264,10 +262,10 @@ creates</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>84</x>
-      <y>328</y>
-      <w>32</w>
-      <h>12</h>
+      <x>376</x>
+      <y>656</y>
+      <w>64</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;60.0;10.0</additional_attributes>
@@ -275,10 +273,10 @@ creates</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>212</x>
-      <y>524</y>
-      <w>96</w>
-      <h>80</h>
+      <x>632</x>
+      <y>1048</y>
+      <w>192</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>/DedicatedHandler/
 --
@@ -292,10 +290,10 @@ creates</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>268</x>
-      <y>428</y>
-      <w>96</w>
-      <h>68</h>
+      <x>744</x>
+      <y>856</y>
+      <w>192</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 TaskHandler
@@ -307,10 +305,10 @@ TaskHandler
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>92</x>
-      <y>524</y>
-      <w>96</w>
-      <h>80</h>
+      <x>392</x>
+      <y>1048</y>
+      <w>192</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>/SharedHandler/
 --
@@ -322,10 +320,10 @@ TaskHandler
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>168</x>
-      <y>452</y>
-      <w>108</w>
-      <h>80</h>
+      <x>544</x>
+      <y>904</y>
+      <w>216</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>250.0;10.0;160.0;10.0;10.0;180.0</additional_attributes>
@@ -333,10 +331,10 @@ TaskHandler
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>228</x>
-      <y>464</y>
-      <w>48</w>
-      <h>68</h>
+      <x>664</x>
+      <y>928</y>
+      <w>96</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>100.0;10.0;50.0;10.0;10.0;150.0</additional_attributes>
@@ -344,10 +342,10 @@ TaskHandler
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>308</x>
-      <y>532</y>
-      <w>32</w>
-      <h>24</h>
+      <x>824</x>
+      <y>1064</y>
+      <w>64</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>Runnable</panel_attributes>
     <additional_attributes/>
@@ -355,10 +353,10 @@ TaskHandler
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>304</x>
-      <y>536</y>
-      <w>24</w>
-      <h>12</h>
+      <x>816</x>
+      <y>1072</y>
+      <w>48</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;40.0;10.0</additional_attributes>
@@ -366,10 +364,10 @@ TaskHandler
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>120</x>
-      <y>404</y>
-      <w>32</w>
-      <h>128</h>
+      <x>448</x>
+      <y>808</y>
+      <w>64</w>
+      <h>256</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 creates</panel_attributes>
@@ -378,10 +376,10 @@ creates</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>164</x>
-      <y>404</y>
-      <w>28</w>
-      <h>128</h>
+      <x>536</x>
+      <y>808</y>
+      <w>56</w>
+      <h>256</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 stores</panel_attributes>
@@ -390,10 +388,10 @@ stores</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>216</x>
-      <y>404</y>
-      <w>32</w>
-      <h>128</h>
+      <x>640</x>
+      <y>808</y>
+      <w>64</w>
+      <h>256</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 creates</panel_attributes>
@@ -402,10 +400,10 @@ creates</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>680</x>
-      <y>452</y>
-      <w>84</w>
-      <h>68</h>
+      <x>1568</x>
+      <y>904</y>
+      <w>168</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>Profile
 --
@@ -422,10 +420,10 @@ creates</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>724</x>
-      <y>424</y>
-      <w>12</w>
-      <h>36</h>
+      <x>1656</x>
+      <y>848</y>
+      <w>24</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
@@ -433,10 +431,10 @@ creates</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>948</x>
-      <y>332</y>
-      <w>120</w>
-      <h>84</h>
+      <x>2104</x>
+      <y>664</y>
+      <w>240</w>
+      <h>168</h>
     </coordinates>
     <panel_attributes>TaskGroup
 --
@@ -452,10 +450,10 @@ creates</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>880</x>
-      <y>212</y>
-      <w>152</w>
-      <h>88</h>
+      <x>1968</x>
+      <y>424</y>
+      <w>304</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>TaskManager
 --
@@ -473,10 +471,10 @@ creates</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1008</x>
-      <y>296</y>
-      <w>12</w>
-      <h>44</h>
+      <x>2224</x>
+      <y>592</y>
+      <w>24</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
@@ -484,10 +482,10 @@ creates</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1212</x>
-      <y>316</y>
-      <w>84</w>
-      <h>68</h>
+      <x>2632</x>
+      <y>632</y>
+      <w>168</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>/CalendarEntry/
 --
@@ -503,10 +501,10 @@ creates</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>976</x>
-      <y>464</y>
-      <w>92</w>
-      <h>72</h>
+      <x>2160</x>
+      <y>928</y>
+      <w>184</w>
+      <h>144</h>
     </coordinates>
     <panel_attributes>ProjectTask
 --
@@ -521,10 +519,10 @@ creates</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1128</x>
-      <y>404</y>
-      <w>84</w>
-      <h>76</h>
+      <x>2464</x>
+      <y>808</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Event
 --
@@ -537,10 +535,10 @@ creates</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1136</x>
-      <y>616</y>
-      <w>92</w>
-      <h>92</h>
+      <x>2480</x>
+      <y>1232</y>
+      <w>184</w>
+      <h>184</h>
     </coordinates>
     <panel_attributes>Task
 --
@@ -562,10 +560,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1004</x>
-      <y>532</y>
-      <w>140</w>
-      <h>128</h>
+      <x>2216</x>
+      <y>1064</y>
+      <w>280</w>
+      <h>256</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>330.0;300.0;10.0;300.0;10.0;10.0</additional_attributes>
@@ -573,10 +571,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1252</x>
-      <y>404</y>
-      <w>84</w>
-      <h>76</h>
+      <x>2712</x>
+      <y>808</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Reminder
 --
@@ -588,10 +586,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1188</x>
-      <y>380</y>
-      <w>48</w>
-      <h>32</h>
+      <x>2584</x>
+      <y>760</y>
+      <w>96</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>100.0;10.0;10.0;60.0</additional_attributes>
@@ -599,10 +597,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1252</x>
-      <y>380</y>
-      <w>44</w>
-      <h>32</h>
+      <x>2712</x>
+      <y>760</y>
+      <w>88</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;90.0;60.0</additional_attributes>
@@ -610,10 +608,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1372</x>
-      <y>288</y>
-      <w>84</w>
-      <h>48</h>
+      <x>2952</x>
+      <y>576</y>
+      <w>168</w>
+      <h>96</h>
     </coordinates>
     <panel_attributes>Notification
 --
@@ -625,10 +623,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1372</x>
-      <y>348</y>
-      <w>100</w>
-      <h>68</h>
+      <x>2952</x>
+      <y>696</y>
+      <w>200</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>Repeater
 --
@@ -644,10 +642,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1292</x>
-      <y>348</y>
-      <w>88</w>
-      <h>28</h>
+      <x>2792</x>
+      <y>696</y>
+      <w>176</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;200.0;50.0</additional_attributes>
@@ -655,10 +653,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1292</x>
-      <y>300</y>
-      <w>88</w>
-      <h>48</h>
+      <x>2792</x>
+      <y>600</y>
+      <w>176</w>
+      <h>96</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;100.0;200.0;10.0</additional_attributes>
@@ -666,10 +664,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1124</x>
-      <y>512</y>
-      <w>84</w>
-      <h>76</h>
+      <x>2456</x>
+      <y>1024</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>TaskEvent
 --
@@ -681,10 +679,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1160</x>
-      <y>476</y>
-      <w>12</w>
-      <h>44</h>
+      <x>2528</x>
+      <y>952</y>
+      <w>24</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
@@ -692,10 +690,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1176</x>
-      <y>584</y>
-      <w>12</w>
-      <h>40</h>
+      <x>2560</x>
+      <y>1168</y>
+      <w>24</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
@@ -703,10 +701,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1296</x>
-      <y>356</y>
-      <w>36</w>
-      <h>24</h>
+      <x>2800</x>
+      <y>712</y>
+      <w>72</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>Serializable</panel_attributes>
     <additional_attributes/>
@@ -714,10 +712,10 @@ _+ DEFAULT_PRIORITY: int_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1196</x>
-      <y>208</y>
-      <w>128</w>
-      <h>80</h>
+      <x>2600</x>
+      <y>416</y>
+      <w>256</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>Calendar
 --
@@ -733,10 +731,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1328</x>
-      <y>252</y>
-      <w>36</w>
-      <h>24</h>
+      <x>2864</x>
+      <y>504</y>
+      <w>72</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>Serializable</panel_attributes>
     <additional_attributes/>
@@ -744,10 +742,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1340</x>
-      <y>256</y>
-      <w>12</w>
-      <h>12</h>
+      <x>2888</x>
+      <y>512</y>
+      <w>24</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;10.0</additional_attributes>
@@ -755,10 +753,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1252</x>
-      <y>284</y>
-      <w>12</w>
-      <h>40</h>
+      <x>2712</x>
+      <y>568</y>
+      <w>24</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
@@ -766,10 +764,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1320</x>
-      <y>256</y>
-      <w>32</w>
-      <h>12</h>
+      <x>2848</x>
+      <y>512</y>
+      <w>64</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;60.0;10.0</additional_attributes>
@@ -777,10 +775,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1008</x>
-      <y>412</y>
-      <w>12</w>
-      <h>60</h>
+      <x>2224</x>
+      <y>824</y>
+      <w>24</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
@@ -788,10 +786,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>780</x>
-      <y>228</y>
-      <w>108</w>
-      <h>12</h>
+      <x>1768</x>
+      <y>456</y>
+      <w>216</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;250.0;10.0</additional_attributes>
@@ -799,10 +797,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>656</x>
-      <y>84</y>
-      <w>164</w>
-      <h>92</h>
+      <x>1520</x>
+      <y>168</y>
+      <w>328</w>
+      <h>184</h>
     </coordinates>
     <panel_attributes>ProjectRole
 --
@@ -817,10 +815,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>724</x>
-      <y>172</y>
-      <w>12</w>
-      <h>40</h>
+      <x>1656</x>
+      <y>344</y>
+      <w>24</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
@@ -828,10 +826,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>92</x>
-      <y>660</y>
-      <w>116</w>
-      <h>60</h>
+      <x>392</x>
+      <y>1320</y>
+      <w>232</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>MessageHandler
 --
@@ -844,10 +842,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>144</x>
-      <y>600</y>
-      <w>12</w>
-      <h>68</h>
+      <x>496</x>
+      <y>1200</y>
+      <w>24</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
@@ -855,10 +853,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>236</x>
-      <y>660</y>
-      <w>116</w>
-      <h>60</h>
+      <x>680</x>
+      <y>1320</y>
+      <w>232</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>FileTransferHandler
 --
@@ -871,10 +869,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>284</x>
-      <y>600</y>
-      <w>12</w>
-      <h>68</h>
+      <x>776</x>
+      <y>1200</y>
+      <w>24</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
@@ -882,10 +880,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>368</x>
-      <y>660</y>
-      <w>116</w>
-      <h>60</h>
+      <x>944</x>
+      <y>1320</y>
+      <w>232</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>WhiteBoardHandler
 --
@@ -898,10 +896,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>304</x>
-      <y>588</y>
-      <w>88</w>
-      <h>80</h>
+      <x>816</x>
+      <y>1176</y>
+      <w>176</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;200.0;180.0</additional_attributes>
@@ -909,10 +907,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>776</y>
-      <w>116</w>
-      <h>60</h>
+      <x>408</x>
+      <y>1552</y>
+      <w>232</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>ClientMessageHandler
 --
@@ -927,10 +925,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>64</x>
-      <y>792</y>
-      <w>32</w>
-      <h>24</h>
+      <x>336</x>
+      <y>1584</y>
+      <w>64</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>Runnable</panel_attributes>
     <additional_attributes/>
@@ -938,10 +936,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>80</x>
-      <y>796</y>
-      <w>28</w>
-      <h>12</h>
+      <x>368</x>
+      <y>1592</y>
+      <w>56</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
@@ -949,10 +947,10 @@ _+ loadFromFile (file: File): Calendar_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>124</x>
-      <y>716</y>
-      <w>64</w>
-      <h>68</h>
+      <x>456</x>
+      <y>1432</y>
+      <w>128</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>lt=-
 network connection</panel_attributes>
@@ -961,10 +959,10 @@ network connection</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>200</x>
-      <y>716</y>
-      <w>88</w>
-      <h>68</h>
+      <x>608</x>
+      <y>1432</y>
+      <w>176</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>lt=-
 network connection</panel_attributes>
@@ -973,10 +971,10 @@ network connection</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>400</x>
-      <y>760</y>
-      <w>60</w>
-      <h>56</h>
+      <x>1008</x>
+      <y>1520</y>
+      <w>120</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>WhiteBoard GUI
 --
@@ -988,10 +986,10 @@ network connection</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>404</x>
-      <y>852</y>
-      <w>52</w>
-      <h>40</h>
+      <x>1016</x>
+      <y>1704</y>
+      <w>104</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>Tools
 --
@@ -1005,10 +1003,10 @@ network connection</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>424</x>
-      <y>812</y>
-      <w>36</w>
-      <h>48</h>
+      <x>1056</x>
+      <y>1624</y>
+      <w>72</w>
+      <h>96</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 modifies</panel_attributes>
@@ -1017,10 +1015,10 @@ modifies</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>428</x>
-      <y>716</y>
-      <w>64</w>
-      <h>52</h>
+      <x>1064</x>
+      <y>1432</y>
+      <w>128</w>
+      <h>104</h>
     </coordinates>
     <panel_attributes>lt=-
 network connection</panel_attributes>
@@ -1029,10 +1027,10 @@ network connection</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>196</x>
-      <y>856</y>
-      <w>52</w>
-      <h>28</h>
+      <x>600</x>
+      <y>1712</y>
+      <w>104</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>A plus icon in the 
 chatbox will trigger
@@ -1042,10 +1040,10 @@ the file transfer.</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>84</x>
-      <y>856</y>
-      <w>52</w>
-      <h>32</h>
+      <x>376</x>
+      <y>1712</y>
+      <w>104</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>A download icon 
 will trigger the 
@@ -1057,10 +1055,10 @@ process.
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>112</x>
-      <y>904</y>
-      <w>96</w>
-      <h>28</h>
+      <x>432</x>
+      <y>1808</y>
+      <w>192</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>ChatGUI				
 </panel_attributes>
@@ -1069,10 +1067,10 @@ process.
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>176</x>
-      <y>832</y>
-      <w>12</w>
-      <h>80</h>
+      <x>560</x>
+      <y>1664</y>
+      <w>24</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;180.0;10.0;10.0</additional_attributes>
@@ -1080,10 +1078,10 @@ process.
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>140</x>
-      <y>832</y>
-      <w>12</w>
-      <h>80</h>
+      <x>488</x>
+      <y>1664</y>
+      <w>24</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
@@ -1091,10 +1089,10 @@ process.
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>132</x>
-      <y>864</y>
-      <w>20</w>
-      <h>16</h>
+      <x>472</x>
+      <y>1728</y>
+      <w>40</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;20.0;30.0;20.0</additional_attributes>
@@ -1102,10 +1100,10 @@ process.
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>176</x>
-      <y>864</y>
-      <w>28</w>
-      <h>16</h>
+      <x>560</x>
+      <y>1728</y>
+      <w>56</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>50.0;20.0;10.0;20.0</additional_attributes>
@@ -1113,10 +1111,10 @@ process.
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>844</x>
+      <x>1896</x>
       <y>0</y>
-      <w>12</w>
-      <h>920</h>
+      <w>24</w>
+      <h>1840</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;2280.0</additional_attributes>
@@ -1124,10 +1122,10 @@ process.
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1292</x>
-      <y>356</y>
-      <w>24</w>
-      <h>16</h>
+      <x>2792</x>
+      <y>712</y>
+      <w>48</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;20.0;40.0;20.0</additional_attributes>
@@ -1135,10 +1133,10 @@ process.
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>876</x>
-      <y>664</y>
-      <w>96</w>
-      <h>60</h>
+      <x>1960</x>
+      <y>1328</y>
+      <w>192</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>CalendarSyncHandler
 --
@@ -1151,10 +1149,10 @@ process.
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
-      <y>600</y>
-      <w>748</w>
-      <h>72</h>
+      <x>528</x>
+      <y>1200</y>
+      <w>1496</w>
+      <h>144</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;120.0;1850.0;120.0;1850.0;160.0</additional_attributes>
@@ -1162,10 +1160,10 @@ process.
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>912</x>
-      <y>296</y>
-      <w>40</w>
-      <h>376</h>
+      <x>2032</x>
+      <y>592</y>
+      <w>80</w>
+      <h>752</h>
     </coordinates>
     <panel_attributes>network
 connection
@@ -1175,10 +1173,10 @@ connection
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>968</x>
-      <y>236</y>
-      <w>236</w>
-      <h>460</h>
+      <x>2144</x>
+      <y>472</y>
+      <w>472</w>
+      <h>920</h>
     </coordinates>
     <panel_attributes>network
 connection
@@ -1188,12 +1186,59 @@ connection
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>0</x>
+      <x>208</x>
       <y>0</y>
-      <w>564</w>
-      <h>632</h>
+      <w>1128</w>
+      <h>1264</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>1390.0;10.0;1390.0;1550.0;10.0;1560.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>128</x>
+      <y>416</y>
+      <w>256</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>ServerLoginHandler
+--
+- server: Server
+- socket: Socket
+- in: DataInputStream
+- out: DataOutputStream
+--
++ ServerLoginHandler(socket: Socket, server: Server)
++ run(): void
+- handlerLogin(): void
+- handlerRegister(): void
+- get_SHA_256_SecurePassword(passwordToHash: String, salt: String): String
+- getSalt(): String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>376</x>
+      <y>520</y>
+      <w>128</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+creates</panel_attributes>
+    <additional_attributes>140.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>376</x>
+      <y>472</y>
+      <w>568</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+retrieve info</panel_attributes>
+    <additional_attributes>690.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
