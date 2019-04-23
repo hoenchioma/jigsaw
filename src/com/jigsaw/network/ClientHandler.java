@@ -15,6 +15,8 @@ public class ClientHandler implements Runnable {
     private User user;
     private String sessionID;
 
+    // TODO: Implement project related functionality
+
     public ClientHandler(Socket socket, User user, String sessionID) {
         this.socket = socket;
         this.user = user;

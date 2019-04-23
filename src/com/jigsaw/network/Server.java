@@ -1,6 +1,7 @@
 package com.jigsaw.network;
 
 import com.jigsaw.accounts.Resource;
+import com.jigsaw.accounts.User;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -45,7 +46,7 @@ public class Server {
         return resource;
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         int port = 4444;
         if (args.length >= 1) port = Integer.parseInt(args[0]);
         new Server(port);

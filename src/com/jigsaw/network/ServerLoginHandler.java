@@ -64,6 +64,8 @@ public class ServerLoginHandler implements Runnable {
         String username = in.readUTF();
         String password = in.readUTF();
 
+        // TODO: Implement project loading on login
+
         if (!server.getResource().usernameExists(username)) {
             out.writeUTF("username not found");
             log("username not found");
@@ -91,6 +93,8 @@ public class ServerLoginHandler implements Runnable {
                 ClientHandler handler = new ClientHandler(socket, user, sessionID);
                 // add the handler to the server
                 server.addHandler(handler);
+                // add user to resource class
+                server.getResource().activateUser(user);
 
                 new Thread(handler).start();
             }
@@ -123,8 +127,8 @@ public class ServerLoginHandler implements Runnable {
             md.update(salt);
             byte[] bytes = md.digest(passwordToHash.getBytes());
             StringBuilder sb = new StringBuilder();
-            for (int i=0; i< bytes.length ;i++) {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            for (byte aByte : bytes) {
+                sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
         }

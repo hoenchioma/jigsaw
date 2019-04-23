@@ -4,7 +4,9 @@ import javafx.util.Pair;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The Resource class provides an interface for storing
@@ -13,17 +15,27 @@ import java.util.Map;
  * @author Raheeb Hassan
  */
 public class Resource implements Serializable {
-    /* maps from username to hashed password and salt */
-    private Map <String, Pair<String, String>> userPassDictionary = new HashMap<>();
-
-    // TODO: add project and team storage functionality
-
     // file paths
     public static final String serverStorageLocation = "storage/server/";
     public static final String saveFilePath = serverStorageLocation + "resource.save";
     public static final String usersDirPath = serverStorageLocation + "users/";
+    public static final String projectsDirPath = serverStorageLocation + "projects/";
 
+    /* maps from username to hashed password and salt */
+    private Map <String, Pair<String, String>> userPassDictionary = new HashMap<>();
+    /* Users that have already been loaded */
+    transient private Map<String, User> activeUsers = new HashMap<>();
+
+    /* a set of strings containing project IDs of existing projects */
+    private Set<String> existingProjects = new HashSet<>();
+    /* Projects that have already been loaded */
+    transient private Map<String, Project> activeProjects = new HashMap<>();
+
+
+    // private constructor so it can't be instantiated
     private Resource() {}
+
+    // user related methods
 
     public boolean usernameExists(String username) {
         return userPassDictionary.containsKey(username);
@@ -34,8 +46,20 @@ public class Resource implements Serializable {
         return userPassDictionary.get(username);
     }
 
+    public void activateUser(User user) {
+        activeUsers.putIfAbsent(user.getUsername(), user);
+    }
+
+    public void deactivateUser(User user) {
+        activeUsers.remove(user.getUsername());
+    }
+
+    public void deactivateUser(String username) {
+        activeUsers.remove(username);
+    }
+
     public void addUser(User user) {
-        if (userPassDictionary.containsKey(user.getUsername())) {
+        if (usernameExists(user.getUsername())) {
             throw new IllegalArgumentException("User with same username already exists");
         }
         userPassDictionary.put(user.getUsername(), user.getPasswordSaltPair());
@@ -49,10 +73,48 @@ public class Resource implements Serializable {
     }
 
     public User findUser(String username) {
+        // if user is already active return loaded object
+        if (activeUsers.containsKey(username)) return activeUsers.get(username);
         String fileName = username;
         return (User) loadObjFromFile(usersDirPath + fileName);
     }
 
+    // project related methods
+
+    public boolean projectIDExists(String projectID) {
+        return existingProjects.contains(projectID);
+    }
+
+    public void addProject(Project project) {
+        if (projectIDExists(project.getId())) {
+            throw new IllegalArgumentException("Project with same project ID already exists");
+        }
+        existingProjects.add(project.getId());
+        updateProject(project);
+        saveToFile();
+    }
+
+    public void updateProject(Project project) {
+        String fileName = project.getId();
+        saveObjToFile(project, projectsDirPath + fileName);
+    }
+
+    public Project findProject(String projectID) {
+        if (activeProjects.containsKey(projectID)) return activeProjects.get(projectID);
+        String fileName = projectID;
+        return (Project) loadObjFromFile(projectsDirPath + fileName);
+    }
+
+    public void activateProject(Project project) {
+        activeProjects.putIfAbsent(project.getId(), project);
+    }
+
+    // file related methods
+
+    /**
+     * load an instance of Resource from file
+     * @return a loaded Resource object
+     */
     public static Resource loadFromFile() {
         File file = new File(saveFilePath);
         // create a new file if it doesn't exist
@@ -64,10 +126,18 @@ public class Resource implements Serializable {
         return (Resource) loadObjFromFile(saveFilePath);
     }
 
-    public void saveToFile() {
+    /**
+     * save this instance of Resource to file
+     */
+    synchronized public void saveToFile() {
         saveObjToFile(this, saveFilePath);
     }
 
+    /**
+     * saves Object as binary data to file
+     * @param obj object to be saved
+     * @param filePath path of save file
+     */
     public static void saveObjToFile(Object obj, String filePath) {
         // create the enclosing folders if it doesn't exist
         File dir = new File(new File(filePath).getParentFile().getAbsolutePath());
@@ -82,6 +152,11 @@ public class Resource implements Serializable {
         }
     }
 
+    /**
+     * Load an object from file
+     * @param filePath path of the file to be loaded
+     * @return the loaded object
+     */
     public static Object loadObjFromFile(String filePath) {
         try {
             FileInputStream file = new FileInputStream(filePath);
