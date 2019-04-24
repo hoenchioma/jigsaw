@@ -1,0 +1,39 @@
+package com.jigsaw.calendar;
+
+import com.jigsaw.accounts.Project;
+import com.jigsaw.accounts.User;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+public class ProjectTask extends Task{
+    private String projectID;
+    transient private Project project;
+
+    private ArrayList<String> assigneeIDs;
+
+    transient private ArrayList<User> assignees;
+    public ProjectTask(String name, LocalDateTime deadline, String creatorUsername, String projectID, ArrayList<String> assigneeIDs) {
+        super(name, deadline, creatorUsername);
+        this.projectID = projectID;
+        this.assigneeIDs = assigneeIDs;
+
+        // TODO: get project and assignee user objects from resource class
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public ArrayList<User> getAssignees() {
+        return assignees;
+    }
+
+    public void setAssignees(ArrayList<User> assignees) {
+        this.assignees = assignees;
+    }
+}

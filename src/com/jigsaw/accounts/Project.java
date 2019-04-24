@@ -1,5 +1,7 @@
 package com.jigsaw.accounts;
 
+import com.jigsaw.calendar.ProjectTask;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -9,6 +11,7 @@ public class Project implements Serializable {
 
     // ArrayList of usernames of project members
     private ArrayList<String> members;
+    private ArrayList<ProjectTask> taskList = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -40,5 +43,13 @@ public class Project implements Serializable {
 
     public void removeUser(User user) {
         members.remove(user.getUsername());
+    }
+
+    public ArrayList<ProjectTask> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(ArrayList<ProjectTask> taskList) {
+        this.taskList = taskList;
     }
 }

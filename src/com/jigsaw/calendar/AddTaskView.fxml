@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.calendar.AddTaskViewController">
+   <children>
+      <JFXDatePicker fx:id="deadLineDatePickerID" editable="false" layoutX="405.0" layoutY="45.0" prefHeight="28.0" prefWidth="125.0" promptText="Select Deadline" />
+      <JFXTextField fx:id="creatorNameID" focusColor="#8d8d8d" layoutX="57.0" layoutY="65.0" prefHeight="25.0" prefWidth="254.0" promptText="Created By" unFocusColor="#cdcdcd">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="taskNameID" focusColor="#7c7c7c" layoutX="57.0" layoutY="103.0" prefHeight="25.0" prefWidth="254.0" promptText="Task Name" unFocusColor="#b9b9b9">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextArea fx:id="taskDescriptionID" focusColor="#8d8b8b" layoutX="57.0" layoutY="140.0" prefHeight="175.0" prefWidth="439.0" promptText="Task Description" unFocusColor="WHITE">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextArea>
+      <JFXButton fx:id="addTaskButtonID" buttonType="RAISED" layoutX="466.0" layoutY="349.0" onAction="#addTaskButtonAction" prefHeight="25.0" prefWidth="82.0" ripplerFill="#b9b9b9" text="Add Task" textAlignment="CENTER">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>
