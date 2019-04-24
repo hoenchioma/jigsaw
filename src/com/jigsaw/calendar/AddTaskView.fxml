@@ -9,23 +9,23 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.calendar.AddTaskViewController">
    <children>
-      <JFXDatePicker fx:id="deadLineDatePickerID" editable="false" layoutX="405.0" layoutY="45.0" prefHeight="28.0" prefWidth="125.0" promptText="Select Deadline" />
-      <JFXTextField fx:id="creatorNameID" focusColor="#8d8d8d" layoutX="57.0" layoutY="65.0" prefHeight="25.0" prefWidth="254.0" promptText="Created By" unFocusColor="#cdcdcd">
+      <JFXDatePicker fx:id="deadLineDatePickerID" editable="false" layoutX="444.0" layoutY="33.0" prefHeight="28.0" prefWidth="125.0" promptText="Select Deadline" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="33.0" />
+      <JFXTextField fx:id="creatorNameID" focusColor="#8c8c8c00" layoutX="57.0" layoutY="65.0" prefHeight="25.0" prefWidth="254.0" promptText="Created By" unFocusColor="#ccccccba" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="65.0">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField fx:id="taskNameID" focusColor="#7c7c7c" layoutX="57.0" layoutY="103.0" prefHeight="25.0" prefWidth="254.0" promptText="Task Name" unFocusColor="#b9b9b9">
+      <JFXTextField fx:id="taskNameID" focusColor="#7a7a7a00" layoutX="57.0" layoutY="103.0" prefHeight="25.0" prefWidth="254.0" promptText="Task Name" unFocusColor="#b8b8b8e5" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="103.0">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextArea fx:id="taskDescriptionID" focusColor="#8d8b8b" layoutX="57.0" layoutY="140.0" prefHeight="175.0" prefWidth="439.0" promptText="Task Description" unFocusColor="WHITE">
+      <JFXTextArea fx:id="taskDescriptionID" focusColor="#8c8b8b00" layoutX="57.0" layoutY="140.0" prefHeight="175.0" prefWidth="439.0" promptText="Task Description" unFocusColor="#ffffff00" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="104.0" AnchorPane.topAnchor="140.0">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextArea>
-      <JFXButton fx:id="addTaskButtonID" buttonType="RAISED" layoutX="466.0" layoutY="349.0" onAction="#addTaskButtonAction" prefHeight="25.0" prefWidth="82.0" ripplerFill="#b9b9b9" text="Add Task" textAlignment="CENTER">
+      <JFXButton fx:id="addTaskButtonID" buttonType="RAISED" layoutX="487.0" layoutY="346.0" onAction="#addTaskButtonAction" prefHeight="25.0" prefWidth="82.0" ripplerFill="#b9b9b9" text="Add Task" textAlignment="CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="31.0">
          <font>
             <Font size="13.0" />
          </font>

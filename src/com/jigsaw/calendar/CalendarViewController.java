@@ -33,10 +33,10 @@ public class CalendarViewController implements Initializable {
     // FIXME: This scene doesn't load
 
     @FXML private DatePicker datePicker;
-    @FXML private AnchorPane main;
+    @FXML private AnchorPane anchorPaneID;
     private Project project = new Project();
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-    LocalDate localDate = LocalDate.now();
+    //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+    // LocalDate localDate = LocalDate.now();
     @FXML private JFXTreeTableView<CalendarEntry> treeView;
 
     @Override
