@@ -1,4 +1,4 @@
-package com.jigsaw.network;
+package com.jigsaw.network.server;
 
 import com.jigsaw.accounts.User;
 

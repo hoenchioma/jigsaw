@@ -1,6 +1,8 @@
-package com.jigsaw.network;
+package com.jigsaw.network.server;
 
 import com.jigsaw.accounts.User;
+import com.jigsaw.network.server.ClientHandler;
+import com.jigsaw.network.server.Server;
 import javafx.util.Pair;
 
 import java.io.DataInputStream;

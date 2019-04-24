@@ -9,12 +9,27 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * The Resource class provides an interface for storing
+ * The singleton class which provides an interface for storing
  * and retrieving User and Project data from files
  *
  * @author Raheeb Hassan
  */
 public class Resource implements Serializable {
+    // singleton instance of resource class
+    private static Resource singleInstance;
+
+    /**
+     * Method to get the singleton instance of Resource class
+     * @return the singleton instance of the class
+     */
+    public static Resource getInstance() {
+        if (singleInstance == null) {
+            // lazy initialization of Resource class
+            singleInstance = Resource.loadFromFile();
+        }
+        return singleInstance;
+    }
+
     // file paths
     public static final String serverStorageLocation = "storage/server/";
     public static final String saveFilePath = serverStorageLocation + "resource.save";

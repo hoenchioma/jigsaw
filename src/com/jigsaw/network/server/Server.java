@@ -1,7 +1,6 @@
-package com.jigsaw.network;
+package com.jigsaw.network.server;
 
 import com.jigsaw.accounts.Resource;
-import com.jigsaw.accounts.User;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -17,6 +16,8 @@ import java.util.Set;
  * @author Raheeb Hassan
  */
 public class Server {
+    public static int DEFAULT_SERVER_PORT = 4444;
+
     private ServerSocket serverSocket;
     private Set<ClientHandler> activeConnections;
     private Resource resource;
@@ -25,7 +26,7 @@ public class Server {
         try {
             serverSocket = new ServerSocket(port);
             activeConnections = new HashSet<>();
-            resource = Resource.loadFromFile();
+            resource = Resource.getInstance();
 
             while (true) {
                 Socket socket = serverSocket.accept();
@@ -47,7 +48,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        int port = 4444;
+        int port = DEFAULT_SERVER_PORT;
         if (args.length >= 1) port = Integer.parseInt(args[0]);
         new Server(port);
     }
