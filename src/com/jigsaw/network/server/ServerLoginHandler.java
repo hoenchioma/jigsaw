@@ -1,7 +1,10 @@
 package com.jigsaw.network.server;
 
 import com.jigsaw.accounts.Profile;
+import com.jigsaw.accounts.Project;
+import com.jigsaw.accounts.Resource;
 import com.jigsaw.accounts.User;
+import com.jigsaw.calendar.TaskManager;
 import javafx.util.Pair;
 
 import java.io.*;
@@ -64,12 +67,15 @@ public class ServerLoginHandler implements Runnable {
     private void handleLogin() throws Exception {
         String username = (String) in.readObject();
         String password = (String) in.readObject();
+        String projectID = (String) in.readObject();
 
         log("username: " + username);
 
-        // TODO: Implement project loading on login
-
-        if (!server.getResource().usernameExists(username)) {
+        if (!server.getResource().projectIDExists(projectID)) {
+            out.writeObject("projectID not found");
+            log("projectID not found");
+        }
+        else if (!server.getResource().usernameExists(username)) {
             out.writeObject("username not found");
             log("username not found");
         }
@@ -90,7 +96,7 @@ public class ServerLoginHandler implements Runnable {
                 // generate a random sessionID
                 String sessionID = UUID.randomUUID().toString();
 
-                initiateSession(user);
+                initiateSession(user, projectID);
             }
             else {
                 out.writeObject("password wrong");
@@ -124,18 +130,21 @@ public class ServerLoginHandler implements Runnable {
             User user = new User(userID, username, passwordSaltPair, profile);
             server.getResource().addUser(user);
 
-            initiateSession(user);
+            initiateSession(user, "");
         }
     }
 
-    private void initiateSession(User user) throws IOException {
+    private void initiateSession(User user, String projectID) throws IOException {
         // generate a random sessionID
         String sessionID = UUID.randomUUID().toString();
 
         // send the session ID to client
         out.writeObject(sessionID);
 
-        ClientHandler handler = new ClientHandler(out, in, user, sessionID);
+        Project project = Resource.getInstance().findProject(projectID);
+        TaskManager taskManager = project.getTaskManager();
+
+        ClientHandler handler = new ClientHandler(out, in, user, sessionID, taskManager);
         // add the handler to the server
         server.addHandler(handler);
         // add user to resource class

@@ -45,16 +45,17 @@ public class KanbanViewController implements Initializable {
 
         willDoList.addAll(
                 new ProjectTask("Task 1", LocalDateTime.of(2099, 12, 12, 6, 6),
-                        "Bablu", "R56", new ArrayList<>()),
+                        "Raheeb", "R56", new ArrayList<>()),
                 new ProjectTask("Task 2", LocalDateTime.of(2099, 12, 12, 6, 6),
-                        "Bablu", "R56", new ArrayList<>()),
+                        "Farhan", "R56", new ArrayList<>()),
                 new ProjectTask("Task 3", LocalDateTime.of(2099, 12, 12, 6, 6),
-                        "Bablu", "R56", new ArrayList<>()),
+                        "Samin", "R56", new ArrayList<>()),
                 new ProjectTask("Task 4", LocalDateTime.of(2099, 12, 12, 6, 6),
-                        "Bablu", "R56", new ArrayList<>())
+                        "Shamim", "R56", new ArrayList<>())
         );
 
         willDoList.get(3).setPriority(3);
+        willDoList.get(0).setPriority(2);
 
         FXCollections.sort(willDoList, new PriorityComparator());
 
