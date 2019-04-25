@@ -10,8 +10,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("calendar/CalendarView.fxml"));
-        primaryStage.setTitle("Hello World");
+        Parent root = FXMLLoader.load(getClass().getResource("accounts/LoginView.fxml"));
+        primaryStage.setTitle("Jigsaw");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

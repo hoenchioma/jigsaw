@@ -11,12 +11,19 @@ public class User implements Serializable {
     private Pair<String, String> passwordSaltPair;
     private Set<String> projects; // contains the projectIDs of related projects
 
-    // TODO: add Profile to user account
+    private Profile profile;
 
     public User(String id, String username, Pair<String, String> passwordSaltPair) {
         this.id = id;
         this.username = username;
         this.passwordSaltPair = passwordSaltPair;
+    }
+
+    public User(String id, String username, Pair<String, String> passwordSaltPair, Profile profile) {
+        this.id = id;
+        this.username = username;
+        this.passwordSaltPair = passwordSaltPair;
+        this.profile = profile;
     }
 
     public String getId() {

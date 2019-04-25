@@ -1,13 +1,13 @@
 package com.jigsaw.network.server;
 
+import com.jigsaw.accounts.Profile;
 import com.jigsaw.accounts.User;
+import com.jigsaw.network.Packet;
 import com.jigsaw.network.server.ClientHandler;
 import com.jigsaw.network.server.Server;
 import javafx.util.Pair;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -26,15 +26,15 @@ import java.util.UUID;
 public class ServerLoginHandler implements Runnable {
     private Server server;
     private Socket socket;
-    private DataInputStream in;
-    private DataOutputStream out;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
 
     public ServerLoginHandler(Socket socket, Server server) {
         this.socket = socket;
         this.server = server;
         try {
-            in = new DataInputStream(socket.getInputStream());
-            out = new DataOutputStream(socket.getOutputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             log("Failed to read socket");
             e.printStackTrace();
@@ -67,6 +67,7 @@ public class ServerLoginHandler implements Runnable {
         String password = in.readUTF();
 
         // TODO: Implement project loading on login
+        log("mello");
 
         if (!server.getResource().usernameExists(username)) {
             out.writeUTF("username not found");
@@ -89,16 +90,7 @@ public class ServerLoginHandler implements Runnable {
                 // generate a random sessionID
                 String sessionID = UUID.randomUUID().toString();
 
-                // send the session ID to client
-                out.writeUTF(sessionID);
-
-                ClientHandler handler = new ClientHandler(socket, user, sessionID);
-                // add the handler to the server
-                server.addHandler(handler);
-                // add user to resource class
-                server.getResource().activateUser(user);
-
-                new Thread(handler).start();
+                initiateSession(user);
             }
             else {
                 out.writeUTF("password wrong");
@@ -111,8 +103,43 @@ public class ServerLoginHandler implements Runnable {
      * handles the communications with client for accomplishing registration
      * of new User
      */
-    private void handleRegister() {
-        // TODO: implement registration handler
+    private void handleRegister() throws Exception{
+        String username = in.readUTF();
+        String password = in.readUTF();
+        Profile profile = (Profile) in.readObject();
+
+        if (server.getResource().usernameExists(username)) {
+            out.writeUTF("username already exists");
+            log("username already exists");
+        } else {
+            out.writeUTF("success");
+
+            String salt = getSalt();
+            String hashedPassword = get_SHA_256_SecurePassword(password, salt);
+            Pair<String, String> passwordSaltPair = new Pair<>(hashedPassword, salt);
+            String userID = UUID.randomUUID().toString();
+
+            User user = new User(userID, username, passwordSaltPair, profile);
+            server.getResource().addUser(user);
+
+            initiateSession(user);
+        }
+    }
+
+    private void initiateSession(User user) throws IOException {
+        // generate a random sessionID
+        String sessionID = UUID.randomUUID().toString();
+
+        // send the session ID to client
+        out.writeUTF(sessionID);
+
+        ClientHandler handler = new ClientHandler(out, in, user, sessionID);
+        // add the handler to the server
+        server.addHandler(handler);
+        // add user to resource class
+        server.getResource().activateUser(user);
+
+        new Thread(handler).start();
     }
 
     /**

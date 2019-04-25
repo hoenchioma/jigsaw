@@ -62,6 +62,7 @@ public class Resource implements Serializable {
     }
 
     public void activateUser(User user) {
+        System.out.println(activeUsers);
         activeUsers.putIfAbsent(user.getUsername(), user);
     }
 
@@ -138,7 +139,10 @@ public class Resource implements Serializable {
             Resource resource = new Resource();
             resource.saveToFile();
         }
-        return (Resource) loadObjFromFile(saveFilePath);
+        Resource resource = (Resource) loadObjFromFile(saveFilePath);
+        resource.activeUsers = new HashMap<>();
+        resource.activeProjects = new HashMap<>();
+        return resource;
     }
 
     /**

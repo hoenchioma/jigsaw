@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.validation.ValidationFacade?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="707.0" prefWidth="613.0" style="-fx-background-color: #2a0033;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.accounts.RegistrationController">
+   <children>
+      <Label layoutX="96.0" layoutY="101.0" text="First Name" textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="445.0" AnchorPane.topAnchor="101.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="96.0" layoutY="146.0" text="Last Name" textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="446.6" AnchorPane.topAnchor="146.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="94.0" layoutY="362.0" text="E-Mail" textFill="#979797">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="94.0" layoutY="488.0" text="Profession" textFill="#979797">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="94.0" layoutY="455.0" text="Sex" textFill="#979797">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="male" layoutX="247.0" layoutY="460.0" mnemonicParsing="false" text="Male" textFill="#979797">
+         <toggleGroup>
+            <ToggleGroup fx:id="SexGroup" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="female" layoutX="327.0" layoutY="460.0" mnemonicParsing="false" text="Female" textFill="#979797" toggleGroup="$SexGroup" />
+      <RadioButton fx:id="others" layoutX="419.0" layoutY="460.0" mnemonicParsing="false" text="Others" textFill="#979797" toggleGroup="$SexGroup" />
+      <Label layoutX="94.0" layoutY="533.0" text="Institute" textFill="#979797">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="94.0" layoutY="581.0" text="Contact" textFill="#979797">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="93.0" layoutY="250.0" text="Password" textFill="#979797">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="94.0" layoutY="300.0" text="Confirm Password" textFill="#979797">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="252.0" layoutY="634.0" onAction="#registerButtonAction" style="-fx-background-color: #2a0033; -fx-border-color: #DA70D6; -fx-border-width: 2; -fx-border-radius: 20;" text="Submit" textFill="#a29b9b">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="94.0" layoutY="416.0" text="BirthDay" textFill="#979797">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="birthDay" layoutX="241.0" layoutY="414.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" />
+      <ValidationFacade />
+      <Separator layoutX="176.0" layoutY="75.0" opacity="0.28" prefHeight="0.0" prefWidth="246.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="190.6" AnchorPane.topAnchor="75.0" />
+      <Label alignment="CENTER" layoutX="236.0" layoutY="27.0" text="Registration" textAlignment="JUSTIFY" textFill="#a4a4a4" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="265.0" AnchorPane.topAnchor="27.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <TextField fx:id="firstName" layoutX="236.0" layoutY="98.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20; -fx-border-insets: 0;" styleClass="text-input" stylesheets="@Style.css" />
+      <TextField fx:id="lastName" layoutX="236.0" layoutY="143.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" stylesheets="@Style.css" />
+      <TextField fx:id="profession" layoutX="234.0" layoutY="485.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" stylesheets="@Style.css" />
+      <TextField fx:id="eMail" layoutX="234.0" layoutY="359.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" stylesheets="@Style.css" />
+      <TextField fx:id="institute" layoutX="234.0" layoutY="530.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" stylesheets="@Style.css" />
+      <TextField fx:id="contact" layoutX="234.0" layoutY="578.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" stylesheets="@Style.css" />
+      <PasswordField fx:id="password" layoutX="234.0" layoutY="247.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" stylesheets="@Style.css" />
+      <PasswordField fx:id="confirmPassword" layoutX="234.0" layoutY="297.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" stylesheets="@Style.css" />
+      <Label layoutX="96.0" layoutY="199.0" text="Username" textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="449.8" AnchorPane.topAnchor="199.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="username" layoutX="235.0" layoutY="196.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20; -fx-border-insets: 0;" styleClass="text-input" stylesheets="@Style.css" />
+   </children>
+</AnchorPane>

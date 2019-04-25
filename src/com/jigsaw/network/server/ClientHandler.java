@@ -2,7 +2,8 @@ package com.jigsaw.network.server;
 
 import com.jigsaw.accounts.User;
 
-import java.net.Socket;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Objects;
 
 /**
@@ -11,14 +12,17 @@ import java.util.Objects;
  * @author Raheeb Hassan
  */
 public class ClientHandler implements Runnable {
-    private Socket socket;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
+
     private User user;
     private String sessionID;
 
     // TODO: Implement project related functionality
 
-    public ClientHandler(Socket socket, User user, String sessionID) {
-        this.socket = socket;
+    public ClientHandler(ObjectOutputStream out, ObjectInputStream in, User user, String sessionID) {
+        this.out = out;
+        this.in = in;
         this.user = user;
         this.sessionID = sessionID;
     }
