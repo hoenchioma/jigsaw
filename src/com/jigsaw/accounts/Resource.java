@@ -62,7 +62,6 @@ public class Resource implements Serializable {
     }
 
     public void activateUser(User user) {
-        System.out.println(activeUsers);
         activeUsers.putIfAbsent(user.getUsername(), user);
     }
 

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.calendar.AddTaskViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.AddTaskViewController">
    <children>
       <JFXDatePicker fx:id="deadLineDatePickerID" editable="false" layoutX="444.0" layoutY="33.0" prefHeight="28.0" prefWidth="125.0" promptText="Select Deadline" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="33.0" />
       <JFXTextField fx:id="creatorNameID" focusColor="#8c8c8c00" layoutX="57.0" layoutY="65.0" prefHeight="25.0" prefWidth="254.0" promptText="Created By" unFocusColor="#ccccccba" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="65.0">

@@ -6,10 +6,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPaneID" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchorPaneID" prefHeight="446.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.CalendarViewController">
     <children>
         <JFXDatePicker fx:id="datePicker" editable="false" layoutX="21.0" layoutY="18.0" promptText="Select Date" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="18.0" />
-        <JFXTreeTableView fx:id="treeView" layoutY="75.0" prefHeight="577.0" prefWidth="647.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0" />
+        <JFXTreeTableView fx:id="treeView" layoutY="75.0" prefHeight="276.0" prefWidth="556.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0" />
         <Label layoutX="336.0" layoutY="25.0" prefHeight="18.0" prefWidth="146.0" text="projectName" AnchorPane.rightAnchor="165.0" AnchorPane.topAnchor="25.0" />
         <Button layoutX="530.0" layoutY="18.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="103.0" text="Goto Project" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="18.0" />
     </children>

@@ -39,6 +39,8 @@ public class NetClient {
     private NetClient() {}
 
     synchronized public void connect(String address, int port) throws IOException{
+        if (socket != null && socket.isConnected()) socket.close();
+
         socket = new Socket(address, port);
 
         // initialize the I/O streams
@@ -54,36 +56,36 @@ public class NetClient {
      * Communicates with server and returns server response
      * @return String with server response
      */
-    synchronized public String login(String username, String password) throws IOException {
+    synchronized public String login(String username, String password) throws Exception {
         connect();
-        out.writeUTF("login");
-        out.writeUTF(username);
-        out.writeUTF(password);
-        String response =  in.readUTF();
+        out.writeObject("login");
+        out.writeObject(username);
+        out.writeObject(password);
+        String response = (String) in.readObject();
         if (response.equals("success")) {
-            String sessionID = in.readUTF();
+            String sessionID = (String) in.readObject();
             new PacketListener().start();
         }
         return response;
     }
 
-    public String register(String username, String password, Profile profile) throws IOException {
+    public String register(String username, String password, Profile profile) throws Exception {
         connect();
-        out.writeUTF("register");
-        out.writeUTF(username);
-        out.writeUTF(password);
+        out.writeObject("register");
+        out.writeObject(username);
+        out.writeObject(password);
         out.writeObject(profile);
-        String response = in.readUTF();
+        String response = (String) in.readObject();
         if (response.equals("success")) {
-            String sessionID = in.readUTF();
+            String sessionID = (String) in.readObject();
             new PacketListener().start();
         }
         return response;
     }
 
-    synchronized public boolean sendPacket(Packet packet) throws IOException {
+    synchronized public boolean sendPacket(Packet packet) throws Exception {
         out.writeObject(packet);
-        String response = in.readUTF();
+        String response = (String) in.readObject();
         return response.equals("success");
     }
 

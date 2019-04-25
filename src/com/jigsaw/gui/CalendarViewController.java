@@ -1,15 +1,19 @@
-package com.jigsaw.calendar;
+package com.jigsaw.gui;
 
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.net.URL;
 import java.lang.String;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+
+//import com.jigsaw.accounts.Project;
+//import com.jigsaw.accounts.User;
+//import com.jigsaw.calendar.ProjectTask;
 import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.User;
+import com.jigsaw.calendar.ProjectTask;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -93,6 +97,7 @@ public class CalendarViewController implements Initializable {
         treeView.setRoot(root);
         log(":DDD");
         treeView.setShowRoot(false);
+        log(":DDDDD");
     }
 
     @FXML

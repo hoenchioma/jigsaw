@@ -1,7 +1,9 @@
-package com.jigsaw.calendar;
+package com.jigsaw.gui;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+import com.jigsaw.calendar.PriorityComparator;
+import com.jigsaw.calendar.ProjectTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

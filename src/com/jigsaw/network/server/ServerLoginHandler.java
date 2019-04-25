@@ -2,9 +2,6 @@ package com.jigsaw.network.server;
 
 import com.jigsaw.accounts.Profile;
 import com.jigsaw.accounts.User;
-import com.jigsaw.network.Packet;
-import com.jigsaw.network.server.ClientHandler;
-import com.jigsaw.network.server.Server;
 import javafx.util.Pair;
 
 import java.io.*;
@@ -44,10 +41,12 @@ public class ServerLoginHandler implements Runnable {
     @Override
     public void run() {
         try {
-            String command = in.readUTF();
+            String command = (String) in.readObject();
             if (command.equals("login")) {
+                log("login request accepted");
                 handleLogin();
             } else if (command.equals("register")) {
+                log("register request accepted");
                 handleRegister();
             } else {
                 log("Invalid command from client");
@@ -63,14 +62,15 @@ public class ServerLoginHandler implements Runnable {
      * handles the communications with client for accomplishing login
      */
     private void handleLogin() throws Exception {
-        String username = in.readUTF();
-        String password = in.readUTF();
+        String username = (String) in.readObject();
+        String password = (String) in.readObject();
+
+        log("username: " + username);
 
         // TODO: Implement project loading on login
-        log("mello");
 
         if (!server.getResource().usernameExists(username)) {
-            out.writeUTF("username not found");
+            out.writeObject("username not found");
             log("username not found");
         }
         else {
@@ -82,7 +82,7 @@ public class ServerLoginHandler implements Runnable {
             String hashedPassword = get_SHA_256_SecurePassword(password, salt);
 
             if (hashedPassword.equals(storedPasswordHash)) {
-                out.writeUTF("success");
+                out.writeObject("success");
                 log("login successful");
 
                 // load user from file
@@ -93,7 +93,7 @@ public class ServerLoginHandler implements Runnable {
                 initiateSession(user);
             }
             else {
-                out.writeUTF("password wrong");
+                out.writeObject("password wrong");
                 log("Passwords don't match");
             }
         }
@@ -104,15 +104,17 @@ public class ServerLoginHandler implements Runnable {
      * of new User
      */
     private void handleRegister() throws Exception{
-        String username = in.readUTF();
-        String password = in.readUTF();
+        String username = (String) in.readObject();
+        String password = (String) in.readObject();
         Profile profile = (Profile) in.readObject();
 
+        log("username: " + username);
+
         if (server.getResource().usernameExists(username)) {
-            out.writeUTF("username already exists");
+            out.writeObject("username already exists");
             log("username already exists");
         } else {
-            out.writeUTF("success");
+            out.writeObject("success");
 
             String salt = getSalt();
             String hashedPassword = get_SHA_256_SecurePassword(password, salt);
@@ -131,7 +133,7 @@ public class ServerLoginHandler implements Runnable {
         String sessionID = UUID.randomUUID().toString();
 
         // send the session ID to client
-        out.writeUTF(sessionID);
+        out.writeObject(sessionID);
 
         ClientHandler handler = new ClientHandler(out, in, user, sessionID);
         // add the handler to the server

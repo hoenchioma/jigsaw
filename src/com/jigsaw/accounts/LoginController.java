@@ -38,11 +38,10 @@ public class LoginController {
         window.show();
     }
     @FXML
-    public void login(ActionEvent event) throws IOException {
+    public void login(ActionEvent event) throws Exception {
         String usernameString = username.getText();
         String passwordString = password.getText();
 
-        // FIXME: Gets stuck on login
         String response = NetClient.getInstance().login(usernameString, passwordString);
 
         System.out.println(response);

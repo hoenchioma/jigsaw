@@ -12,8 +12,10 @@ import com.jigsaw.network.client.NetClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
+import javafx.scene.Parent;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
@@ -82,20 +84,20 @@ public class RegistrationController implements Initializable  {
          * if all textFields are not filled
           */
          
-//        if (username.getText().equals("")
-//                || firstName.getText().equals("")
-//                || lastName.getText().equals("")
-//                || password.getText().equals("")
-//                || eMail.getText().equals("")
-//                ||profession.getText().equals("")
-//                || institute.getText().equals("")
-//                || contact.getText().equals("")) {
-//            System.out.println("Give all Info");
-//        }
-//        else if (!password.getText().equals(confirmPassword.getText())){
-//            System.out.println("Password didn't match ");
-//        }
-//        else {
+        if (username.getText().equals("")
+                || firstName.getText().equals("")
+                || lastName.getText().equals("")
+                || password.getText().equals("")
+                || eMail.getText().equals("")
+                ||profession.getText().equals("")
+                || institute.getText().equals("")
+                || contact.getText().equals("")) {
+            System.out.println("Give all Info");
+        }
+        else if (!password.getText().equals(confirmPassword.getText())){
+            System.out.println("Password didn't match ");
+        }
+        else {
             try{
                 usernameStr = username.getText();
                 profile.setName(firstName.getText()+ " " + lastName.getText());
@@ -110,12 +112,12 @@ public class RegistrationController implements Initializable  {
             } catch(Exception profileException) {
                 System.out.println(profileException);
             }
-//        }
+        }
         String response = null;
         try {
             response = NetClient.getInstance().register(usernameStr, passwordStr, profile);
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (Exception exp) {
+            exp.printStackTrace();
         }
         System.out.println(response);
     }
@@ -137,8 +139,5 @@ public class RegistrationController implements Initializable  {
         return gender;
 
     }
-
-
-
 
 }
