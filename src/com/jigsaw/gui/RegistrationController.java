@@ -5,9 +5,10 @@
  *
  * @author Shadman Wadith
  */
-package com.jigsaw.accounts;
+package com.jigsaw.gui;
 
 import com.jfoenix.controls.JFXButton;
+import com.jigsaw.accounts.Profile;
 import com.jigsaw.network.client.NetClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

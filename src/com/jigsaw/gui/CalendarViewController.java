@@ -78,8 +78,6 @@ public class CalendarViewController implements Initializable {
             }
         });
 
-        log("few");
-
         ObservableList<CalendarEntry> tasks = FXCollections.observableArrayList();
         for(int i = 0; i < project.getTaskList().size(); i++){
             if(project.getTaskList().get(i).getDeadline().toLocalDate() == datePicker.getValue()){
@@ -87,17 +85,11 @@ public class CalendarViewController implements Initializable {
             }
         }
 
-        log("almost there boi");
-
         final TreeItem<CalendarEntry> root = new RecursiveTreeItem<CalendarEntry>(tasks, RecursiveTreeObject::getChildren);
-        log("hans solo");
         log(Boolean.toString(treeView == null));
         treeView.getColumns().setAll(taskName, members, description);
-        log(":D");
         treeView.setRoot(root);
-        log(":DDD");
         treeView.setShowRoot(false);
-        log(":DDDDD");
     }
 
     @FXML
