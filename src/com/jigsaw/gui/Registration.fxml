@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="707.0" prefWidth="613.0" style="-fx-background-color: #2a0033;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.accounts.RegistrationController">
+<AnchorPane prefHeight="707.0" prefWidth="613.0" style="-fx-background-color: #2a0033;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.RegistrationController">
    <children>
       <Label layoutX="96.0" layoutY="101.0" text="First Name" textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="445.0" AnchorPane.topAnchor="101.0">
          <font>

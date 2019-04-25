@@ -5,7 +5,7 @@
  *
  * @author Shadman Wadith
  */
-package com.jigsaw.accounts;
+package com.jigsaw.gui;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
