@@ -1,7 +1,6 @@
 package com.jigsaw.network.client;
 
 import com.jigsaw.accounts.Profile;
-import com.jigsaw.calendar.SendTaskPacket;
 import com.jigsaw.calendar.TaskSyncHandler;
 import com.jigsaw.network.Packet;
 
