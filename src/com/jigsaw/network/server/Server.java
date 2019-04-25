@@ -24,12 +24,16 @@ public class Server {
 
     public Server(int port) {
         try {
+            log("Server started");
+
             serverSocket = new ServerSocket(port);
             activeConnections = new HashSet<>();
             resource = Resource.getInstance();
 
             while (true) {
                 Socket socket = serverSocket.accept();
+
+                log("socket connect with address" + socket.getInetAddress().getHostAddress());
 
                 // pass on to login handler to complete login process
                 new Thread(new ServerLoginHandler(socket, this)).start();
@@ -51,5 +55,9 @@ public class Server {
         int port = DEFAULT_SERVER_PORT;
         if (args.length >= 1) port = Integer.parseInt(args[0]);
         new Server(port);
+    }
+
+    public void log(String str) {
+        System.out.println(str);
     }
 }

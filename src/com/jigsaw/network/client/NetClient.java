@@ -1,6 +1,8 @@
 package com.jigsaw.network.client;
 
 import com.jigsaw.accounts.Profile;
+import com.jigsaw.calendar.SendTaskPacket;
+import com.jigsaw.calendar.TaskSyncHandler;
 import com.jigsaw.network.Packet;
 
 import java.io.*;
@@ -35,9 +37,11 @@ public class NetClient {
     private ObjectInputStream in; 
     private ObjectOutputStream out;
 
-    // private constructor so it can't be instantiated
-    private NetClient() {}
+    private TaskSyncHandler taskSyncHandler;
 
+    // private constructor so it can't be instantiated
+
+    private NetClient() {}
     synchronized public void connect(String address, int port) throws IOException{
         if (socket != null && socket.isConnected()) socket.close();
 
@@ -56,11 +60,12 @@ public class NetClient {
      * Communicates with server and returns server response
      * @return String with server response
      */
-    synchronized public String login(String username, String password) throws Exception {
+    synchronized public String login(String username, String password, String projectID) throws Exception {
         connect();
         out.writeObject("login");
         out.writeObject(username);
         out.writeObject(password);
+        out.writeObject(projectID);
         String response = (String) in.readObject();
         if (response.equals("success")) {
             String sessionID = (String) in.readObject();
@@ -83,21 +88,25 @@ public class NetClient {
         return response;
     }
 
-    synchronized public boolean sendPacket(Packet packet) throws Exception {
+    synchronized public void sendPacket(Packet packet) throws Exception {
         out.writeObject(packet);
-        String response = (String) in.readObject();
-        return response.equals("success");
+//        String response = (String) in.readObject();
+//        return response.equals("success");
     }
 
     /**
      * Private inner class to listen for incoming packets
      */
     private class PacketListener extends Thread {
+
         @Override
         public void run() {
             while (true) {
                 try {
                     Packet receivedPacket = (Packet) in.readObject();
+                    if (receivedPacket.getClass().getName().equals("SendTaskPacket")) {
+                        taskSyncHandler.receivePacket(receivedPacket);
+                    }
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -108,8 +117,21 @@ public class NetClient {
             }
         }
     }
+    private void initial() {
+        new PacketListener().start();
+        taskSyncHandler = new TaskSyncHandler();
+        new Thread(taskSyncHandler).start();
+    }
 
     private void log(String str) {
         System.out.println(this.getClass().getCanonicalName() + ": " + str);
+    }
+
+    public TaskSyncHandler getTaskSyncHandler() {
+        return taskSyncHandler;
+    }
+
+    public void setTaskSyncHandler(TaskSyncHandler taskSyncHandler) {
+        this.taskSyncHandler = taskSyncHandler;
     }
 }

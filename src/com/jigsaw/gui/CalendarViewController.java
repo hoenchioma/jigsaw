@@ -4,14 +4,10 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.net.URL;
 import java.lang.String;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-
-//import com.jigsaw.accounts.Project;
-//import com.jigsaw.accounts.User;
-//import com.jigsaw.calendar.ProjectTask;
-import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.User;
 import com.jigsaw.calendar.ProjectTask;
 import javafx.beans.property.SimpleStringProperty;
@@ -30,7 +26,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TreeItem;
 import javafx.util.Callback;
 
-import java.time.format.DateTimeFormatter;
 
 public class CalendarViewController implements Initializable {
 
@@ -38,13 +33,12 @@ public class CalendarViewController implements Initializable {
 
     @FXML private DatePicker datePicker;
     @FXML private AnchorPane anchorPaneID;
-    private Project project = new Project();
-    //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-    // LocalDate localDate = LocalDate.now();
     @FXML private JFXTreeTableView<CalendarEntry> treeView;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ////////////
         JFXTreeTableColumn<CalendarEntry, String> taskName = new JFXTreeTableColumn<>("Task Name");
         taskName.setPrefWidth(150);
         // taskName.setCellValueFactory(param -> param.getValue().getValue().taskName);
@@ -67,7 +61,6 @@ public class CalendarViewController implements Initializable {
             }
         });
 
-
         JFXTreeTableColumn<CalendarEntry, String> members = new JFXTreeTableColumn<>("Members");
         taskName.setPrefWidth(150);
         //taskName.setCellValueFactory(param -> param.getValue().getValue().members);
@@ -78,12 +71,33 @@ public class CalendarViewController implements Initializable {
             }
         });
 
+        ArrayList<String> assigneesList = new ArrayList<String>();
+        assigneesList.add("MemberList1");
+        assigneesList.add("MemberList2");
+        assigneesList.add("MemberList3");
+        ArrayList<ProjectTask> taskList =new ArrayList<ProjectTask>();// NetClient.getInstance().getTaskSyncHandler().getTaskManager().getProjectTasks();
+        taskList.add(new ProjectTask("Raheeb", LocalDateTime.now(), "User 1","001",assigneesList));
+        taskList.add(new ProjectTask("Samin", LocalDateTime.now(), "User 2", "001",assigneesList));
+        taskList.add(new ProjectTask("Aahad", LocalDateTime.now(), "User 3","001",assigneesList));
+        taskList.add(new ProjectTask("Farhan", LocalDateTime.now(), "User 4","001",assigneesList));
+        taskList.add(new ProjectTask("Wadith", LocalDateTime.now(), "User 5","001",assigneesList));
+        taskList.add(new ProjectTask("Shamim", LocalDateTime.now(), "User 6","001",assigneesList));
+
         ObservableList<CalendarEntry> tasks = FXCollections.observableArrayList();
-        for(int i = 0; i < project.getTaskList().size(); i++){
-            if(project.getTaskList().get(i).getDeadline().toLocalDate() == datePicker.getValue()){
-                tasks.add(new CalendarEntry(project.getTaskList().get(i)));
+        for(int i = 0; i < taskList.size(); i++){
+            if(taskList.get(i).getDeadline().toLocalDate().equals(datePicker.getValue())) {
+                //tasks.add(new CalendarEntry(taskList.get(i)));
+               /* String name = taskList.get(i).getName();
+                String des = taskList.get(i).getDetails();
+                ArrayList<User> memberList = taskList.get(i).getAssignees();
+                StringBuilder memberName = new StringBuilder(memberList.get(0).getUsername());
+                for(int j = 1; i<memberList.size(); j++){
+                    memberName.append(" ").append(memberList.get(j).getUsername());
+                }
+                tasks.add(new CalendarEntry(name, des, memberName.toString()));*/
             }
         }
+
 
         final TreeItem<CalendarEntry> root = new RecursiveTreeItem<CalendarEntry>(tasks, RecursiveTreeObject::getChildren);
         log(Boolean.toString(treeView == null));
@@ -101,18 +115,18 @@ public class CalendarViewController implements Initializable {
         StringProperty members;
         StringProperty description;
 
-        public CalendarEntry(ProjectTask task) {
-            this.taskName = new SimpleStringProperty(task.getName());
-            this.description = new SimpleStringProperty(task.getDetails());
-
-            ArrayList<User> memberList = task.getAssignees();
+        public CalendarEntry(String taskName, String description, String members) {
+            this.taskName = new SimpleStringProperty(taskName);
+            this.description = new SimpleStringProperty(description);
+            this.members = new SimpleStringProperty(members);
+            /*ArrayList<User> memberList = task.getAssignees();
             StringBuilder memberName = new StringBuilder();
             memberName = new StringBuilder(memberList.get(0).getUsername());
             for(int i = 1; i<memberList.size(); i++){
                 memberName.append(" ").append(memberList.get(i).getUsername());
             }
 
-            this.members = new SimpleStringProperty(memberName.toString());
+            this.members = new SimpleStringProperty(memberName.toString());*/
         }
 
     }

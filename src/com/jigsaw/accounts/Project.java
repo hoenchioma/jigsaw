@@ -54,4 +54,12 @@ public class Project implements Serializable {
     public ArrayList<ProjectTask> getTaskList() {
         return taskManager.getProjectTasks();
     }
+
+    public TaskManager getTaskManager() {
+        return taskManager;
+    }
+
+    public void setTaskManager(TaskManager taskManager) {
+        this.taskManager = taskManager;
+    }
 }

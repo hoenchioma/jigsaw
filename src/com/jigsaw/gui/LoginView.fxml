@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.LoginController">
+<GridPane alignment="center" hgap="10" prefHeight="448.0" prefWidth="350.0" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.LoginController">
     <columnConstraints>
         <ColumnConstraints />
     </columnConstraints>
@@ -19,25 +19,26 @@
         <RowConstraints />
     </rowConstraints>
     <children>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="365.0" style="-fx-background-color: #2a0033;">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="448.0" prefWidth="390.0" style="-fx-background-color: #2a0033;">
             <children>
-                <AnchorPane layoutX="1.0" prefHeight="400.0" prefWidth="362.0" style="-fx-background-color: #2a0033 #2a0033;">
+                <AnchorPane layoutX="7.0" layoutY="24.0" prefHeight="400.0" prefWidth="383.0" style="-fx-background-color: #2a0033 #2a0033;">
                     <children>
                         <JFXTextField fx:id="username" focusColor="#0480d0" layoutX="40.0" layoutY="82.0" prefHeight="26.0" prefWidth="286.0" promptText="Username" stylesheets="@Style.css" unFocusColor="#d3d7dd" />
-                        <JFXPasswordField fx:id="password" focusColor="#0480d0" layoutX="40.0" layoutY="144.0" prefHeight="26.0" prefWidth="286.0" promptText="Password" stylesheets="@Style.css" unFocusColor="#b2b1cf" />
+                        <JFXPasswordField fx:id="password" focusColor="#0480d0" layoutX="40.0" layoutY="180.0" prefHeight="26.0" prefWidth="286.0" promptText="Password" stylesheets="@Style.css" unFocusColor="#b2b1cf" />
                         <Label layoutX="152.0" layoutY="39.0" text="Sign In" textFill="#bdbbbb">
                             <font>
                                 <Font size="22.0" />
                             </font>
                         </Label>
-                        <Hyperlink layoutX="135.0" layoutY="258.0" text="Forgot Password?" textFill="#cdcdcd">
+                        <Hyperlink layoutX="138.0" layoutY="283.0" text="Forgot Password?" textFill="#cdcdcd">
                             <font>
                                 <Font size="11.0" />
                             </font>
                         </Hyperlink>
-                        <JFXButton fx:id="login" layoutX="39.0" layoutY="212.0" onAction="#login" prefHeight="26.0" prefWidth="286.0" style="-fx-background-color: #400a63;" text="Login" textFill="#fdfdfd" />
-                      <JFXButton layoutX="213.0" layoutY="321.0" onAction="#signUp" prefHeight="31.0" prefWidth="67.0" style="-fx-background-color: #400a63 #400a63; -fx-border-radius: 10;" text="SIgn Up" textFill="#fdfdfd" />
-                  <Label layoutX="62.0" layoutY="328.0" text="Don't have an account?" textFill="WHITE" />
+                        <JFXButton fx:id="login" layoutX="40.0" layoutY="243.0" onAction="#login" prefHeight="26.0" prefWidth="286.0" style="-fx-background-color: #400a63;" text="Login" textFill="#fdfdfd" />
+                        <JFXButton layoutX="213.0" layoutY="321.0" onAction="#signUp" prefHeight="31.0" prefWidth="67.0" style="-fx-background-color: #400a63 #400a63; -fx-border-radius: 10;" text="SIgn Up" textFill="#fdfdfd" />
+                        <Label layoutX="62.0" layoutY="328.0" text="Don't have an account?" textFill="WHITE" />
+                        <JFXTextField fx:id="projectID" focusColor="#0480d0" layoutX="40.0" layoutY="130.0" prefHeight="26.0" prefWidth="286.0" promptText="ProjectID" stylesheets="@Style.css" unFocusColor="#d3d7dd" />
                     </children>
                 </AnchorPane>
             </children>

@@ -28,6 +28,9 @@ public class LoginController {
     @FXML
     private JFXPasswordField password;
 
+    @FXML
+    private JFXTextField projectID;
+
 
     @FXML
     public void signUp (ActionEvent event) throws IOException {
@@ -41,8 +44,9 @@ public class LoginController {
     public void login(ActionEvent event) throws Exception {
         String usernameString = username.getText();
         String passwordString = password.getText();
+        String projectIDString = projectID.getText();
 
-        String response = NetClient.getInstance().login(usernameString, passwordString);
+        String response = NetClient.getInstance().login(usernameString, passwordString, projectIDString);
 
         System.out.println(response);
     }
