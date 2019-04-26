@@ -11,6 +11,7 @@ import java.time.Period;
 import java.util.ArrayList;
 
 import com.jigsaw.accounts.Project;
+import com.jigsaw.accounts.User;
 import com.jigsaw.calendar.ProjectTask;
 import com.jigsaw.network.client.NetClient;
 import javafx.beans.property.SimpleStringProperty;
@@ -49,10 +50,10 @@ public class DayViewController {
     }
 
     void updateTable() throws InterruptedException {
-        ArrayList<ProjectTask> taskList =new ArrayList<ProjectTask>();// NetClient.getInstance().getTaskSyncHandler().getTaskManager().getProjectTasks();
+        ArrayList<ProjectTask> taskList = NetClient.getInstance().getTaskSyncHandler().getTaskManager().getProjectTasks();
 
-        ArrayList<String> assigneesList = new ArrayList<String>();
-        assigneesList.add("MemberList1");
+
+        /*assigneesList.add("MemberList1");
         assigneesList.add("MemberList2");
         assigneesList.add("MemberList3");
 
@@ -61,7 +62,7 @@ public class DayViewController {
         taskList.add(new ProjectTask("Aahad", LocalDateTime.now(), "User 3","001",assigneesList));
         taskList.add(new ProjectTask("Farhan", LocalDateTime.now(), "User 4","001",assigneesList));
         taskList.add(new ProjectTask("Wadith", LocalDateTime.now(), "User 5","001",assigneesList));
-        taskList.add(new ProjectTask("Shamim", LocalDateTime.now(), "User 6","001",assigneesList));
+        taskList.add(new ProjectTask("Shamim", LocalDateTime.now(), "User 6","001",assigneesList));*/
 
 
         JFXTreeTableColumn<CalendarEntry, String> taskNameCol = new JFXTreeTableColumn<>("Task Name");
@@ -79,11 +80,12 @@ public class DayViewController {
         ObservableList<CalendarEntry> taskEntry = FXCollections.observableArrayList();
         for(int i  = 0; i<taskList.size(); i++){
             if(taskList.get(i).getDeadline().toLocalDate().equals(datePickerID.getValue())){
+                ArrayList<User> assigneesList = taskList.get(i).getAssignees();
                 String name = taskList.get(i).getName();
                 String des = taskList.get(i).getDetails();
-                StringBuilder memberName = new StringBuilder(assigneesList.get(0));
+                StringBuilder memberName = new StringBuilder(assigneesList.get(0).getUsername());
                 for(int j = 1; j<assigneesList.size(); j++){
-                    memberName.append(" ").append(assigneesList.get(j));
+                    memberName.append(" ").append(assigneesList.get(j).getUsername());
                 }
                 taskEntry.add(new CalendarEntry(name, des, memberName.toString(), taskList.get(i)));
             }
