@@ -1,5 +1,7 @@
 package com.jigsaw.network;
 
-public interface Packet {
+import java.io.Serializable;
+
+public interface Packet extends Serializable {
 
 }

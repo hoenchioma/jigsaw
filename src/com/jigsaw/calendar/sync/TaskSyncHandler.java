@@ -19,6 +19,15 @@ public class TaskSyncHandler {
         this.taskManager = taskManager;
         // register call back with NetClient
         NetClient.getInstance().registerCallback(this.getClass().getName(), this::receivePacket);
+
+        // send initialization packet request
+        TaskPacket initPacket = new TaskPacket();
+        initPacket.command = "init";
+        try {
+            NetClient.getInstance().sendPacket(initPacket);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -32,6 +41,7 @@ public class TaskSyncHandler {
             userDictionary = receivedTaskPacket.projectMemberInfo;
             // notify other threads that the task manager is now set
             synchronized (monitor) { monitor.notify(); }
+            log("Initial task payload arrived and set");
         }
         else if (receivedTaskPacket.command.equals("add task")) {
             addTaskLocal(receivedTaskPacket.task);
@@ -89,5 +99,9 @@ public class TaskSyncHandler {
             throw new IllegalArgumentException("User is not part of this project");
         }
         return userDictionary.get(username);
+    }
+
+    public void log(String str) {
+        System.out.println(this.getClass().getCanonicalName() + ": " + str);
     }
 }
