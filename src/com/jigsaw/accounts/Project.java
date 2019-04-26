@@ -10,9 +10,32 @@ import java.util.ArrayList;
 public class Project implements Serializable {
     private String id;
     private String name;
-
     private LocalDate projectCreateDate;
     private LocalDate projectDueDate;
+
+    public LocalDate getProjectCreateDate() {
+        return projectCreateDate;
+    }
+
+    public void setProjectCreateDate(LocalDate projectCreateDate) {
+        this.projectCreateDate = projectCreateDate;
+    }
+
+    public LocalDate getProjectDueDate() {
+        return projectDueDate;
+    }
+
+    public void setProjectDueDate(LocalDate projectDueDate) {
+        this.projectDueDate = projectDueDate;
+    }
+
+    public void setMembers(ArrayList<String> members) {
+        this.members = members;
+    }
+
+    public Project() {
+        this.projectCreateDate=LocalDate.now();
+    }
 
     private TaskManager taskManager = new TaskManager();
 

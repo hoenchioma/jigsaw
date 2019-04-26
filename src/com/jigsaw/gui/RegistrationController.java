@@ -17,10 +17,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -76,7 +78,7 @@ public class RegistrationController implements Initializable  {
     @FXML
     private JFXButton signUpButton;
 
-    public void registerButtonAction(ActionEvent e) {
+    public void registerButtonAction(ActionEvent event) {
 
         System.out.println("Registration Done");
         Profile profile = new Profile();
@@ -113,6 +115,11 @@ public class RegistrationController implements Initializable  {
             } catch(Exception profileException) {
                 System.out.println(profileException);
             }
+            try{
+                changeScene("LoginView.fxml",event);
+            } catch (Exception sceneChangeExcetion){
+                System.out.println("");
+            }
         }
         String response = null;
         try {
@@ -121,6 +128,16 @@ public class RegistrationController implements Initializable  {
             exp.printStackTrace();
         }
         System.out.println(response);
+
+
+
+    }
+    public void  changeScene(String  location, ActionEvent event)throws IOException {
+        Parent sceneView = FXMLLoader.load(getClass().getResource(location));
+        Scene scene = new Scene(sceneView);
+        Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
     }
 
     public String getGender()
