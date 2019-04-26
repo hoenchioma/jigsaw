@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPaneID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="736.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.CalendarViewController">
+<AnchorPane fx:id="anchorPaneID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.CalendarViewController">
     <children>
         <JFXDatePicker fx:id="datePickerID" editable="false" layoutX="14.0" layoutY="24.0" onAction="#DatePickerAction" promptText="Select Date" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="24.0" />
         <Label fx:id="projectLabelID" layoutX="511.0" layoutY="24.0" text="Project Name" AnchorPane.rightAnchor="117.0" AnchorPane.topAnchor="24.0">
