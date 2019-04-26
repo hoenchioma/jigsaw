@@ -14,10 +14,10 @@ public class Project implements Serializable {
     private LocalDate projectCreateDate;
     private LocalDate projectDueDate;
 
+    private TaskManager taskManager = new TaskManager();
+
     // ArrayList of usernames of project members
     private ArrayList<String> members;
-
-    private TaskManager taskManager = new TaskManager();
 
     public String getId() {
         return id;
@@ -59,7 +59,11 @@ public class Project implements Serializable {
         return taskManager;
     }
 
-    public void setTaskManager(TaskManager taskManager) {
+    synchronized public void setTaskManager(TaskManager taskManager) {
         this.taskManager = taskManager;
+    }
+
+    synchronized public void saveToFile() {
+        Resource.getInstance().updateProject(this);
     }
 }

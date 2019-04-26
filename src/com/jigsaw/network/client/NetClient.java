@@ -1,11 +1,13 @@
 package com.jigsaw.network.client;
 
 import com.jigsaw.accounts.Profile;
-import com.jigsaw.calendar.TaskSyncHandler;
+import com.jigsaw.calendar.sync.TaskSyncHandler;
 import com.jigsaw.network.Packet;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * A singleton instance of NetClient
@@ -27,21 +29,28 @@ public class NetClient {
         return singleInstance;
     }
 
-    public static String DEFAULT_SERVER_ADDR = "localhost";
-    public int DEFAULT_SERVER_PORT = 4444;
+    // static (constant) variables
+    public static final String DEFAULT_SERVER_ADDR = "localhost";
+    public static final int DEFAULT_SERVER_PORT = 4444;
 
     // instance attributes
-
     private Socket socket;
     private ObjectInputStream in; 
     private ObjectOutputStream out;
 
+    // related handlers
     private TaskSyncHandler taskSyncHandler;
 
-    // private constructor so it can't be instantiated
+    /**
+     * A map from a Packet class name (String) to a functor
+     * to be called when such a Packet is received
+     */
+    private Map<String, Consumer<Packet>> callbackList;
 
+    // private constructor so it can't be instantiated
     private NetClient() {}
-    synchronized public void connect(String address, int port) throws IOException{
+
+    synchronized public void connect(String address, int port) throws IOException {
         if (socket != null && socket.isConnected()) socket.close();
 
         socket = new Socket(address, port);
@@ -87,50 +96,57 @@ public class NetClient {
         return response;
     }
 
-    synchronized public void sendPacket(Packet packet) throws Exception {
+    public void logOut() {
+        // TODO: implement logout begaviour
+    }
+
+    synchronized public void sendPacket(Packet packet) throws IOException {
         out.writeObject(packet);
-//        String response = (String) in.readObject();
-//        return response.equals("success");
     }
 
     /**
      * Private inner class to listen for incoming packets
      */
     private class PacketListener extends Thread {
-
         @Override
         public void run() {
             while (true) {
                 try {
                     Packet receivedPacket = (Packet) in.readObject();
-                    if (receivedPacket.getClass().getName().equals("SendTaskPacket")) {
-                        taskSyncHandler.receivePacket(receivedPacket);
-                    }
+                    callbackList.get(receivedPacket.getClass().getName()).accept(receivedPacket);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                     log("Server disconnected");
+                    logOut();
                     break;
                 }
             }
         }
     }
-    private void initial() {
+
+    private void initialize() {
         new PacketListener().start();
-        taskSyncHandler = new TaskSyncHandler();
-        new Thread(taskSyncHandler).start();
+        taskSyncHandler = new TaskSyncHandler(null);
     }
 
-    private void log(String str) {
-        System.out.println(this.getClass().getCanonicalName() + ": " + str);
+    public void registerCallback(String packetClassName, Consumer<Packet> callbackFunction) {
+        callbackList.put(packetClassName, callbackFunction);
     }
 
     public TaskSyncHandler getTaskSyncHandler() {
+        if (taskSyncHandler == null) {
+            throw new IllegalStateException("Task Sync Handler not instantiated yet");
+        }
         return taskSyncHandler;
     }
 
     public void setTaskSyncHandler(TaskSyncHandler taskSyncHandler) {
         this.taskSyncHandler = taskSyncHandler;
+    }
+
+    private void log(String str) {
+        System.out.println(this.getClass().getCanonicalName() + ": " + str);
     }
 }

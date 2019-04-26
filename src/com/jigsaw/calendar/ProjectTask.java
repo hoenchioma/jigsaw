@@ -6,7 +6,7 @@ import com.jigsaw.accounts.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class ProjectTask extends Task{
+public class ProjectTask extends Task {
     private String projectID;
     transient private Project project;
 
@@ -17,8 +17,6 @@ public class ProjectTask extends Task{
         super(name, deadline, creatorUsername);
         this.projectID = projectID;
         this.assigneeIDs = assigneeIDs;
-
-        // TODO: get project and assignee user objects from resource class
     }
 
     public Project getProject() {

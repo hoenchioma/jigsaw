@@ -1,14 +1,15 @@
 package com.jigsaw.network.server;
 
 import com.jigsaw.accounts.User;
-import com.jigsaw.calendar.ServerTaskSyncHandler;
 import com.jigsaw.calendar.TaskManager;
 import com.jigsaw.network.Packet;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * The main handler which communicates with clients
@@ -16,6 +17,8 @@ import java.util.Objects;
  * @author Raheeb Hassan
  */
 public class ClientHandler implements Runnable {
+    private Server server;
+
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
@@ -24,40 +27,52 @@ public class ClientHandler implements Runnable {
 
     private TaskManager taskManager;
 
-    private ServerTaskSyncHandler serverTaskSyncHandler;
+    private Map<String, Consumer<Packet>> callbackList;
 
-    // TODO: Implement project related functionality
-
-    public ClientHandler(ObjectOutputStream out, ObjectInputStream in, User user, String sessionID, TaskManager taskManager) {
+    public ClientHandler(Server server, ObjectOutputStream out, ObjectInputStream in, User user, String sessionID, TaskManager taskManager) {
+        this.server = server;
         this.out = out;
         this.in = in;
         this.user = user;
         this.sessionID = sessionID;
         this.taskManager = taskManager;
+
+        // register the system handler
+        registerCallback("SystemPacket", ServerSystemHandler::receivePacket);
     }
 
     @Override
     public void run() {
-        serverTaskSyncHandler = new ServerTaskSyncHandler(this, taskManager);
-        new Thread(serverTaskSyncHandler).start();
         while (true) {
             try {
                 Packet receivedPacket = (Packet) in.readObject();
-                if (receivedPacket.getClass().getName().equals("SendTaskPacket")) {
-                    serverTaskSyncHandler.receivePacket(receivedPacket);
-                }
+                // when a packet is received pass in on to a registered handler
+                callbackList.get(receivedPacket.getClass().getName()).accept(receivedPacket);
+            } catch (NullPointerException e) {
+                log("Invalid or corrupted packet received");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-                log("Server disconnected");
+                log("Client disconnected");
+                // close connection and exit thread
+                server.getActiveConnections().remove(user.getUsername());
                 break;
             }
         }
     }
 
-    public synchronized void sendPacket(Packet packet) throws Exception {
+    public synchronized void sendPacket(Packet packet) throws IOException {
         out.writeObject(packet);
+    }
+
+    /**
+     * register a handler for a specific packet class name
+     * @param packetClassName the class name of the packet
+     * @param callbackFunction the function to be called
+     */
+    public void registerCallback(String packetClassName, Consumer<Packet> callbackFunction) {
+        callbackList.put(packetClassName, callbackFunction);
     }
 
     @Override
@@ -75,5 +90,9 @@ public class ClientHandler implements Runnable {
 
     private void log(String str) {
         System.out.println(this.getClass() + ": " + str);
+    }
+
+    public Server getServer() {
+        return server;
     }
 }

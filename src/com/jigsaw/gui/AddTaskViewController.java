@@ -33,8 +33,6 @@ import javafx.util.Callback;
 
 public class AddTaskViewController implements Initializable {
 
-    // FIXME: This scene doesn't load
-
     //Project project;    ///////assign project
     @FXML
     private JFXDatePicker deadLineDatePickerID;

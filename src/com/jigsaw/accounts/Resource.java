@@ -124,6 +124,19 @@ public class Resource implements Serializable {
         activeProjects.putIfAbsent(project.getId(), project);
     }
 
+    /**
+     * Get a dictionary of all the project member info
+     * @return a map from a username String to a User object
+     */
+    public Map<String, User> getProjectUsers(String projectID) {
+        Project project = findProject(projectID);
+        Map <String, User> userDic = new HashMap<>();
+        for (String member: project.getMembers()) {
+            userDic.put(member, findUser(member));
+        }
+        return userDic;
+    }
+
     // file related methods
 
     /**

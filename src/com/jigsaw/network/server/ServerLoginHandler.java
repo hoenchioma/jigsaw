@@ -79,6 +79,10 @@ public class ServerLoginHandler implements Runnable {
             out.writeObject("username not found");
             log("username not found");
         }
+        else if (!server.getActiveConnections().containsKey(username)) {
+            out.writeObject("user already online");
+            log("user already online");
+        }
         else {
             Pair<String, String> passwordSaltPair = server.getResource().getUserPass(username);
             String storedPasswordHash = passwordSaltPair.getKey();
@@ -129,8 +133,6 @@ public class ServerLoginHandler implements Runnable {
 
             User user = new User(userID, username, passwordSaltPair, profile);
             server.getResource().addUser(user);
-
-            initiateSession(user, "");
         }
     }
 
@@ -144,9 +146,9 @@ public class ServerLoginHandler implements Runnable {
         Project project = Resource.getInstance().findProject(projectID);
         TaskManager taskManager = project.getTaskManager();
 
-        ClientHandler handler = new ClientHandler(out, in, user, sessionID, taskManager);
+        ClientHandler handler = new ClientHandler(server, out, in, user, sessionID, taskManager);
         // add the handler to the server
-        server.addHandler(handler);
+        server.addHandler(user.getUsername(), handler);
         // add user to resource class
         server.getResource().activateUser(user);
 

@@ -3,6 +3,8 @@ package com.jigsaw.calendar;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -40,7 +42,13 @@ public class TaskManager implements Serializable {
 
     public void addTask(ProjectTask projectTask){
         this.projectTasks.add(projectTask);
-        this.willDoList.add(projectTask);
+        if (projectTask.getProgress() == Progress.willdo) {
+            willDoList.add(projectTask);
+        } else if (projectTask.getProgress() == Progress.doing) {
+            doneList.add(projectTask);
+        } else {
+            doneList.add(projectTask);
+        }
     }
 
     public void removeTask(ProjectTask projectTask){
@@ -50,7 +58,14 @@ public class TaskManager implements Serializable {
         this.doneList.remove(projectTask);
     }
 
-    //public void sync(SharedHandler handler ){  ///handle sync
+    public void updateTask(ProjectTask projectTask) {
+        removeTask(projectTask);
+        addTask(projectTask);
+    }
 
-    //}
+    private void readObject(ObjectInputStream in)
+            throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        initialize();
+    }
 }

@@ -1,12 +1,11 @@
 package com.jigsaw.calendar;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 
 enum Progress { willdo, doing, done };
 
 public class Task {
-    private static int DEFAULT_PRIORITY = 1;
+    private static final int DEFAULT_PRIORITY = 1;
 
     private String name;
     private String details = "";

@@ -5,7 +5,9 @@ import com.jigsaw.accounts.Resource;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -19,7 +21,7 @@ public class Server {
     public static int DEFAULT_SERVER_PORT = 4444;
 
     private ServerSocket serverSocket;
-    private Set<ClientHandler> activeConnections;
+    private Map<String, ClientHandler> activeConnections;
     private Resource resource;
 
     public Server(int port) {
@@ -27,7 +29,7 @@ public class Server {
             log("Server started");
 
             serverSocket = new ServerSocket(port);
-            activeConnections = new HashSet<>();
+            activeConnections = new HashMap<>();
             resource = Resource.getInstance();
 
             while (true) {
@@ -43,12 +45,16 @@ public class Server {
         }
     }
 
-    synchronized public void addHandler(ClientHandler handler) {
-        activeConnections.add(handler);
+    synchronized public void addHandler(String username, ClientHandler handler) {
+        activeConnections.put(username, handler);
     }
 
     public Resource getResource() {
         return resource;
+    }
+
+    public Map<String, ClientHandler> getActiveConnections() {
+        return activeConnections;
     }
 
     public static void main(String[] args) {
