@@ -43,7 +43,7 @@ public class LoginViewController {
 
     @FXML
     public void signUpAction (ActionEvent event) throws IOException {
-        Parent signupView = FXMLLoader.load(getClass().getResource("Registration.fxml"));
+        Parent signupView = FXMLLoader.load(getClass().getResource("RegistrationView.fxml"));
         Scene  signupScene = new Scene(signupView);
         Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(signupScene);
