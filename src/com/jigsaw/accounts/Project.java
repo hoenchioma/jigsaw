@@ -10,8 +10,18 @@ import java.util.ArrayList;
 public class Project implements Serializable {
     private String id;
     private String name;
+    private String description;
     private LocalDate projectCreateDate;
     private LocalDate projectDueDate;
+
+    public Project(String id, String name, String description, LocalDate projectDueDate) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.projectDueDate = projectDueDate;
+        projectCreateDate = LocalDate.now();
+        taskManager = new TaskManager();
+    }
 
     public LocalDate getProjectCreateDate() {
         return projectCreateDate;
@@ -88,5 +98,13 @@ public class Project implements Serializable {
 
     synchronized public void saveToFile() {
         Resource.getInstance().updateProject(this);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

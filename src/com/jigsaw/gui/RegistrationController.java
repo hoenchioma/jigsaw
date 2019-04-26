@@ -79,8 +79,6 @@ public class RegistrationController implements Initializable  {
     private JFXButton signUpButton;
 
     public void registerButtonAction(ActionEvent event) {
-
-        System.out.println("Registration Done");
         Profile profile = new Profile();
         String usernameStr = "", passwordStr = "";
         /**
@@ -103,7 +101,7 @@ public class RegistrationController implements Initializable  {
         else {
             try{
                 usernameStr = username.getText();
-                profile.setName(firstName.getText()+ " " + lastName.getText());
+                profile.setName(firstName.getText() + " " + lastName.getText());
                 passwordStr = password.getText();
                 profile.setEmail(eMail.getText());
                 profile.setBirthDate(birthDay.getValue());
@@ -113,12 +111,7 @@ public class RegistrationController implements Initializable  {
                 profile.setSex(getGender());
 
             } catch(Exception profileException) {
-                System.out.println(profileException);
-            }
-            try{
-                changeScene("LoginView.fxml",event);
-            } catch (Exception sceneChangeExcetion){
-                System.out.println("");
+                profileException.printStackTrace();
             }
         }
         String response = null;
@@ -128,11 +121,15 @@ public class RegistrationController implements Initializable  {
             exp.printStackTrace();
         }
         System.out.println(response);
-
-
-
+        System.out.println("Registration Done");
+        try {
+            changeScene("LoginView.fxml", event);
+        } catch (Exception sceneChangeException){
+            sceneChangeException.printStackTrace();
+        }
     }
-    public void  changeScene(String  location, ActionEvent event)throws IOException {
+
+    public void changeScene(String  location, ActionEvent event)throws IOException {
         Parent sceneView = FXMLLoader.load(getClass().getResource(location));
         Scene scene = new Scene(sceneView);
         Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
@@ -140,22 +137,18 @@ public class RegistrationController implements Initializable  {
         window.show();
     }
 
-    public String getGender()
-    {
+    public String getGender() {
         String gender="";
 
         if(male.isSelected()) {
-            gender="Male";
-        }
-        else if(female.isSelected()) {
+            gender = "Male";
+        } else if(female.isSelected()) {
             gender="Female";
-        }
-        else {
+        } else {
             gender="Others";
         }
 
         return gender;
-
     }
 
 }
