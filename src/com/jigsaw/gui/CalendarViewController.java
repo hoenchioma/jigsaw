@@ -2,6 +2,8 @@ package com.jigsaw.gui;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+
+import java.io.IOException;
 import java.net.URL;
 import java.lang.String;
 import java.time.LocalDateTime;
@@ -14,7 +16,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
@@ -23,6 +27,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 
 
@@ -112,5 +117,11 @@ public class CalendarViewController{
             this.members = new SimpleStringProperty(members);
         }
 
+    }
+
+    public static Pane getRoot() throws IOException {
+        Parent root = FXMLLoader.load(
+                AddTaskViewController.class.getResource("CalendarView.fxml"));
+        return (Pane) root;
     }
 }

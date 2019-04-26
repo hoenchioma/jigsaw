@@ -1,9 +1,11 @@
 package com.jigsaw.network.server;
 
+import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.User;
 import com.jigsaw.calendar.TaskManager;
 import com.jigsaw.network.Packet;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -23,19 +25,21 @@ public class ClientHandler implements Runnable {
     private ObjectInputStream in;
 
     private User user;
+    private Project project;
+
     private String sessionID;
 
     private TaskManager taskManager;
 
     private Map<String, Consumer<Packet>> callbackList;
 
-    public ClientHandler(Server server, ObjectOutputStream out, ObjectInputStream in, User user, String sessionID, TaskManager taskManager) {
+    public ClientHandler(Server server, ObjectOutputStream out, ObjectInputStream in, User user, Project project, String sessionID) {
         this.server = server;
         this.out = out;
         this.in = in;
         this.user = user;
         this.sessionID = sessionID;
-        this.taskManager = taskManager;
+        this.project = project;
 
         // register the system handler
         registerCallback("SystemPacket", ServerSystemHandler::receivePacket);
@@ -50,14 +54,14 @@ public class ClientHandler implements Runnable {
                 callbackList.get(receivedPacket.getClass().getName()).accept(receivedPacket);
             } catch (NullPointerException e) {
                 log("Invalid or corrupted packet received");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (EOFException e) {
+//                e.printStackTrace();
                 log("Client disconnected");
                 // close connection and exit thread
                 server.getActiveConnections().remove(user.getUsername());
                 break;
+            } catch (ClassNotFoundException | IOException e) {
+                e.printStackTrace();
             }
         }
     }

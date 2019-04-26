@@ -6,6 +6,7 @@ import com.jigsaw.network.Packet;
 
 import java.io.*;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -50,7 +51,8 @@ public class NetClient {
     // private constructor so it can't be instantiated
     private NetClient() {}
 
-    synchronized public void connect(String address, int port) throws IOException {
+    synchronized public void connect(String address, int port)
+            throws IOException {
         if (socket != null && socket.isConnected()) socket.close();
 
         socket = new Socket(address, port);
@@ -68,36 +70,49 @@ public class NetClient {
      * Communicates with server and returns server response
      * @return String with server response
      */
-    synchronized public String login(String username, String password, String projectID) throws Exception {
+    synchronized public String login(String username, String password, String projectID)
+            throws IOException, ClassNotFoundException {
         connect();
-        out.writeObject("login");
+        out.writeObject("login"); // command
         out.writeObject(username);
         out.writeObject(password);
         out.writeObject(projectID);
         String response = (String) in.readObject();
         if (response.equals("success")) {
+            // TODO: Implement sessionID security
             String sessionID = (String) in.readObject();
             new PacketListener().start();
         }
         return response;
     }
 
-    public String register(String username, String password, Profile profile) throws Exception {
+    public String register(String username, String password, Profile profile)
+            throws IOException, ClassNotFoundException {
         connect();
-        out.writeObject("register");
+        out.writeObject("register"); // command
         out.writeObject(username);
         out.writeObject(password);
         out.writeObject(profile);
+        return (String) in.readObject();
+    }
+
+    public String createProject(String name, String description, LocalDate deadline)
+            throws IOException, ClassNotFoundException {
+        connect();
+        out.writeObject("create project"); // command
+        out.writeObject(name);
+        out.writeObject(description);
+        out.writeObject(deadline);
         String response = (String) in.readObject();
         if (response.equals("success")) {
-            String sessionID = (String) in.readObject();
-            new PacketListener().start();
+            String projectID = (String) in.readObject();
+            return projectID;
         }
-        return response;
+        return null;
     }
 
     public void logOut() {
-        // TODO: implement logout begaviour
+        // TODO: implement logout behaviour
     }
 
     synchronized public void sendPacket(Packet packet) throws IOException {
@@ -114,13 +129,13 @@ public class NetClient {
                 try {
                     Packet receivedPacket = (Packet) in.readObject();
                     callbackList.get(receivedPacket.getClass().getName()).accept(receivedPacket);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (EOFException e) {
+//                    e.printStackTrace();
                     log("Server disconnected");
                     logOut();
                     break;
+                } catch (ClassNotFoundException | IOException e) {
+                    e.printStackTrace();
                 }
             }
         }

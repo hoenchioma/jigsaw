@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.TotalCalendarView">
+   <children>
+      <HBox prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="465.0" prefWidth="211.0">
+               <children>
+                  <JFXButton layoutY="131.0" onAction="#kanbanPress" prefHeight="38.0" prefWidth="189.0" text="Kanban View" />
+                  <JFXButton layoutY="203.0" onAction="#dayViewPress" prefHeight="38.0" prefWidth="189.0" text="Day View" />
+                  <JFXButton layoutY="281.0" onAction="#addTaskPress" prefHeight="38.0" prefWidth="189.0" text="Add Task" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="mainPane" prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
