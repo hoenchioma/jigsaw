@@ -90,4 +90,8 @@ public class TaskSyncHandler {
         }
         return userDictionary.get(username);
     }
+
+    public Map<String, User> getUserDictionary() {
+        return userDictionary;
+    }
 }

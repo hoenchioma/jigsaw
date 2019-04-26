@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchorPaneID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.calendar.DayViewController">
     <children>
-        <JFXDatePicker fx:id="datePickerID" editable="false" layoutX="14.0" layoutY="24.0" onAction="#DatePickerAction" promptText="Select Date" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="24.0" />
-        <Label fx:id="projectLabelID" layoutX="511.0" layoutY="24.0" text="Project Name" AnchorPane.rightAnchor="117.0" AnchorPane.topAnchor="24.0">
-            <font>
-                <Font size="18.0" />
-            </font></Label>
-        <JFXTreeTableView fx:id="treeView" layoutY="65.0" prefHeight="520.0" prefWidth="736.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0" />
+        <JFXDatePicker fx:id="datePickerID" editable="false" layoutX="184.0" layoutY="14.0" onAction="#DatePickerAction" promptText="Select Date" AnchorPane.leftAnchor="184.0" AnchorPane.topAnchor="14.0" />
+        <JFXTreeTableView fx:id="treeView" layoutY="108.0" prefHeight="392.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="108.0" />
+      <JFXButton fx:id="nextDayButtonID" buttonType="RAISED" layoutX="292.0" layoutY="68.0" onAction="#nextDayButtonAction" ripplerFill="BLACK" text="Next Day" AnchorPane.leftAnchor="292.0" AnchorPane.topAnchor="68.0" />
+      <JFXButton fx:id="prevDayButtonID" buttonType="RAISED" layoutX="184.0" layoutY="68.0" onAction="#prevDayButtonAction" ripplerFill="BLACK" text="Previous Day" AnchorPane.leftAnchor="184.0" AnchorPane.topAnchor="68.0" />
     </children>
 </AnchorPane>

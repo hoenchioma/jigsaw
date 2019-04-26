@@ -5,16 +5,22 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import java.io.IOException;
 import java.lang.String;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 
+import com.jigsaw.accounts.Project;
 import com.jigsaw.calendar.ProjectTask;
+import com.jigsaw.network.client.NetClient;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,9 +41,6 @@ public class DayViewController {
     private JFXButton openProjectButtonID;
 
     @FXML
-    private Label projectLabelID;
-
-    @FXML
     private JFXTreeTableView<CalendarEntry> treeView;
 
 
@@ -45,10 +48,21 @@ public class DayViewController {
     private void filter(ActionEvent event) {
     }
 
+    void updateTable() throws InterruptedException {
+        ArrayList<ProjectTask> taskList =new ArrayList<ProjectTask>();// NetClient.getInstance().getTaskSyncHandler().getTaskManager().getProjectTasks();
 
+        ArrayList<String> assigneesList = new ArrayList<String>();
+        assigneesList.add("MemberList1");
+        assigneesList.add("MemberList2");
+        assigneesList.add("MemberList3");
 
-    @FXML
-    void DatePickerAction(ActionEvent event) {
+        taskList.add(new ProjectTask("Raheeb", LocalDateTime.now(), "User 1","001",assigneesList));
+        taskList.add(new ProjectTask("Samin", LocalDateTime.now(), "User 2", "001",assigneesList));
+        taskList.add(new ProjectTask("Aahad", LocalDateTime.now(), "User 3","001",assigneesList));
+        taskList.add(new ProjectTask("Farhan", LocalDateTime.now(), "User 4","001",assigneesList));
+        taskList.add(new ProjectTask("Wadith", LocalDateTime.now(), "User 5","001",assigneesList));
+        taskList.add(new ProjectTask("Shamim", LocalDateTime.now(), "User 6","001",assigneesList));
+
 
         JFXTreeTableColumn<CalendarEntry, String> taskNameCol = new JFXTreeTableColumn<>("Task Name");
         taskNameCol.setPrefWidth(150);
@@ -62,20 +76,6 @@ public class DayViewController {
         memberCol.setPrefWidth(150);
         memberCol.setCellValueFactory(param -> param.getValue().getValue().members);
 
-
-        ArrayList<String> assigneesList = new ArrayList<String>();
-        assigneesList.add("MemberList1");
-        assigneesList.add("MemberList2");
-        assigneesList.add("MemberList3");
-        ArrayList<ProjectTask> taskList =new ArrayList<ProjectTask>();// NetClient.getInstance().getTaskSyncHandler().getTaskManager().getProjectTasks();
-        taskList.add(new ProjectTask("Raheeb", LocalDateTime.now(), "User 1","001",assigneesList));
-        taskList.add(new ProjectTask("Samin", LocalDateTime.now(), "User 2", "001",assigneesList));
-        taskList.add(new ProjectTask("Aahad", LocalDateTime.now(), "User 3","001",assigneesList));
-        taskList.add(new ProjectTask("Farhan", LocalDateTime.now(), "User 4","001",assigneesList));
-        taskList.add(new ProjectTask("Wadith", LocalDateTime.now(), "User 5","001",assigneesList));
-        taskList.add(new ProjectTask("Shamim", LocalDateTime.now(), "User 6","001",assigneesList));
-
-
         ObservableList<CalendarEntry> taskEntry = FXCollections.observableArrayList();
         for(int i  = 0; i<taskList.size(); i++){
             if(taskList.get(i).getDeadline().toLocalDate().equals(datePickerID.getValue())){
@@ -85,7 +85,7 @@ public class DayViewController {
                 for(int j = 1; j<assigneesList.size(); j++){
                     memberName.append(" ").append(assigneesList.get(j));
                 }
-                taskEntry.add(new CalendarEntry(name, des, memberName.toString()));
+                taskEntry.add(new CalendarEntry(name, des, memberName.toString(), taskList.get(i)));
             }
         }
 
@@ -94,7 +94,26 @@ public class DayViewController {
         treeView.setRoot(root);
         treeView.setShowRoot(false);
 
+    }
 
+    @FXML
+    void DatePickerAction(ActionEvent event) throws InterruptedException {
+        updateTable();
+    }
+
+    public void prevDayButtonAction(ActionEvent actionEvent) throws InterruptedException {
+        if(datePickerID.getValue() != null ){
+            datePickerID.setValue(datePickerID.getValue().minus(Period.ofDays(1)));
+            updateTable();
+        }
+
+    }
+
+    public void nextDayButtonAction(ActionEvent actionEvent) throws InterruptedException {
+        if(datePickerID.getValue() != null){
+            datePickerID.setValue(datePickerID.getValue().plus(Period.ofDays(1)));
+            updateTable();
+        }
     }
 
     class CalendarEntry extends RecursiveTreeObject<CalendarEntry> {
@@ -102,13 +121,14 @@ public class DayViewController {
         StringProperty taskName;
         StringProperty description;
         StringProperty members;
+        ProjectTask projectTasks;
 
-        public CalendarEntry(String taskName, String description, String members) {
+        public CalendarEntry(String taskName, String description, String members, ProjectTask projectTasks) {
             this.taskName = new SimpleStringProperty(taskName);
             this.description = new SimpleStringProperty(description);
             this.members = new SimpleStringProperty(members);
+            this.projectTasks = projectTasks;
         }
-
     }
 
     public static Pane getRoot() throws IOException {
