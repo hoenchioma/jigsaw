@@ -1,38 +1,21 @@
-package com.jigsaw.gui;
+package com.jigsaw.gui.calendar;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+
+import java.io.IOException;
 import java.net.URL;
-import java.lang.String;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.TreeItem;
-import javafx.util.Callback;
+import javafx.scene.layout.Pane;
 
 public class AddTaskViewController implements Initializable {
-
     //Project project;    ///////assign project
     @FXML
     private JFXDatePicker deadLineDatePickerID;
@@ -56,6 +39,12 @@ public class AddTaskViewController implements Initializable {
             System.out.println("fictional task created");
             //project.addTask(new Task(taskNameID.getText(), deadLineDatePickerID.getValue()., creatorNameID.getText()));
         }
+    }
+
+    public static Pane getRoot() throws IOException {
+        Parent root = FXMLLoader.load(
+                AddTaskViewController.class.getResource("AddTaskView.fxml"));
+        return (Pane) root;
     }
 
     @Override

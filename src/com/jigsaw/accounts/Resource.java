@@ -3,10 +3,7 @@ package com.jigsaw.accounts;
 import javafx.util.Pair;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The singleton class which provides an interface for storing
@@ -35,6 +32,9 @@ public class Resource implements Serializable {
     public static final String saveFilePath = serverStorageLocation + "resource.save";
     public static final String usersDirPath = serverStorageLocation + "users/";
     public static final String projectsDirPath = serverStorageLocation + "projects/";
+
+    // constants
+    public static final int PROJECT_ID_LENGTH = 6;
 
     /* maps from username to hashed password and salt */
     private Map <String, Pair<String, String>> userPassDictionary = new HashMap<>();
@@ -200,6 +200,16 @@ public class Resource implements Serializable {
             return null;
         }
     }
+
+    public static final ArrayList<String> secretProjectIDs =
+            new ArrayList<>(Arrays.asList(
+                    "yoloboys",
+                    "stormtroopers",
+                    "wesuck",
+                    "karatekids",
+                    "purainh",
+                    "saminfanclub"
+            ));
 
 //    public static void main(String[] args) {
 //    }

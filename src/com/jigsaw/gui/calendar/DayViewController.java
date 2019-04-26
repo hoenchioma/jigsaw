@@ -1,32 +1,29 @@
-package com.jigsaw.gui;
+package com.jigsaw.gui.calendar;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import java.net.URL;
+
+import java.io.IOException;
 import java.lang.String;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
-import com.jigsaw.accounts.User;
 import com.jigsaw.calendar.ProjectTask;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.AnchorPane;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TreeItem;
-import javafx.util.Callback;
+import javafx.scene.layout.Pane;
 
 
-public class CalendarViewController{
+public class DayViewController {
 
     @FXML
     private AnchorPane anchorPaneID;
@@ -112,5 +109,11 @@ public class CalendarViewController{
             this.members = new SimpleStringProperty(members);
         }
 
+    }
+
+    public static Pane getRoot() throws IOException {
+        Parent root = FXMLLoader.load(
+                DayViewController.class.getResource("DayView.fxml"));
+        return (Pane) root;
     }
 }

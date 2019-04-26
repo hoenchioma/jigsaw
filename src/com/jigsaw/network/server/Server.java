@@ -6,9 +6,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Server class for accepting connection requests from clients
@@ -35,7 +33,7 @@ public class Server {
             while (true) {
                 Socket socket = serverSocket.accept();
 
-                log("socket connect with address" + socket.getInetAddress().getHostAddress());
+                log("socket connect with address " + socket.getInetAddress().getHostAddress());
 
                 // pass on to login handler to complete login process
                 new Thread(new ServerLoginHandler(socket, this)).start();

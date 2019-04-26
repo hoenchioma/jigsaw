@@ -1,4 +1,4 @@
-package com.jigsaw.gui;
+package com.jigsaw.gui.calendar;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
@@ -7,16 +7,20 @@ import com.jigsaw.calendar.ProjectTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -194,5 +198,11 @@ public class KanbanViewController implements Initializable {
             }
         });
 
+    }
+
+    public static Pane getRoot() throws IOException {
+        Parent root = FXMLLoader.load(
+                KanbanViewController.class.getResource("KanbanView.fxml"));
+        return (Pane) root;
     }
 }

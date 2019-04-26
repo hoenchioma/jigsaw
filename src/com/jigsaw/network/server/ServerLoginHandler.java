@@ -4,7 +4,6 @@ import com.jigsaw.accounts.Profile;
 import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.Resource;
 import com.jigsaw.accounts.User;
-import com.jigsaw.calendar.TaskManager;
 import javafx.util.Pair;
 
 import java.io.*;
@@ -12,7 +11,9 @@ import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.util.Base64;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -51,6 +52,9 @@ public class ServerLoginHandler implements Runnable {
             } else if (command.equals("register")) {
                 log("register request accepted");
                 handleRegister();
+            } else if (command.equals("create project")) {
+                log("create project request accepted");
+                handleCreateProject();
             } else {
                 log("Invalid command from client");
                 throw new IllegalArgumentException();
@@ -79,7 +83,7 @@ public class ServerLoginHandler implements Runnable {
             out.writeObject("username not found");
             log("username not found");
         }
-        else if (!server.getActiveConnections().containsKey(username)) {
+        else if (server.getActiveConnections().containsKey(username)) {
             out.writeObject("user already online");
             log("user already online");
         }
@@ -97,10 +101,10 @@ public class ServerLoginHandler implements Runnable {
 
                 // load user from file
                 User user = server.getResource().findUser(username);
-                // generate a random sessionID
-                String sessionID = UUID.randomUUID().toString();
+                // load profile from file
+                Project project = server.getResource().findProject(projectID);
 
-                initiateSession(user, projectID);
+                initiateSession(user, project);
             }
             else {
                 out.writeObject("password wrong");
@@ -136,17 +140,41 @@ public class ServerLoginHandler implements Runnable {
         }
     }
 
-    private void initiateSession(User user, String projectID) throws IOException {
+    /**
+     * handles communication with client for creating a project
+     */
+    private void handleCreateProject() {
+        try {
+            String projectName = (String) in.readObject();
+            String projectDescription = (String) in.readObject();
+            LocalDate projectDeadline = (LocalDate) in.readObject();
+
+            out.writeObject("success");
+
+            // generate a random human readable project ID
+            String projectID;
+            do projectID = generateRandomID(Resource.PROJECT_ID_LENGTH);
+            while (server.getResource().projectIDExists(projectID));
+
+            Project project = new Project(projectID, projectName, projectDescription, projectDeadline);
+            server.getResource().addProject(project);
+
+            log("project with projectID " + projectID + " created");
+
+            out.writeObject(projectID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initiateSession(User user, Project project) throws IOException {
         // generate a random sessionID
         String sessionID = UUID.randomUUID().toString();
 
         // send the session ID to client
         out.writeObject(sessionID);
 
-        Project project = Resource.getInstance().findProject(projectID);
-        TaskManager taskManager = project.getTaskManager();
-
-        ClientHandler handler = new ClientHandler(server, out, in, user, sessionID, taskManager);
+        ClientHandler handler = new ClientHandler(server, out, in, user, project, sessionID);
         // add the handler to the server
         server.addHandler(user.getUsername(), handler);
         // add user to resource class
@@ -196,14 +224,33 @@ public class ServerLoginHandler implements Runnable {
         }
     }
 
+    /**
+     * generate a random human-readable id
+     * @return a string with the random id
+     */
+    private static String generateRandomID(int length) {
+        Random rng = new Random();
+
+        final int probabilityOfSpecialRandom = 9929;
+        if (rng.nextInt()%probabilityOfSpecialRandom == 0) {
+            return Resource.secretProjectIDs.get(rng.nextInt(Resource.secretProjectIDs.size()));
+        }
+
+        String alphabet = "1234567890abcdefghijklmnopqrstuvwxyz";
+        StringBuilder temp = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            temp.append(alphabet.charAt(rng.nextInt(alphabet.length())));
+        }
+        return temp.toString();
+    }
+
     private void log(String str) {
         System.out.println(this.getClass().getCanonicalName() + ": " + str);
     }
 
 //    public static void main(String[] args) {
-//        Resource resource = Resource.loadFromFile();
-//        String salt = ServerLoginHandler.getSalt();
-//        String hashPass = ServerLoginHandler.get_SHA_256_SecurePassword("palu", salt);
-//        resource.addUser(new User("id", "malu", new Pair<>(hashPass, salt)));
+//        byte[] bytes = String.valueOf(System.currentTimeMillis()).getBytes();
+//        String s = Base64.getEncoder().encodeToString(bytes);
+//        System.out.println(s);
 //    }
 }
