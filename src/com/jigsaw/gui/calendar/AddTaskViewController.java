@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +52,7 @@ public class AddTaskViewController implements Initializable {
 
     ArrayList<CheckMenuItem> checkMenu = new ArrayList<CheckMenuItem>();
 
-    Map<String, String> userDictionary = new HashMap<String,String>();//NetClient.getInstance().getTaskSyncHandler().getUserDictionary();
+    Map<String, User> userDictionary = NetClient.getInstance().getTaskSyncHandler().getUserDictionary();
 
 
     @FXML
@@ -65,7 +67,8 @@ public class AddTaskViewController implements Initializable {
             }
             //////add task to project
             System.out.println("fictional task created");
-            //ArrayList<ProjectTask> projectTask = NetClient.getInstance().getTaskSyncHandler().addTask(new ProjectTask(taskNameID.getText(), deadLineDatePickerID.getValue()., creatorNameID.getText(), assignees ));
+            ArrayList<ProjectTask> projectTask = NetClient.getInstance().getTaskSyncHandler().addTask(new ProjectTask(taskNameID.getText(), LocalDateTime.of(deadLineDatePickerID.getValue(), LocalTime.now()), creatorNameID.getText(), assignees ));
+
 
         }
     }
@@ -79,12 +82,11 @@ public class AddTaskViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        userDictionary.put("samin", "ill");
+        /*userDictionary.put("samin", "ill");
         userDictionary.put("aahad", "lil");
-        userDictionary.put("shamim", "!lil");
-
+        userDictionary.put("shamim", "!lil");*/
         int i = 0;
-        for (Map.Entry<String, String> entry : userDictionary.entrySet()){
+        for (Map.Entry<String, User> entry : userDictionary.entrySet()){
             checkMenu.add(new CheckMenuItem(entry.getKey()));
             menuID.getItems().add(checkMenu.get(i++));
         }
