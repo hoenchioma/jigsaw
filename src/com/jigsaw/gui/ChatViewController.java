@@ -3,9 +3,14 @@ package com.jigsaw.gui;
 import com.jigsaw.chat.ClientMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ScrollPane;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.util.List;
 
 /**
  *
@@ -22,6 +27,10 @@ public class ChatViewController {
     private TextArea chatBox;
     @FXML
     private ScrollPane container;
+    @FXML
+    private Button sendButton;
+    @FXML
+    private Button fileButton;
 
     //constructor
     public ChatViewController() throws Exception {
@@ -38,6 +47,15 @@ public class ChatViewController {
             if(userMessage!=null && !userMessage.isEmpty()) {
                 ClientMessageHandler.sendMessage(userMessage);
             }
+    }
+
+    @FXML
+    public void userSendFile (ActionEvent event){
+        FileChooser fc = new FileChooser();
+        List<File> selectedFiles = fc.showOpenMultipleDialog(null);
+        if(selectedFiles != null){
+
+        }
     }
 
     //method to append text in the textarea

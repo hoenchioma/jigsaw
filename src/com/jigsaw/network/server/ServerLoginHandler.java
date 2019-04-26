@@ -4,7 +4,6 @@ import com.jigsaw.accounts.Profile;
 import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.Resource;
 import com.jigsaw.accounts.User;
-import com.jigsaw.calendar.TaskManager;
 import javafx.util.Pair;
 
 import java.io.*;
@@ -84,7 +83,7 @@ public class ServerLoginHandler implements Runnable {
             out.writeObject("username not found");
             log("username not found");
         }
-        else if (!server.getActiveConnections().containsKey(username)) {
+        else if (server.getActiveConnections().containsKey(username)) {
             out.writeObject("user already online");
             log("user already online");
         }
@@ -157,8 +156,10 @@ public class ServerLoginHandler implements Runnable {
             do projectID = generateRandomID(Resource.PROJECT_ID_LENGTH);
             while (server.getResource().projectIDExists(projectID));
 
-            Project project = new Project();
+            Project project = new Project(projectID, projectName, projectDescription, projectDeadline);
             server.getResource().addProject(project);
+
+            log("project with projectID " + projectID + " created");
 
             out.writeObject(projectID);
         } catch (Exception e) {
@@ -247,9 +248,9 @@ public class ServerLoginHandler implements Runnable {
         System.out.println(this.getClass().getCanonicalName() + ": " + str);
     }
 
-    public static void main(String[] args) {
-        byte[] bytes = String.valueOf(System.currentTimeMillis()).getBytes();
-        String s = Base64.getEncoder().encodeToString(bytes);
-        System.out.println(s);
-    }
+//    public static void main(String[] args) {
+//        byte[] bytes = String.valueOf(System.currentTimeMillis()).getBytes();
+//        String s = Base64.getEncoder().encodeToString(bytes);
+//        System.out.println(s);
+//    }
 }

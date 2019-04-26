@@ -9,6 +9,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -31,7 +32,7 @@ public class ClientHandler implements Runnable {
 
     private TaskManager taskManager;
 
-    private Map<String, Consumer<Packet>> callbackList;
+    private Map<String, Consumer<Packet>> callbackList = new HashMap<>();
 
     public ClientHandler(Server server, ObjectOutputStream out, ObjectInputStream in, User user, Project project, String sessionID) {
         this.server = server;
@@ -42,7 +43,7 @@ public class ClientHandler implements Runnable {
         this.project = project;
 
         // register the system handler
-        registerCallback("SystemPacket", ServerSystemHandler::receivePacket);
+        registerCallback(SystemPacket.class.getName(), ServerSystemHandler::receivePacket);
     }
 
     @Override
