@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.validation.ValidationFacade?>
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
@@ -31,8 +32,10 @@
          <font>
             <Font size="16.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <DatePicker fx:id="projectDueDate" editable="false" layoutX="234.0" layoutY="196.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" />
       <ValidationFacade />
       <Separator layoutX="176.0" layoutY="75.0" opacity="0.28" prefHeight="0.0" prefWidth="246.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="190.6" AnchorPane.topAnchor="75.0" />
       <Label alignment="CENTER" layoutX="236.0" layoutY="27.0" text="Project" textAlignment="JUSTIFY" textFill="#a4a4a4" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="265.0" AnchorPane.topAnchor="27.0">
@@ -40,13 +43,24 @@
             <Font size="21.0" />
          </font>
       </Label>
-      <TextField fx:id="projectName" layoutX="236.0" layoutY="98.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20; -fx-border-insets: 0;" styleClass="text-input" stylesheets="@Style.css" />
-      <TextField fx:id="projectID" layoutX="236.0" layoutY="143.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" stylesheets="@Style.css" />
+      <TextField fx:id="projectName" layoutX="236.0" layoutY="98.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20; -fx-border-insets: 0;" styleClass="text-input" stylesheets="@Style.css">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></TextField>
+      <TextField fx:id="projectID" layoutX="236.0" layoutY="143.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" stylesheets="@Style.css">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></TextField>
       <Label layoutX="96.0" layoutY="199.0" prefHeight="22.0" prefWidth="78.0" text="Due Date" textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="439.0" AnchorPane.topAnchor="199.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <JFXTextArea fx:id="projectDescription" focusColor="#2a0033" layoutX="236.0" layoutY="250.0" prefHeight="216.0" prefWidth="283.0" style="-fx-border-color: #9643A9; -fx-border-radius: 10;" stylesheets="@Style.css" unFocusColor="#2a0033" />
+      <JFXTextArea fx:id="projectDescription" focusColor="#2a0033" layoutX="236.0" layoutY="250.0" prefHeight="216.0" prefWidth="283.0" style="-fx-border-color: #9643A9; -fx-border-radius: 10;" stylesheets="@Style.css" unFocusColor="#2a0033">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </JFXTextArea>
+      <JFXDatePicker fx:id="projectDueDate" defaultColor="#9643a9" layoutX="236.0" layoutY="196.0" prefHeight="28.0" prefWidth="191.0" />
    </children>
 </AnchorPane>
