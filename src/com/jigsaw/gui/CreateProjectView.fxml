@@ -11,24 +11,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="561.0" prefWidth="613.0" style="-fx-background-color: #2a0033;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.CreateProjectViewController">
+<AnchorPane prefHeight="522.0" prefWidth="613.0" style="-fx-background-color: #2a0033;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.CreateProjectViewController">
    <children>
       <Label layoutX="96.0" layoutY="101.0" prefHeight="22.0" prefWidth="90.0" text="Project Name" textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="427.0" AnchorPane.topAnchor="101.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="96.0" layoutY="146.0" text="Project ID" textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="446.6" AnchorPane.topAnchor="146.0">
+      <Label layoutX="93.0" layoutY="196.0" text="Project Description" textFill="#979797">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="93.0" layoutY="250.0" text="Project Description" textFill="#979797">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <JFXButton fx:id="submitButton" layoutX="261.0" layoutY="497.0" onAction="#createButtonAction" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #2a0033; -fx-border-color: #DA70D6; -fx-border-width: 2; -fx-border-radius: 20;" text="Create" textFill="#a29b9b">
+      <JFXButton fx:id="submitButton" layoutX="261.0" layoutY="443.0" onAction="#createButtonAction" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #2a0033; -fx-border-color: #DA70D6; -fx-border-width: 2; -fx-border-radius: 20;" text="Create" textFill="#a29b9b">
          <font>
             <Font size="16.0" />
          </font>
@@ -47,20 +42,16 @@
          <cursor>
             <Cursor fx:constant="TEXT" />
          </cursor></TextField>
-      <TextField fx:id="projectID" layoutX="236.0" layoutY="143.0" prefHeight="26.0" prefWidth="283.0" style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" stylesheets="@Style.css">
-         <cursor>
-            <Cursor fx:constant="TEXT" />
-         </cursor></TextField>
-      <Label layoutX="96.0" layoutY="199.0" prefHeight="22.0" prefWidth="78.0" text="Due Date" textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="439.0" AnchorPane.topAnchor="199.0">
+      <Label layoutX="96.0" layoutY="145.0" prefHeight="22.0" prefWidth="78.0" text="Due Date" textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="439.0" AnchorPane.topAnchor="145.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <JFXTextArea fx:id="projectDescription" focusColor="#2a0033" layoutX="236.0" layoutY="250.0" prefHeight="216.0" prefWidth="283.0" style="-fx-border-color: #9643A9; -fx-border-radius: 10;" stylesheets="@Style.css" unFocusColor="#2a0033">
+      <JFXTextArea fx:id="projectDescription" focusColor="#2a0033" layoutX="236.0" layoutY="196.0" prefHeight="216.0" prefWidth="283.0" style="-fx-border-color: #9643A9; -fx-border-radius: 10;" stylesheets="@Style.css" unFocusColor="#2a0033">
          <cursor>
             <Cursor fx:constant="TEXT" />
          </cursor>
       </JFXTextArea>
-      <JFXDatePicker fx:id="projectDueDate" defaultColor="#9643a9" layoutX="236.0" layoutY="196.0" prefHeight="28.0" prefWidth="191.0" />
+      <JFXDatePicker fx:id="projectDueDate" defaultColor="#9643a9" editable="false" layoutX="236.0" layoutY="142.0" prefHeight="28.0" prefWidth="191.0" />
    </children>
 </AnchorPane>

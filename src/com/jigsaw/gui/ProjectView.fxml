@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -28,7 +27,7 @@
                                 <Separator layoutX="19.0" layoutY="56.0" prefHeight="3.0" prefWidth="200.0" />
                             </children>
                         </Pane>
-                        <JFXButton fx:id="taskButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutX="2.0" layoutY="199.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="223.0" style="-fx-background-color: #1d2026;" text="Tasks" textFill="WHITE">
+                        <JFXButton fx:id="dayViewButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="170.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#dayViewButtonAction" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #1d2026;" text="Day View" textFill="WHITE">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -40,7 +39,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="teamMemberButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutX="2.0" layoutY="247.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="223.0" style="-fx-background-color: #1d2026;" text="Team Members" textFill="WHITE">
+                        <JFXButton fx:id="teamMemberButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="270.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #1d2026;" text="Team Members" textFill="WHITE">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -52,7 +51,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="groupChatButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutX="2.0" layoutY="296.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#groupChatButtonAction" prefHeight="40.0" prefWidth="223.0" style="-fx-background-color: #1d2026;" text="GroupChat" textFill="WHITE">
+                        <JFXButton fx:id="groupChatButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="320.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#groupChatButtonAction" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #1d2026;" text="GroupChat" textFill="WHITE">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -67,14 +66,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <Separator layoutX="15.0" layoutY="419.0" prefHeight="0.0" prefWidth="200.0" />
-                        <JFXTextField layoutX="16.0" layoutY="438.0" prefHeight="40.0" prefWidth="166.0" promptText="          Add  Member" unFocusColor="WHITE" />
-                        <JFXButton layoutX="173.0" layoutY="442.0" ripplerFill="#a12222" style="-fx-background-color: #633aa5;" text="Add" textFill="WHITE">
-                            <cursor>
-                                <Cursor fx:constant="HAND" />
-                            </cursor>
-                        </JFXButton>
-                        <JFXButton fx:id="calendarButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="119.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#calendarButtonAction" prefHeight="40.0" prefWidth="227.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Calendar View" textAlignment="CENTER" textFill="#fafafa">
+                        <JFXButton fx:id="calendarButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="70.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#slideDownButton" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Calendar View" textAlignment="CENTER" textFill="#fafafa">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -86,7 +78,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="addTaskButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutX="-2.0" layoutY="159.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#addTaskButtonAction" prefHeight="40.0" prefWidth="223.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Add Task" textFill="#fafafa">
+                        <JFXButton fx:id="addTaskButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="220.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#addTaskButtonAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Add Task" textFill="#fafafa">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -98,7 +90,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="kanBanButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutX="2.0" layoutY="72.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#kanBanAction" prefHeight="40.0" prefWidth="223.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Kanban View" textFill="#fafafa">
+                        <JFXButton fx:id="kanBanButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="120.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#kanBanAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Kanban View" textFill="#fafafa">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>

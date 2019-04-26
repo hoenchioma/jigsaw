@@ -19,8 +19,16 @@ public class ProjectViewController implements Initializable {
 
     public void initialize(URL url , ResourceBundle resourceBundle)
     {
-        //TODO
+        kanBanButton.setVisible(false);
+        dayViewButton.setVisible(false);
+        addTaskButton.setVisible(false);
+        teamMemberButton.setLayoutY(teamMemberButton.getLayoutY()-150);
+        groupChatButton.setLayoutY(groupChatButton.getLayoutY()-150);
     }
+
+    private int slideFlag=1;
+    @FXML
+    private JFXButton dayViewButton;
 
     @FXML
     private JFXButton kanBanButton;
@@ -45,31 +53,55 @@ public class ProjectViewController implements Initializable {
     @FXML
     private JFXButton addTaskButton;
 
+
     @FXML
-    void handleButtonAction(ActionEvent event)
+    void addTaskButtonAction()
     {
-
-
+         loadUI("calendar/AddTaskView.fxml");
     }
     @FXML
-    void addTaskButtonAction(ActionEvent event)
+    void  kanBanAction(){
+        loadUI("calendar/KanBanView.fxml");
+    }
+
+    @FXML
+
+    void dayViewButtonAction()
     {
-         loadUI("AddTaskView.fxml");
+        loadUI("calendar/DayView.fxml");
     }
     @FXML
-    void  kanBanAction(ActionEvent event){
-        loadUI("KanBanView.fxml");
-    }
-
-    @FXML
-    void calendarButtonAction(ActionEvent event)
+    void calendarButtonAction()
     {
-        loadUI("DayView.fxml");
+        loadUI("calendar/DayView.fxml");
     }
 
     @FXML
-    void groupChatButtonAction(ActionEvent event){
+    void groupChatButtonAction(){
         loadUI("ChatView.fxml");
+    }
+
+    @FXML
+    void slideDownButton(ActionEvent event)
+    {
+        if(event.getTarget()==calendarButton)
+        {
+            teamMemberButton.setLayoutY(teamMemberButton.getLayoutY()+slideFlag*150);
+            groupChatButton.setLayoutY(groupChatButton.getLayoutY()+slideFlag*150);
+        }
+        if(slideFlag==1)
+        {
+            kanBanButton.setVisible(true);
+            dayViewButton.setVisible(true);
+            addTaskButton.setVisible(true);
+        }
+        else
+        {
+            kanBanButton.setVisible(false);
+            dayViewButton.setVisible(false);
+            addTaskButton.setVisible(false);
+        }
+        slideFlag*=-1;
     }
 
     public void loadUI(String location)
