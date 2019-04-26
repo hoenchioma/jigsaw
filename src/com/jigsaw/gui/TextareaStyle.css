@@ -1,7 +1,4 @@
-.text-input{
--fx-text-fill : #fff;
-}
-
 .text-area *.content {
+    -fx-text-fill : #000000;
     -fx-background-color: #ffffff;
 }
