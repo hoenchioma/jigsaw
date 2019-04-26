@@ -64,7 +64,7 @@ public class ProjectViewController implements Initializable {
     @FXML
     void calendarButtonAction(ActionEvent event)
     {
-        loadUI("CalendarView.fxml");
+        loadUI("DayView.fxml");
     }
 
     @FXML

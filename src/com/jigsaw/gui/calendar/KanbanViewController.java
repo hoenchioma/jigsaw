@@ -1,4 +1,4 @@
-package com.jigsaw.gui;
+package com.jigsaw.gui.calendar;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
@@ -202,7 +202,7 @@ public class KanbanViewController implements Initializable {
 
     public static Pane getRoot() throws IOException {
         Parent root = FXMLLoader.load(
-                AddTaskViewController.class.getResource("KanbanView.fxml"));
+                KanbanViewController.class.getResource("KanbanView.fxml"));
         return (Pane) root;
     }
 }
