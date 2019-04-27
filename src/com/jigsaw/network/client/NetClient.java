@@ -1,6 +1,6 @@
 package com.jigsaw.network.client;
 
-import com.jigsaw.accounts.Profile;
+import com.jigsaw.accounts.*;
 import com.jigsaw.calendar.sync.ClientTaskSyncHandler;
 import com.jigsaw.calendar.sync.TaskPacket;
 import com.jigsaw.chat.ClientMessageHandler;
@@ -45,14 +45,16 @@ public class NetClient {
 
     // related handlers
     private ClientTaskSyncHandler clientTaskSyncHandler;
-
     private ClientMessageHandler clientMessageHandler;
+
+    private ClientAccountSyncHandler clientAccountSyncHandler;
 
     /**
      * A map from a Packet class name (String) to a functor
      * to be called when such a Packet is received
      */
     private Map<String, Consumer<Packet>> callbackList = new HashMap<>();
+
 
     // private constructor so it can't be instantiated
 
@@ -138,6 +140,7 @@ public class NetClient {
                     assert obj != null: "received packet is null";
                     Packet receivedPacket = (Packet) obj;
 //                    log(receivedPacket.toString());
+                    // forward packet to respective callback
                     callbackList.get(receivedPacket.getClass().getName()).accept(receivedPacket);
                 } catch (EOFException e) {
 //                    e.printStackTrace();
@@ -149,6 +152,8 @@ public class NetClient {
                 }
             }
         }
+
+
     }
     private void initialize() {
         new PacketListener().start();
@@ -158,12 +163,13 @@ public class NetClient {
         // register message handler
         clientMessageHandler = new ClientMessageHandler();
         registerCallback(MessagePacket.class.getName(), clientMessageHandler::receiveMessage);
+        // register account handler
+        clientAccountSyncHandler = new ClientAccountSyncHandler();
+        registerCallback(AccountPacket.class.getName(), clientAccountSyncHandler::receivePacket);
     }
-
     public void registerCallback(String packetClassName, Consumer<Packet> callbackFunction) {
         callbackList.put(packetClassName, callbackFunction);
     }
-
     public ClientTaskSyncHandler getClientTaskSyncHandler() {
         if (clientTaskSyncHandler == null) {
             throw new IllegalStateException("Task Sync Handler not instantiated yet");
@@ -176,6 +182,13 @@ public class NetClient {
             throw new IllegalStateException("Message Handler not instantiated yet");
         }
         return clientMessageHandler;
+    }
+
+    public ClientAccountSyncHandler getClientAccountSyncHandler() {
+        if (clientAccountSyncHandler == null) {
+            throw new IllegalStateException("Account Handler not instantiated yet");
+        }
+        return clientAccountSyncHandler;
     }
 
     private void log(String str) {
