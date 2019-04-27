@@ -5,6 +5,9 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import java.io.IOException;
 import java.lang.String;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Period;
 import java.util.ArrayList;
 
@@ -15,13 +18,20 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.TreeItem;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 
 public class DayViewController {
@@ -33,10 +43,22 @@ public class DayViewController {
     private JFXDatePicker datePickerID;
 
     @FXML
-    private JFXButton openProjectButtonID;
+    private JFXTreeTableView<CalendarEntry> treeView;
 
     @FXML
-    private JFXTreeTableView<CalendarEntry> treeView;
+    private TreeTableColumn<CalendarEntry, String> taskNameCol;
+
+    @FXML
+    private TreeTableColumn<CalendarEntry, String> taskDesCol;
+
+    @FXML
+    private TreeTableColumn<CalendarEntry, String> memberCol;
+
+    @FXML
+    private JFXButton previousDayButtionID;
+
+    @FXML
+    private JFXButton nextDayButtonID;
 
 
     @FXML
@@ -59,34 +81,32 @@ public class DayViewController {
         taskList.add(new ProjectTask("Shamim", LocalDateTime.now(), "User 6","001",assigneesList));*/
 
 
-        JFXTreeTableColumn<CalendarEntry, String> taskNameCol = new JFXTreeTableColumn<>("Task Name");
-        taskNameCol.setPrefWidth(150);
-        taskNameCol.setCellValueFactory(param -> param.getValue().getValue().taskName);
+        ProjectTask rootProjectTask = new ProjectTask("name", LocalDateTime.now(), "creator", "00", new ArrayList<String>());
+        TreeItem<CalendarEntry> root = new TreeItem<>(new CalendarEntry("Task Name", "Task Description", "Members", rootProjectTask));
 
-        JFXTreeTableColumn<CalendarEntry, String> descriptionCol = new JFXTreeTableColumn<>("Task Description");
-        descriptionCol.setPrefWidth(150);
-        descriptionCol.setCellValueFactory(param -> param.getValue().getValue().description);
 
-        JFXTreeTableColumn<CalendarEntry,String> memberCol = new JFXTreeTableColumn<>("Related Members");
-        memberCol.setPrefWidth(150);
-        memberCol.setCellValueFactory(param -> param.getValue().getValue().members);
 
-        ObservableList<CalendarEntry> taskEntry = FXCollections.observableArrayList();
-        for(int i  = 0; i<taskList.size(); i++){
-            if(taskList.get(i).getDeadline().toLocalDate().equals(datePickerID.getValue())){
+
+
+        ObservableList<TreeItem<CalendarEntry>> taskEntry = FXCollections.observableArrayList();
+        for (int i = 0; i < taskList.size(); i++) {
+            if (taskList.get(i).getDeadline().toLocalDate().equals(datePickerID.getValue())) {
                 ArrayList<User> assigneesList = taskList.get(i).getAssignees();
                 String name = taskList.get(i).getName();
                 String des = taskList.get(i).getDetails();
                 StringBuilder memberName = new StringBuilder(assigneesList.get(0).getUsername());
-                for(int j = 1; j<assigneesList.size(); j++){
+                for (int j = 1; j < assigneesList.size(); j++) {
                     memberName.append(" ").append(assigneesList.get(j).getUsername());
                 }
-                taskEntry.add(new CalendarEntry(name, des, memberName.toString(), taskList.get(i)));
+                taskEntry.add(new TreeItem<>(new CalendarEntry(name, des, memberName.toString(), taskList.get(i))));
+                root.getChildren().add(taskEntry.get(taskEntry.size()-1));
             }
         }
 
-        final TreeItem<CalendarEntry> root = new RecursiveTreeItem<CalendarEntry>(taskEntry, RecursiveTreeObject::getChildren);
-        treeView.getColumns().setAll(taskNameCol, descriptionCol, memberCol);
+        taskNameCol.setCellValueFactory(param -> param.getValue().getValue().taskName);
+        taskDesCol.setCellValueFactory(param -> param.getValue().getValue().description);
+        memberCol.setCellValueFactory(param -> param.getValue().getValue().members);
+
         treeView.setRoot(root);
         treeView.setShowRoot(false);
 
@@ -108,6 +128,59 @@ public class DayViewController {
     public void nextDayButtonAction(ActionEvent actionEvent) throws InterruptedException {
         if(datePickerID.getValue() != null){
             datePickerID.setValue(datePickerID.getValue().plus(Period.ofDays(1)));
+            updateTable();
+        }
+    }
+
+
+    public static void editTask(ProjectTask projectTask) {
+        Stage window = new Stage();
+        boolean checkBoxFlag = false;
+        //Block events to other windows
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Edit Task");
+        window.setMinWidth(250);
+
+        Menu menu = new Menu("Member List");
+        ArrayList<CheckBox> checkBoxes = new ArrayList<>();
+
+
+        VBox vBox = new VBox();
+        JFXTextField taskName = new JFXTextField(projectTask.getName());
+        JFXTextArea taskDescription = new JFXTextArea(projectTask.getDetails());
+        JFXDatePicker datePicker = new JFXDatePicker(LocalDate.now());
+        datePicker.setEditable(false);
+
+        Button closeButton = new Button("Add Task");
+        closeButton.setOnAction(e -> overWriteData(projectTask, taskName, taskDescription, datePicker, window));
+
+
+
+        vBox.getChildren().addAll(datePicker, taskName, taskDescription, closeButton);
+        vBox.setAlignment(Pos.TOP_LEFT);
+
+        Scene scene = new Scene(vBox);
+        window.setScene(scene);
+        window.showAndWait();
+
+    }
+
+    public static void overWriteData(ProjectTask projectTask, TextField taskName, TextArea taskDescription, DatePicker datePicker, Stage window){
+        System.out.println("overwrite starts");
+        projectTask.setName(taskName.getText());
+        projectTask.setDetails(taskDescription.getText());
+        projectTask.setDeadline(LocalDateTime.of(datePicker.getValue(), LocalTime.now()));
+        window.close();
+    }
+
+
+    public void tableClickAction (MouseEvent mouseEvent) throws InterruptedException {
+        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+            CalendarEntry selectedEntry = treeView.getSelectionModel().getSelectedItem().getValue();
+            editTask(selectedEntry.projectTasks);
+
+
+
             updateTable();
         }
     }
