@@ -1,6 +1,8 @@
 package com.jigsaw.network.server;
 
+import com.jigsaw.accounts.AccountPacket;
 import com.jigsaw.accounts.Project;
+import com.jigsaw.accounts.ServerAccountSyncHandler;
 import com.jigsaw.accounts.User;
 import com.jigsaw.calendar.TaskManager;
 import com.jigsaw.calendar.sync.ServerTaskSyncHandler;
@@ -61,6 +63,10 @@ public class ClientHandler implements Runnable {
         ServerMessageHandler serverMessageHandler = new ServerMessageHandler(user, project, this);
         registerCallback(MessagePacket.class.getName(), serverMessageHandler::receivePacket);
         registerCallback(FilePacket.class.getName(), serverMessageHandler::receivePacket);
+
+        // register account handler
+        ServerAccountSyncHandler serverAccountSyncHandler = new ServerAccountSyncHandler(user, project, this);
+        registerCallback(AccountPacket.class.getName(), serverAccountSyncHandler::receivePacket);
     }
 
     @Override

@@ -3,13 +3,11 @@ package com.jigsaw.accounts;
 import javafx.util.Pair;
 
 import java.io.Serializable;
-import java.util.Set;
 
 public class User implements Serializable {
     private String id;
     private String username;
     private Pair<String, String> passwordSaltPair;
-    private Set<String> projects; // contains the projectIDs of related projects
 
     private Profile profile;
 
@@ -38,10 +36,6 @@ public class User implements Serializable {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getHashedPassword() {
         return passwordSaltPair.getKey();
     }
@@ -58,11 +52,7 @@ public class User implements Serializable {
         this.passwordSaltPair = passwordSaltPair;
     }
 
-    public Set<String> getProjects() {
-        return projects;
-    }
-
-    public void addProject(String projectId) {
-
+    public void saveToFile() {
+        Resource.getInstance().updateUser(this);
     }
 }
