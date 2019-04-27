@@ -10,20 +10,20 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.ProjectViewController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.ProjectViewController">
     <left>
         <AnchorPane prefHeight="359.0" prefWidth="230.0" BorderPane.alignment="CENTER">
             <children>
                 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="230.0" style="-fx-background-color: #1d2026;">
                     <children>
-                        <JFXButton fx:id="dayViewButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="239.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#dayViewButtonAction" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #1d2026;" text="Day View" textFill="WHITE">
+                        <JFXButton fx:id="dayViewButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutX="32.0" layoutY="239.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#dayViewButtonAction" prefHeight="40.0" prefWidth="195.0" style="-fx-background-color: #1d2026;" text="Day View" textFill="WHITE">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                             <graphic>
                                 <ImageView fitHeight="31.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@TaskIcon.png" />
+                                        <Image url="@resources/TaskIcon.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -35,7 +35,7 @@
                             <graphic>
                                 <ImageView fitHeight="30.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@TeamMemberIcon.png" />
+                                        <Image url="@resources/TeamMemberIcon.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -47,7 +47,7 @@
                             <graphic>
                                 <ImageView fitHeight="34.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@GroupChat%20Icon.png" />
+                                        <Image url="@resources/GroupChat-Icon.png" />
                                     </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -62,31 +62,31 @@
                             <graphic>
                                 <ImageView fitHeight="29.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@calendarView%20button.png" />
+                                        <Image url="@resources/calendarView-button.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="addTaskButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="289.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#addTaskButtonAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Add Task" textFill="#fafafa">
+                        <JFXButton fx:id="addTaskButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutX="32.0" layoutY="289.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#addTaskButtonAction" prefHeight="40.0" prefWidth="195.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Add Task" textFill="#fafafa">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                             <graphic>
                                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@addTask.jpg" />
+                                        <Image url="@resources/addTask.jpg" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="kanBanButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="189.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#kanBanAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Kanban View" textFill="#fafafa">
+                        <JFXButton fx:id="kanBanButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutX="32.0" layoutY="189.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#kanBanAction" prefHeight="40.0" prefWidth="195.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Kanban View" textFill="#fafafa">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                             <graphic>
                                 <ImageView fitHeight="29.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@kanbanView%20Button.png" />
+                                        <Image url="@resources/kanbanView-Button.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -116,7 +116,7 @@
                      <graphic>
                         <ImageView fitHeight="34.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@LogoutButton.png" />
+                              <Image url="@resources/LogoutButton.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />

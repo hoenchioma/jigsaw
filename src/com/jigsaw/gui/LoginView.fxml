@@ -49,7 +49,7 @@
          <graphic>
             <ImageView fitHeight="49.0" fitWidth="32.0" onDragDetected="#popUpButtonAction" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Three%20dot%20menu%20icon%202.png" />
+                  <Image url="@resources/Three-dot-menu-icon 2.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="HAND" />

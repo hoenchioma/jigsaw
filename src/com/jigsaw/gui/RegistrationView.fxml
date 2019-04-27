@@ -156,7 +156,7 @@
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@Button-Back%202.png" />
+                        <Image url="@resources/Button-Back 2.png" />
                      </image>
                   </ImageView>
                </graphic>
