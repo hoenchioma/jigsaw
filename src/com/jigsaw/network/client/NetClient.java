@@ -5,6 +5,8 @@ import com.jigsaw.calendar.sync.ClientTaskSyncHandler;
 import com.jigsaw.calendar.sync.TaskPacket;
 import com.jigsaw.chat.ClientMessageHandler;
 import com.jigsaw.chat.packet.MessagePacket;
+import com.jigsaw.chat.packet.FilePacket;
+import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.network.Packet;
 
 import java.io.*;
@@ -158,6 +160,8 @@ public class NetClient {
         // register message handler
         clientMessageHandler = new ClientMessageHandler();
         registerCallback(MessagePacket.class.getName(), clientMessageHandler::receiveMessage);
+        registerCallback(FilePacket.class.getName(), clientMessageHandler::receiveFile);
+        registerCallback(FileRequestPacket.class.getName(), clientMessageHandler::receiveFileName);
     }
 
     public void registerCallback(String packetClassName, Consumer<Packet> callbackFunction) {
