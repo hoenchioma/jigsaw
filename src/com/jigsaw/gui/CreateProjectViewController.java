@@ -34,8 +34,7 @@ public class CreateProjectViewController implements Initializable {
 
     }
 
-    @FXML
-    private JFXButton submitButton;
+
 
     @FXML
     private DatePicker projectDueDate;
@@ -43,11 +42,20 @@ public class CreateProjectViewController implements Initializable {
     @FXML
     private TextField projectName;
 
-    @FXML
-    private TextField projectID;
+
 
     @FXML
     private JFXTextArea projectDescription;
+
+    @FXML
+    void backButtonAction(ActionEvent event) {
+        try{
+            changeScene("LoginView.fxml",event);
+        }
+        catch (Exception sceneChangeException){
+            sceneChangeException.printStackTrace();
+        }
+    }
 
     @FXML
     public void createButtonAction(ActionEvent event) {

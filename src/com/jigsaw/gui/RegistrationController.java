@@ -22,6 +22,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -77,6 +78,16 @@ public class RegistrationController implements Initializable  {
     private JFXButton register;
     @FXML
     private JFXButton signUpButton;
+
+    @FXML
+    void backButtonAction(ActionEvent event) {
+        try{
+            changeScene("LoginView.fxml",event);
+        }
+        catch (Exception sceneChangeException){
+            sceneChangeException.printStackTrace();
+        }
+    }
 
     public void registerButtonAction(ActionEvent event) {
         Profile profile = new Profile();

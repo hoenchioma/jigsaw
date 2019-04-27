@@ -15,15 +15,32 @@ import com.jigsaw.network.client.NetClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginViewController {
+public class LoginViewController implements Initializable {
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1){
+            popBox.setVisible(false);
+
+    }
+
+    //To Check whether the popBox is open or not;
+
+
+    @FXML
+    private VBox popBox;
 
     @FXML
     private JFXTextField username;
@@ -35,12 +52,26 @@ public class LoginViewController {
     private JFXTextField projectID;
 
     @FXML
-    private JFXButton signUpButton;
+    private JFXTextField serverAddress;
 
     @FXML
-    private JFXButton createProjectButton;
+    private JFXTextField portAddress;
 
 
+
+    @FXML
+    void popUpButtonAction(ActionEvent event) {
+
+        if (popBox.isVisible() == false) popBox.setVisible(true);
+        else if (popBox.isVisible() == true) {
+            popBox.setVisible(false);
+            //TODO Raheeb Staff
+
+            String server = serverAddress.getText();
+            String port = portAddress.getText();
+
+        }
+    }
     @FXML
     public void signUpAction (ActionEvent event) throws IOException {
         Parent signupView = FXMLLoader.load(getClass().getResource("RegistrationView.fxml"));
@@ -61,7 +92,7 @@ public class LoginViewController {
         if (response.equals("success")) {
             // change to next scene on login
             // FIXME: set scene to dashboard (project view) here
-            changeToNextScene(CalendarViewController.getRoot());
+            changeToNextScene(ProjectViewController.getRoot());
         }
     }
 
@@ -79,5 +110,9 @@ public class LoginViewController {
         Stage window = (Stage) username.getScene().getWindow();
         window.setScene(scene);
         window.show();
+    }
+    public static Pane getRoot() throws IOException {
+        Parent root = FXMLLoader.load(LoginViewController.class.getResource("LoginView.fxml"));
+        return (Pane) root;
     }
 }

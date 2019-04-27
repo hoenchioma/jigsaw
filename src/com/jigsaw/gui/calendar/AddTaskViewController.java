@@ -62,6 +62,7 @@ public class AddTaskViewController implements Initializable {
             //////add task to project
             System.out.println("fictional task created");
 //            ArrayList<ProjectTask> projectTask = NetClient.getInstance().getClientTaskSyncHandler().addTask(new ProjectTask(taskNameID.getText(), LocalDateTime.of(deadLineDatePickerID.getValue(), LocalTime.now()), creatorNameID.getText(), assignees ));
+           // ArrayList<ProjectTask> projectTask = NetClient.getInstance().getTaskSyncHandler().addTask(new ProjectTask(taskNameID.getText(), LocalDateTime.of(deadLineDatePickerID.getValue(), LocalTime.now()), creatorNameID.getText(), assignees ));
 
 
         }
