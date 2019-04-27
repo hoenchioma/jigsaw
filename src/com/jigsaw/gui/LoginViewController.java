@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -65,10 +66,12 @@ public class LoginViewController implements Initializable {
         if (popBox.isVisible() == false) popBox.setVisible(true);
         else if (popBox.isVisible() == true) {
             popBox.setVisible(false);
-            //TODO Raheeb Staff
+
 
             String server = serverAddress.getText();
             String port = portAddress.getText();
+
+            //TODO Server Address and  port Address implementation
 
         }
     }
@@ -94,6 +97,12 @@ public class LoginViewController implements Initializable {
             // FIXME: set scene to dashboard (project view) here
             changeToNextScene(ProjectViewController.getRoot());
         }
+        else
+        {
+            // TODO 3 different error messages
+
+            showError(response);
+        }
     }
 
     @FXML
@@ -114,5 +123,14 @@ public class LoginViewController implements Initializable {
     public static Pane getRoot() throws IOException {
         Parent root = FXMLLoader.load(LoginViewController.class.getResource("LoginView.fxml"));
         return (Pane) root;
+    }
+
+    // a method to show erro message
+    public void showError(String erroMessage){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setContentText(erroMessage);
+        alert.setTitle("JIGSAW");
+        alert.show();
     }
 }

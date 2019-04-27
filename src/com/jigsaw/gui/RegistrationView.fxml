@@ -151,7 +151,7 @@
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </TextField>
-            <JFXDatePicker fx:id="birthDay" defaultColor="#9643a9" layoutX="234.0" layoutY="413.0" />
+            <JFXDatePicker fx:id="birthDay" defaultColor="#9643a9" editable="false" layoutX="234.0" layoutY="413.0" stylesheets="@Style.css" AnchorPane.leftAnchor="233.99999999999997" AnchorPane.rightAnchor="181.99999999999997" />
             <JFXButton buttonType="RAISED" ellipsisString="" layoutX="14.0" layoutY="14.0" onAction="#backButtonAction" prefHeight="31.0" prefWidth="35.0" ripplerFill="#c888d7" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
