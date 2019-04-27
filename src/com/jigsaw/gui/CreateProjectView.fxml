@@ -25,7 +25,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <JFXButton fx:id="submitButton" layoutX="261.0" layoutY="443.0" onAction="#createButtonAction" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #2a0033; -fx-border-color: #DA70D6; -fx-border-width: 2; -fx-border-radius: 20;" text="Create" textFill="#a29b9b">
+      <JFXButton fx:id="submitButton" layoutX="200.0" layoutY="442.0" onAction="#createButtonAction" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #2a0033; -fx-border-color: #DA70D6; -fx-border-width: 2; -fx-border-radius: 20;" text="Create" textFill="#a29b9b">
          <font>
             <Font size="16.0" />
          </font>
@@ -54,7 +54,7 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
       </JFXTextArea>
-      <JFXDatePicker fx:id="projectDueDate" defaultColor="#9643a9" editable="false" layoutX="176.0" layoutY="142.0" prefHeight="32.0" prefWidth="198.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="134.0" />
+      <JFXDatePicker fx:id="projectDueDate" defaultColor="#9643a9" editable="false" layoutX="176.0" layoutY="142.0" prefHeight="32.0" prefWidth="198.0" stylesheets="@Style.css" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="134.0" />
       <JFXButton buttonType="RAISED" ellipsisString="" layoutX="14.0" layoutY="14.0" onAction="#backButtonAction" prefHeight="31.0" prefWidth="35.0" ripplerFill="#c888d7" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="37.0" onDragDetected="#backButtonAction" pickOnBounds="true" preserveRatio="true">

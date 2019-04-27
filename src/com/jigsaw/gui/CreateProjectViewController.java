@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -80,6 +81,7 @@ public class CreateProjectViewController implements Initializable {
                 );
 
                 System.out.println(projectIDText);
+                showMessage("Project ID : "+ projectIDText);
 
             } catch (Exception createProjectException) {
                 createProjectException.printStackTrace();
@@ -102,5 +104,12 @@ public class CreateProjectViewController implements Initializable {
         Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
+    }
+    public void showMessage(String Message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Project Created");
+        alert.setContentText(Message);
+        alert.setTitle("JIGSAW");
+        alert.show();
     }
 }

@@ -18,10 +18,7 @@ import javafx.fxml.Initializable;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -105,8 +102,10 @@ public class RegistrationController implements Initializable  {
                 || institute.getText().equals("")
                 || contact.getText().equals("")) {
             System.out.println("Give all Info");
+            showError("Insufficient Information");
         }
         else if (!password.getText().equals(confirmPassword.getText())){
+            showError("Password didn't match");
             System.out.println("Password didn't match ");
         }
         else {
@@ -161,5 +160,11 @@ public class RegistrationController implements Initializable  {
 
         return gender;
     }
-
+    public void showError(String erroMessage){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setContentText(erroMessage);
+        alert.setTitle("JIGSAW");
+        alert.show();
+    }
 }
