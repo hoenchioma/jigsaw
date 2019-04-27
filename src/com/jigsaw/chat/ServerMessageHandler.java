@@ -24,26 +24,47 @@ import java.util.ArrayList;
 public class ServerMessageHandler {
     private User user;
     private Project project;
-    private String filePath;
+    private String messagePath;
+    private String fileDir;
+    private String fileListPath;
+    private ArrayList<FileRequestPacket> fileList;
     private ClientHandler clientHandler;
 
     public ServerMessageHandler(User user, Project project, ClientHandler clientHandler) {
         this.user = user;
         this.project = project;
         this.clientHandler = clientHandler;
-        this.filePath = Resource.messagesDirPath + project.getId() + "-chathistory";
+        this.messagePath = Resource.messagesDirPath + project.getId() + "-chathistory";
+        this.fileDir = Resource.filesDirPath + project.getId() + "-files/";
+        this.fileListPath = Resource.filesDirPath + project.getId() + "-filelist";
+        this.fileList = new ArrayList<>();
 
         sendChatHistory();
+        sendFileList();
     }
 
     private void sendChatHistory() {
         try {
-            for (Packet messages: loadFromFile(filePath)) {
+            for (Packet messages: loadFromFile(messagePath)) {
                 clientHandler.sendPacket(messages);
             }
         } catch (IOException e) {
             e.printStackTrace();
             log("error sending chat history");
+        }
+    }
+
+    private void sendFileList() {
+        try {
+            if ((new File(fileListPath).isFile())) {
+                fileList = (ArrayList) Resource.loadObjFromFile(fileListPath);
+            }
+            for (FileRequestPacket fileName: fileList) {
+                clientHandler.sendPacket(fileName);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            log("error sending file list");
         }
     }
 
@@ -54,7 +75,7 @@ public class ServerMessageHandler {
                 // set client username in packet (as it was not done on client side)
                 messagePacket.setClientUserName(user.getUsername());
 //                log("message received on server, content: " + messagePacket.toString());
-                writeToFile(messagePacket, filePath);
+                writeToFile(messagePacket, messagePath);
                 for (String member : project.getMembers()) {
                     log(member);
                     Server server = clientHandler.getServer();
@@ -71,11 +92,14 @@ public class ServerMessageHandler {
             try{
                 FilePacket filePacket = (FilePacket) packet;
                 filePacket.setClientUserName(user.getUsername());
-                //File storeFile = new File(fileDir + File.separator + filePacket.getFileName());
-                //filePacket.toFile(storeFile);
+                Resource.createDir(fileDir + File.separator + filePacket.getFileName());
+                File storeFile = new File(fileDir + File.separator + filePacket.getFileName());
+                filePacket.toFile(storeFile);
                 FileRequestPacket requestPacket = new FileRequestPacket(filePacket.getClientUserName(),
                         filePacket.getFileName());
-                //ServerHistoryHandler.writeToFile(requestPacket);
+//                ServerHistoryHandler.writeToFile(requestPacket);
+                fileList.add(requestPacket);
+                Resource.saveObjToFile(fileList, fileListPath);
                 for (String member : project.getMembers()) {
                     log(member);
                     Server server = clientHandler.getServer();
@@ -90,10 +114,13 @@ public class ServerMessageHandler {
         }
         else if (packet instanceof FileRequestPacket){
             FileRequestPacket fileRequestPacket = (FileRequestPacket) packet;
-            //File sendFile = new File(fileDir + File.separator + fileRequestPacket.getFileName());
-            Packet filePacket;
-            //filePacket = ChatPacketHandler.createFilePacket(user.getUsername(), sendFile);
-            //clientHandler.sendPacket(filePacket);
+            File sendFile = new File(fileDir + File.separator + fileRequestPacket.getFileName());
+            try {
+                Packet filePacket = ChatPacketHandler.createFilePacket(user.getUsername(), sendFile);
+                clientHandler.sendPacket(filePacket);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

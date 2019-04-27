@@ -22,6 +22,8 @@ import java.util.ResourceBundle;
 
 public class ProjectViewController implements Initializable {
 
+    // TODO: make the icon backgrounds transparent
+
     @Override
 
     public void initialize(URL url , ResourceBundle resourceBundle)

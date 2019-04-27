@@ -5,6 +5,7 @@ import com.jigsaw.calendar.sync.ServerTaskSyncHandler;
 import com.jigsaw.calendar.sync.TaskPacket;
 import com.jigsaw.chat.ServerMessageHandler;
 import com.jigsaw.chat.packet.FilePacket;
+import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.chat.packet.MessagePacket;
 import com.jigsaw.network.Packet;
 
@@ -62,6 +63,7 @@ public class ClientHandler implements Runnable {
         ServerMessageHandler serverMessageHandler = new ServerMessageHandler(user, project, this);
         registerCallback(MessagePacket.class.getName(), serverMessageHandler::receivePacket);
         registerCallback(FilePacket.class.getName(), serverMessageHandler::receivePacket);
+        registerCallback(FileRequestPacket.class.getName(), serverMessageHandler::receivePacket);
 
         // register account handler
         ServerAccountSyncHandler serverAccountSyncHandler = new ServerAccountSyncHandler(user, project, this);
