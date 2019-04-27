@@ -14,6 +14,15 @@ public class Project implements Serializable {
     private LocalDate projectCreateDate;
     private LocalDate projectDueDate;
 
+    // ArrayList of usernames of project members
+    private ArrayList<String> members;
+
+    private TaskManager taskManager = new TaskManager();
+
+    public Project() {
+        this.projectCreateDate=LocalDate.now();
+    }
+
     public Project(String id, String name, String description, LocalDate projectDueDate) {
         this.id = id;
         this.name = name;
@@ -21,6 +30,7 @@ public class Project implements Serializable {
         this.projectDueDate = projectDueDate;
         projectCreateDate = LocalDate.now();
         taskManager = new TaskManager();
+        members = new ArrayList<>();
     }
 
     public LocalDate getProjectCreateDate() {
@@ -43,15 +53,6 @@ public class Project implements Serializable {
         this.members = members;
     }
 
-    public Project() {
-        this.projectCreateDate=LocalDate.now();
-    }
-
-    private TaskManager taskManager = new TaskManager();
-
-    // ArrayList of usernames of project members
-    private ArrayList<String> members;
-
     public String getId() {
         return id;
     }
@@ -72,16 +73,22 @@ public class Project implements Serializable {
         return members;
     }
 
-    public void addMember(User user) {
-        members.add(user.getUsername());
+    public void addMemberIfAbsent(User user) {
+        addMemberByUsernameIfAbsent(user.getUsername());
     }
 
-    public void addMemberByUsername(String username) {
-        members.add(username);
+    public void addMemberByUsernameIfAbsent(String username) {
+        if (!members.contains(username)) {
+            members.add(username);
+        }
     }
 
     public void removeUser(User user) {
-        members.remove(user.getUsername());
+        if (members.contains(user.getUsername())) {
+            members.remove(user.getUsername());
+        } else {
+            throw new IllegalStateException(user.getUsername() + " doesn't exist in list");
+        }
     }
 
     public ArrayList<ProjectTask> getTaskList() {

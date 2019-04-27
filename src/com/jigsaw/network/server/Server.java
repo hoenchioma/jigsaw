@@ -1,6 +1,7 @@
 package com.jigsaw.network.server;
 
 import com.jigsaw.accounts.Resource;
+//import testing.QuickLogin;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -56,6 +57,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
+//        QuickLogin.createProject();
         int port = DEFAULT_SERVER_PORT;
         if (args.length >= 1) port = Integer.parseInt(args[0]);
         new Server(port);

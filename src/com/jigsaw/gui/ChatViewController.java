@@ -1,6 +1,10 @@
 package com.jigsaw.gui;
 
 import com.jigsaw.chat.ClientMessageHandler;
+import com.jigsaw.chat.packet.ChatPacketHandler;
+import com.jigsaw.chat.packet.MessagePacket;
+import com.jigsaw.network.client.NetClient;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,11 +36,19 @@ public class ChatViewController {
     @FXML
     private Button fileButton;
 
-    //constructor
-    public ChatViewController() throws Exception {
-        this.chatBox = new TextArea();
-        this.container = new ScrollPane();
-        this.container.setContent(this.chatBox);
+    private ClientMessageHandler clientMessageHandler;
+
+    @FXML
+    public void initialize() {
+//        this.chatBox = new TextArea();
+//        this.container = new ScrollPane();
+//        this.container.setContent(this.chatBox);
+
+        clientMessageHandler = NetClient.getInstance().getClientMessageHandler();
+        clientMessageHandler.setController(this);
+        for (MessagePacket messages: clientMessageHandler.getMessageList()) {
+            textAppend(ChatPacketHandler.extractPacket(messages));
+        }
     }
 
     //method which is called to send message from GUI
@@ -45,7 +57,7 @@ public class ChatViewController {
         String userMessage = typeArea.getText();
         typeArea.clear();
             if(userMessage!=null && !userMessage.isEmpty()) {
-                ClientMessageHandler.sendMessage(userMessage);
+                clientMessageHandler.sendMessage(userMessage);
             }
     }
 
@@ -53,7 +65,7 @@ public class ChatViewController {
     public void userSendFile (ActionEvent event){
         FileChooser fc = new FileChooser();
         List<File> selectedFiles = fc.showOpenMultipleDialog(null);
-        if(selectedFiles != null){
+        if (selectedFiles != null){
 
         }
     }

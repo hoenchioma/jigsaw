@@ -3,6 +3,11 @@ package com.jigsaw.network.server;
 import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.User;
 import com.jigsaw.calendar.TaskManager;
+import com.jigsaw.calendar.sync.ServerTaskSyncHandler;
+import com.jigsaw.calendar.sync.TaskPacket;
+import com.jigsaw.chat.ServerMessageHandler;
+import com.jigsaw.chat.packet.FilePacket;
+import com.jigsaw.chat.packet.MessagePacket;
 import com.jigsaw.network.Packet;
 
 import java.io.EOFException;
@@ -30,8 +35,6 @@ public class ClientHandler implements Runnable {
 
     private String sessionID;
 
-    private TaskManager taskManager;
-
     private Map<String, Consumer<Packet>> callbackList = new HashMap<>();
 
     public ClientHandler(Server server, ObjectOutputStream out, ObjectInputStream in, User user, Project project, String sessionID) {
@@ -42,8 +45,22 @@ public class ClientHandler implements Runnable {
         this.sessionID = sessionID;
         this.project = project;
 
+        initializeHandlers();
+    }
+
+    private void initializeHandlers() {
         // register the system handler
         registerCallback(SystemPacket.class.getName(), ServerSystemHandler::receivePacket);
+
+        // register task sync handler
+        ServerTaskSyncHandler serverTaskSyncHandler = new ServerTaskSyncHandler(this, project);
+        registerCallback(TaskPacket.class.getName(), serverTaskSyncHandler::receivePacket);
+//        new Thread(serverTaskSyncHandler).start();
+
+        // register message handler
+        ServerMessageHandler serverMessageHandler = new ServerMessageHandler(user, project, this);
+        registerCallback(MessagePacket.class.getName(), serverMessageHandler::receivePacket);
+        registerCallback(FilePacket.class.getName(), serverMessageHandler::receivePacket);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.jigsaw.accounts;
 
+import javafx.scene.layout.Border;
 import javafx.util.Pair;
 
 import java.io.*;
@@ -32,6 +33,7 @@ public class Resource implements Serializable {
     public static final String saveFilePath = serverStorageLocation + "resource.save";
     public static final String usersDirPath = serverStorageLocation + "users/";
     public static final String projectsDirPath = serverStorageLocation + "projects/";
+    public static final String messagesDirPath = serverStorageLocation + "messages/";
 
     // constants
     public static final int PROJECT_ID_LENGTH = 6;
@@ -84,14 +86,25 @@ public class Resource implements Serializable {
 
     public void updateUser(User user) {
         String fileName = user.getUsername();
-        saveObjToFile(user, usersDirPath + fileName);
+        try {
+            saveObjToFile(user, usersDirPath + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            log("error updating user");
+        }
     }
 
     public User findUser(String username) {
         // if user is already active return loaded object
         if (activeUsers.containsKey(username)) return activeUsers.get(username);
         String fileName = username;
-        return (User) loadObjFromFile(usersDirPath + fileName);
+        try {
+            return (User) loadObjFromFile(usersDirPath + fileName);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            log("error finding user");
+        }
+        return null;
     }
 
     // project related methods
@@ -111,13 +124,24 @@ public class Resource implements Serializable {
 
     public void updateProject(Project project) {
         String fileName = project.getId();
-        saveObjToFile(project, projectsDirPath + fileName);
+        try {
+            saveObjToFile(project, projectsDirPath + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            log("error updating project");
+        }
     }
 
     public Project findProject(String projectID) {
         if (activeProjects.containsKey(projectID)) return activeProjects.get(projectID);
         String fileName = projectID;
-        return (Project) loadObjFromFile(projectsDirPath + fileName);
+        try {
+            return (Project) loadObjFromFile(projectsDirPath + fileName);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            log("error finding project");
+        }
+        return null;
     }
 
     public void activateProject(Project project) {
@@ -131,6 +155,7 @@ public class Resource implements Serializable {
     public Map<String, User> getProjectUsers(String projectID) {
         Project project = findProject(projectID);
         Map <String, User> userDic = new HashMap<>();
+        assert project != null;
         for (String member: project.getMembers()) {
             userDic.put(member, findUser(member));
         }
@@ -151,7 +176,20 @@ public class Resource implements Serializable {
             Resource resource = new Resource();
             resource.saveToFile();
         }
-        Resource resource = (Resource) loadObjFromFile(saveFilePath);
+
+        Resource resource = null;
+        try {
+            resource = (Resource) loadObjFromFile(saveFilePath);
+        } catch (InvalidClassException e) {
+            // if resource file is outdated or corrupted reset file
+            resource = new Resource();
+            resource.saveToFile();
+            staticLog("resource file was corrupted, cleared with new one");
+//            e.printStackTrace();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         resource.activeUsers = new HashMap<>();
         resource.activeProjects = new HashMap<>();
         return resource;
@@ -161,7 +199,12 @@ public class Resource implements Serializable {
      * save this instance of Resource to file
      */
     synchronized public void saveToFile() {
-        saveObjToFile(this, saveFilePath);
+        try {
+            saveObjToFile(this, saveFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            log("error saving resource to file");
+        }
     }
 
     /**
@@ -169,18 +212,14 @@ public class Resource implements Serializable {
      * @param obj object to be saved
      * @param filePath path of save file
      */
-    public static void saveObjToFile(Object obj, String filePath) {
+    public static void saveObjToFile(Object obj, String filePath) throws IOException {
         // create the enclosing folders if it doesn't exist
-        File dir = new File(new File(filePath).getParentFile().getAbsolutePath());
-        dir.mkdirs();
-        try {
-            FileOutputStream file = new FileOutputStream(filePath);
-            ObjectOutputStream out = new ObjectOutputStream(file);
-            out.writeObject(obj);
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        createDir(filePath);
+
+        FileOutputStream file = new FileOutputStream(filePath);
+        ObjectOutputStream out = new ObjectOutputStream(file);
+        out.writeObject(obj);
+        out.close();
     }
 
     /**
@@ -188,17 +227,22 @@ public class Resource implements Serializable {
      * @param filePath path of the file to be loaded
      * @return the loaded object
      */
-    public static Object loadObjFromFile(String filePath) {
-        try {
-            FileInputStream file = new FileInputStream(filePath);
-            ObjectInputStream in = new ObjectInputStream(file);
-            Object obj = in.readObject();
-            in.close();
-            return obj;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static Object loadObjFromFile(String filePath)
+            throws IOException, ClassNotFoundException {
+        FileInputStream file = new FileInputStream(filePath);
+        ObjectInputStream in = new ObjectInputStream(file);
+        Object obj = in.readObject();
+        in.close();
+        return obj;
+    }
+
+    /**
+     * Create the enclosing directories if they don't exist
+     * @param path path to directory or file
+     */
+    public static void createDir(String path) {
+        File dir = new File(new File(path).getParentFile().getAbsolutePath());
+        dir.mkdirs();
     }
 
     public static final ArrayList<String> secretProjectIDs =
@@ -210,6 +254,14 @@ public class Resource implements Serializable {
                     "purainh",
                     "saminfanclub"
             ));
+
+    private void log(String str) {
+        System.out.println(this.getClass().getCanonicalName() + ": " + str);
+    }
+
+    private static void staticLog(String str) {
+        System.out.println(Resource.class.getCanonicalName() + ": " + str);
+    }
 
 //    public static void main(String[] args) {
 //    }

@@ -1,12 +1,16 @@
 package com.jigsaw.network.client;
 
 import com.jigsaw.accounts.Profile;
-import com.jigsaw.calendar.sync.TaskSyncHandler;
+import com.jigsaw.calendar.sync.ClientTaskSyncHandler;
+import com.jigsaw.calendar.sync.TaskPacket;
+import com.jigsaw.chat.ClientMessageHandler;
+import com.jigsaw.chat.packet.MessagePacket;
 import com.jigsaw.network.Packet;
 
 import java.io.*;
 import java.net.Socket;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -40,17 +44,19 @@ public class NetClient {
     private ObjectOutputStream out;
 
     // related handlers
-    private TaskSyncHandler taskSyncHandler;
+    private ClientTaskSyncHandler clientTaskSyncHandler;
+
+    private ClientMessageHandler clientMessageHandler;
 
     /**
      * A map from a Packet class name (String) to a functor
      * to be called when such a Packet is received
      */
-    private Map<String, Consumer<Packet>> callbackList;
+    private Map<String, Consumer<Packet>> callbackList = new HashMap<>();
 
     // private constructor so it can't be instantiated
-    private NetClient() {}
 
+    private NetClient() {}
     synchronized public void connect(String address, int port)
             throws IOException {
         if (socket != null && socket.isConnected()) socket.close();
@@ -81,7 +87,7 @@ public class NetClient {
         if (response.equals("success")) {
             // TODO: Implement sessionID security
             String sessionID = (String) in.readObject();
-            new PacketListener().start();
+            initialize();
         }
         return response;
     }
@@ -123,11 +129,15 @@ public class NetClient {
      * Private inner class to listen for incoming packets
      */
     private class PacketListener extends Thread {
+
         @Override
         public void run() {
             while (true) {
                 try {
-                    Packet receivedPacket = (Packet) in.readObject();
+                    Object obj = in.readObject();
+                    assert obj != null: "received packet is null";
+                    Packet receivedPacket = (Packet) obj;
+//                    log(receivedPacket.toString());
                     callbackList.get(receivedPacket.getClass().getName()).accept(receivedPacket);
                 } catch (EOFException e) {
 //                    e.printStackTrace();
@@ -140,25 +150,32 @@ public class NetClient {
             }
         }
     }
-
     private void initialize() {
         new PacketListener().start();
-        taskSyncHandler = new TaskSyncHandler(null);
+        // register task sync handler
+        clientTaskSyncHandler = new ClientTaskSyncHandler(null);
+        registerCallback(TaskPacket.class.getName(), clientTaskSyncHandler::receivePacket);
+        // register message handler
+        clientMessageHandler = new ClientMessageHandler();
+        registerCallback(MessagePacket.class.getName(), clientMessageHandler::receiveMessage);
     }
 
     public void registerCallback(String packetClassName, Consumer<Packet> callbackFunction) {
         callbackList.put(packetClassName, callbackFunction);
     }
 
-    public TaskSyncHandler getTaskSyncHandler() {
-        if (taskSyncHandler == null) {
+    public ClientTaskSyncHandler getClientTaskSyncHandler() {
+        if (clientTaskSyncHandler == null) {
             throw new IllegalStateException("Task Sync Handler not instantiated yet");
         }
-        return taskSyncHandler;
+        return clientTaskSyncHandler;
     }
 
-    public void setTaskSyncHandler(TaskSyncHandler taskSyncHandler) {
-        this.taskSyncHandler = taskSyncHandler;
+    public ClientMessageHandler getClientMessageHandler() {
+        if (clientMessageHandler == null) {
+            throw new IllegalStateException("Message Handler not instantiated yet");
+        }
+        return clientMessageHandler;
     }
 
     private void log(String str) {

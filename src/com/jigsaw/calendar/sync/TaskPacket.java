@@ -12,4 +12,13 @@ public class TaskPacket implements Packet {
     public TaskManager taskManager;
     public ProjectTask task;
     public Map<String, User> projectMemberInfo;
+
+    public TaskPacket() {}
+
+    public TaskPacket(String command, TaskManager taskManager, ProjectTask task, Map<String, User> projectMemberInfo) {
+        this.command = command;
+        this.taskManager = taskManager;
+        this.task = task;
+        this.projectMemberInfo = projectMemberInfo;
+    }
 }

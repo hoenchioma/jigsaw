@@ -5,12 +5,9 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import java.io.IOException;
 import java.lang.String;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 
-import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.User;
 import com.jigsaw.calendar.ProjectTask;
 import com.jigsaw.network.client.NetClient;
@@ -19,9 +16,6 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,7 +44,7 @@ public class DayViewController {
     }
 
     void updateTable() throws InterruptedException {
-        ArrayList<ProjectTask> taskList = NetClient.getInstance().getTaskSyncHandler().getTaskManager().getProjectTasks();
+        ArrayList<ProjectTask> taskList = NetClient.getInstance().getClientTaskSyncHandler().getTaskManager().getProjectTasks();
 
 
         /*assigneesList.add("MemberList1");

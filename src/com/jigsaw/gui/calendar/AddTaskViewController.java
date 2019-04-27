@@ -4,10 +4,8 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXButton;
-import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.User;
 import com.jigsaw.calendar.ProjectTask;
-import com.jigsaw.calendar.sync.TaskSyncHandler;
 import com.jigsaw.network.client.NetClient;
 import javafx.fxml.FXML;
 
@@ -16,7 +14,6 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
@@ -25,10 +22,7 @@ import javafx.scene.Parent;
 import javafx.event.ActionEvent;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.layout.Pane;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 public class AddTaskViewController implements Initializable {
     //Project project;    ///////assign project
@@ -52,7 +46,7 @@ public class AddTaskViewController implements Initializable {
 
     ArrayList<CheckMenuItem> checkMenu = new ArrayList<CheckMenuItem>();
 
-    Map<String, User> userDictionary = NetClient.getInstance().getTaskSyncHandler().getUserDictionary();
+    Map<String, User> userDictionary = NetClient.getInstance().getClientTaskSyncHandler().getUserDictionary();
 
 
     @FXML
@@ -67,7 +61,7 @@ public class AddTaskViewController implements Initializable {
             }
             //////add task to project
             System.out.println("fictional task created");
-            ArrayList<ProjectTask> projectTask = NetClient.getInstance().getTaskSyncHandler().addTask(new ProjectTask(taskNameID.getText(), LocalDateTime.of(deadLineDatePickerID.getValue(), LocalTime.now()), creatorNameID.getText(), assignees ));
+//            ArrayList<ProjectTask> projectTask = NetClient.getInstance().getClientTaskSyncHandler().addTask(new ProjectTask(taskNameID.getText(), LocalDateTime.of(deadLineDatePickerID.getValue(), LocalTime.now()), creatorNameID.getText(), assignees ));
 
 
         }

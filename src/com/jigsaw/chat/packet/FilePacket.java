@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class FilePacket implements Packet, Serializable {
     private String clientUserName;
-    byte [] mybytearray;
+    private byte [] mybytearray;
 
     public FilePacket(){
 

@@ -103,6 +103,8 @@ public class ServerLoginHandler implements Runnable {
                 User user = server.getResource().findUser(username);
                 // load profile from file
                 Project project = server.getResource().findProject(projectID);
+                project.addMemberIfAbsent(user);
+                project.saveToFile();
 
                 initiateSession(user, project);
             }
@@ -180,7 +182,7 @@ public class ServerLoginHandler implements Runnable {
         // add user to resource class
         server.getResource().activateUser(user);
 
-        new Thread(handler).start();
+        new Thread(handler, user.getUsername() + " user thread").start();
     }
 
     /**
@@ -189,7 +191,7 @@ public class ServerLoginHandler implements Runnable {
      * @param saltInBytes extra random bytes added to the hash to make it more secure (Base64 encoded)
      * @return secure hashed password
      */
-    private static String get_SHA_256_SecurePassword(String passwordToHash, String saltInBytes) {
+    public static String get_SHA_256_SecurePassword(String passwordToHash, String saltInBytes) {
         byte[] salt = Base64.getDecoder().decode(saltInBytes);
         String generatedPassword = null;
         try {
@@ -212,7 +214,7 @@ public class ServerLoginHandler implements Runnable {
      * Gives us a random salt for hashing
      * @return a Base64 encoded byte array of random bits (salt)
      */
-    private static String getSalt() {
+    public static String getSalt() {
         try {
             SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
             byte[] salt = new byte[16];

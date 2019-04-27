@@ -9,16 +9,14 @@ import com.jigsaw.network.client.NetClient;
 import java.io.IOException;
 import java.util.Map;
 
-public class TaskSyncHandler {
+public class ClientTaskSyncHandler {
     private volatile TaskManager taskManager;
     private Map<String, User> userDictionary;
 
     private final Object monitor = new Object();
 
-    public TaskSyncHandler(TaskManager taskManager) {
+    public ClientTaskSyncHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
-        // register call back with NetClient
-        NetClient.getInstance().registerCallback(this.getClass().getName(), this::receivePacket);
     }
 
     /**
