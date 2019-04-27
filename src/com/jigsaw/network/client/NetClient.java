@@ -1,10 +1,14 @@
 package com.jigsaw.network.client;
 
+import com.jigsaw.accounts.AccountPacket;
+import com.jigsaw.accounts.ClientAccountSyncHandler;
 import com.jigsaw.accounts.Profile;
 import com.jigsaw.calendar.sync.ClientTaskSyncHandler;
 import com.jigsaw.calendar.sync.TaskPacket;
 import com.jigsaw.chat.ClientMessageHandler;
 import com.jigsaw.chat.packet.MessagePacket;
+import com.jigsaw.chat.packet.FilePacket;
+import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.network.Packet;
 
 import java.io.*;
@@ -47,6 +51,8 @@ public class NetClient {
     private ClientTaskSyncHandler clientTaskSyncHandler;
 
     private ClientMessageHandler clientMessageHandler;
+
+    private ClientAccountSyncHandler clientAccountSyncHandler;
 
     /**
      * A map from a Packet class name (String) to a functor
@@ -138,6 +144,7 @@ public class NetClient {
                     assert obj != null: "received packet is null";
                     Packet receivedPacket = (Packet) obj;
 //                    log(receivedPacket.toString());
+                    // forward packet to respective callback
                     callbackList.get(receivedPacket.getClass().getName()).accept(receivedPacket);
                 } catch (EOFException e) {
 //                    e.printStackTrace();
@@ -158,6 +165,11 @@ public class NetClient {
         // register message handler
         clientMessageHandler = new ClientMessageHandler();
         registerCallback(MessagePacket.class.getName(), clientMessageHandler::receiveMessage);
+        registerCallback(FilePacket.class.getName(), clientMessageHandler::receiveFile);
+        registerCallback(FileRequestPacket.class.getName(), clientMessageHandler::receiveFileName);
+        // register account handler
+        clientAccountSyncHandler = new ClientAccountSyncHandler();
+        registerCallback(AccountPacket.class.getName(), clientAccountSyncHandler::receivePacket);
     }
 
     public void registerCallback(String packetClassName, Consumer<Packet> callbackFunction) {
@@ -176,6 +188,13 @@ public class NetClient {
             throw new IllegalStateException("Message Handler not instantiated yet");
         }
         return clientMessageHandler;
+    }
+
+    public ClientAccountSyncHandler getClientAccountSyncHandler() {
+        if (clientAccountSyncHandler == null) {
+            throw new IllegalStateException("Account Handler not instantiated yet");
+        }
+        return clientAccountSyncHandler;
     }
 
     private void log(String str) {

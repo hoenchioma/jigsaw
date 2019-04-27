@@ -3,7 +3,9 @@ package com.jigsaw.chat;
 import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.Resource;
 import com.jigsaw.accounts.User;
+import com.jigsaw.chat.packet.ChatPacketHandler;
 import com.jigsaw.chat.packet.FilePacket;
+import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.chat.packet.MessagePacket;
 import com.jigsaw.network.Packet;
 import com.jigsaw.network.server.ClientHandler;
@@ -66,7 +68,32 @@ public class ServerMessageHandler {
             }
         }
         else if (packet instanceof FilePacket) {
-            // TODO: implement file transfer
+            try{
+                FilePacket filePacket = (FilePacket) packet;
+                filePacket.setClientUserName(user.getUsername());
+                //File storeFile = new File(fileDir + File.separator + filePacket.getFileName());
+                //filePacket.toFile(storeFile);
+                FileRequestPacket requestPacket = new FileRequestPacket(filePacket.getClientUserName(),
+                        filePacket.getFileName());
+                //ServerHistoryHandler.writeToFile(requestPacket);
+                for (String member : project.getMembers()) {
+                    log(member);
+                    Server server = clientHandler.getServer();
+                    if (server.getActiveConnections().containsKey(member)) {
+                        //log(clientHandler.toString());
+                        server.getActiveConnections().get(member).sendPacket(requestPacket);
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        else if (packet instanceof FileRequestPacket){
+            FileRequestPacket fileRequestPacket = (FileRequestPacket) packet;
+            //File sendFile = new File(fileDir + File.separator + fileRequestPacket.getFileName());
+            Packet filePacket;
+            //filePacket = ChatPacketHandler.createFilePacket(user.getUsername(), sendFile);
+            //clientHandler.sendPacket(filePacket);
         }
     }
 

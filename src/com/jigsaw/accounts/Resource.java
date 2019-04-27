@@ -34,6 +34,7 @@ public class Resource implements Serializable {
     public static final String usersDirPath = serverStorageLocation + "users/";
     public static final String projectsDirPath = serverStorageLocation + "projects/";
     public static final String messagesDirPath = serverStorageLocation + "messages/";
+    public static final String filesDirPath = serverStorageLocation + "files/";
 
     // constants
     public static final int PROJECT_ID_LENGTH = 6;
@@ -77,14 +78,21 @@ public class Resource implements Serializable {
 
     public void addUser(User user) {
         if (usernameExists(user.getUsername())) {
-            throw new IllegalArgumentException("User with same username already exists");
+            throw new IllegalArgumentException("user with same username already exists");
         }
-        userPassDictionary.put(user.getUsername(), user.getPasswordSaltPair());
         updateUser(user);
+        userPassDictionary.put(user.getUsername(), user.getPasswordSaltPair());
         saveToFile();
     }
 
     public void updateUser(User user) {
+        if (usernameExists(user.getUsername())) {
+            User oldUser = findUser(user.getUsername());
+            // if password is changed update dictionary
+            if (!user.getPasswordSaltPair().equals(oldUser.getPasswordSaltPair())) {
+                userPassDictionary.put(user.getUsername(), user.getPasswordSaltPair());
+            }
+        }
         String fileName = user.getUsername();
         try {
             saveObjToFile(user, usersDirPath + fileName);
@@ -117,8 +125,8 @@ public class Resource implements Serializable {
         if (projectIDExists(project.getId())) {
             throw new IllegalArgumentException("Project with same project ID already exists");
         }
-        existingProjects.add(project.getId());
         updateProject(project);
+        existingProjects.add(project.getId());
         saveToFile();
     }
 
