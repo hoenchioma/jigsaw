@@ -1,10 +1,6 @@
 package com.jigsaw.network.server;
 
-import com.jigsaw.accounts.AccountPacket;
-import com.jigsaw.accounts.Project;
-import com.jigsaw.accounts.ServerAccountSyncHandler;
-import com.jigsaw.accounts.User;
-import com.jigsaw.calendar.TaskManager;
+import com.jigsaw.accounts.*;
 import com.jigsaw.calendar.sync.ServerTaskSyncHandler;
 import com.jigsaw.calendar.sync.TaskPacket;
 import com.jigsaw.chat.ServerMessageHandler;
@@ -39,6 +35,8 @@ public class ClientHandler implements Runnable {
 
     private Map<String, Consumer<Packet>> callbackList = new HashMap<>();
 
+    private volatile boolean isLoggedOut;
+
     public ClientHandler(Server server, ObjectOutputStream out, ObjectInputStream in, User user, Project project, String sessionID) {
         this.server = server;
         this.out = out;
@@ -46,13 +44,14 @@ public class ClientHandler implements Runnable {
         this.user = user;
         this.sessionID = sessionID;
         this.project = project;
+        this.isLoggedOut = false;
 
         initializeHandlers();
     }
 
     private void initializeHandlers() {
-        // register the system handler
-        registerCallback(SystemPacket.class.getName(), ServerSystemHandler::receivePacket);
+        // register system packet callback
+        registerCallback(SystemPacket.class.getName(), this::handleSystemPacket);
 
         // register task sync handler
         ServerTaskSyncHandler serverTaskSyncHandler = new ServerTaskSyncHandler(this, project);
@@ -71,7 +70,7 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!isLoggedOut) {
             try {
                 Packet receivedPacket = (Packet) in.readObject();
                 // when a packet is received pass in on to a registered handler
@@ -88,6 +87,7 @@ public class ClientHandler implements Runnable {
                 e.printStackTrace();
             }
         }
+        log(user.getUsername() + " has logged out");
     }
 
     public synchronized void sendPacket(Packet packet) throws IOException {
@@ -101,6 +101,15 @@ public class ClientHandler implements Runnable {
      */
     public void registerCallback(String packetClassName, Consumer<Packet> callbackFunction) {
         callbackList.put(packetClassName, callbackFunction);
+    }
+
+    public void handleSystemPacket(Packet packet) {
+        SystemPacket systemPacket = (SystemPacket) packet;
+        if (systemPacket.command.equals("log out")) {
+            Resource.getInstance().deactivateUser(user);
+            server.removeHandler(user.getUsername());
+            isLoggedOut = true;
+        }
     }
 
     @Override
@@ -117,7 +126,7 @@ public class ClientHandler implements Runnable {
     }
 
     private void log(String str) {
-        System.out.println(this.getClass() + ": " + str);
+        System.out.println(this.getClass().getCanonicalName() + ": " + str);
     }
 
     public Server getServer() {

@@ -46,18 +46,22 @@ public class ServerLoginHandler implements Runnable {
     public void run() {
         try {
             String command = (String) in.readObject();
-            if (command.equals("login")) {
-                log("login request accepted");
-                handleLogin();
-            } else if (command.equals("register")) {
-                log("register request accepted");
-                handleRegister();
-            } else if (command.equals("create project")) {
-                log("create project request accepted");
-                handleCreateProject();
-            } else {
-                log("Invalid command from client");
-                throw new IllegalArgumentException();
+            switch (command) {
+                case "login":
+                    log("login request accepted");
+                    handleLogin();
+                    break;
+                case "register":
+                    log("register request accepted");
+                    handleRegister();
+                    break;
+                case "create project":
+                    log("create project request accepted");
+                    handleCreateProject();
+                    break;
+                default:
+                    log("Invalid command from client");
+                    throw new IllegalArgumentException();
             }
         } catch (Exception e) {
             log("Login failed");

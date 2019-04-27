@@ -48,6 +48,10 @@ public class Server {
         activeConnections.put(username, handler);
     }
 
+    synchronized public void removeHandler(String username) {
+        activeConnections.remove(username);
+    }
+
     public Resource getResource() {
         return resource;
     }

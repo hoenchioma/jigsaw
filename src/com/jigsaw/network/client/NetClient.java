@@ -10,9 +10,11 @@ import com.jigsaw.chat.packet.MessagePacket;
 import com.jigsaw.chat.packet.FilePacket;
 import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.network.Packet;
+import com.jigsaw.network.server.SystemPacket;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +40,13 @@ public class NetClient {
         return singleInstance;
     }
 
+    /**
+     * Method to reset the singleton
+     */
+    public static void reset() {
+        singleInstance = null;
+    }
+
     // static (constant) variables
     public static final String DEFAULT_SERVER_ADDR = "localhost";
     public static final int DEFAULT_SERVER_PORT = 4444;
@@ -49,10 +58,10 @@ public class NetClient {
 
     // related handlers
     private ClientTaskSyncHandler clientTaskSyncHandler;
-
     private ClientMessageHandler clientMessageHandler;
-
     private ClientAccountSyncHandler clientAccountSyncHandler;
+
+    private volatile boolean isLoggedOut = true;
 
     /**
      * A map from a Packet class name (String) to a functor
@@ -93,6 +102,8 @@ public class NetClient {
         if (response.equals("success")) {
             // TODO: Implement sessionID security
             String sessionID = (String) in.readObject();
+            isLoggedOut = false;
+            log("successfully logged in");
             initialize();
         }
         return response;
@@ -124,7 +135,14 @@ public class NetClient {
     }
 
     public void logOut() {
-        // TODO: implement logout behaviour
+        try {
+            sendPacket(new SystemPacket("log out"));
+            isLoggedOut = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            log("log out failed");
+        }
+//        reset();
     }
 
     synchronized public void sendPacket(Packet packet) throws IOException {
@@ -138,7 +156,7 @@ public class NetClient {
 
         @Override
         public void run() {
-            while (true) {
+            while (!isLoggedOut) {
                 try {
                     Object obj = in.readObject();
                     assert obj != null: "received packet is null";
@@ -146,15 +164,23 @@ public class NetClient {
 //                    log(receivedPacket.toString());
                     // forward packet to respective callback
                     callbackList.get(receivedPacket.getClass().getName()).accept(receivedPacket);
-                } catch (EOFException e) {
+                } catch (IOException e) {
 //                    e.printStackTrace();
                     log("Server disconnected");
                     logOut();
                     break;
-                } catch (ClassNotFoundException | IOException e) {
+                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }
+            try {
+                in.close();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                log("error closing socket");
+            }
+            log("successfully logged out");
         }
     }
     private void initialize() {

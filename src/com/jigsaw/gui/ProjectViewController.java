@@ -2,6 +2,7 @@ package com.jigsaw.gui;
 
 import com.jfoenix.controls.JFXButton;
 import com.jigsaw.gui.calendar.CalendarViewController;
+import com.jigsaw.network.client.NetClient;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -146,6 +147,8 @@ public class ProjectViewController implements Initializable {
     @FXML
     void logOutButtonAction(ActionEvent event) {
         try {
+            NetClient.getInstance().logOut();
+            NetClient.reset();
             changeScene("LoginView.fxml", event);
         } catch (Exception sceneChangeException) {
             sceneChangeException.printStackTrace();

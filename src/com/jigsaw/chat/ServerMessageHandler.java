@@ -136,7 +136,7 @@ public class ServerMessageHandler {
             e.printStackTrace();
             log("error reading object from file");
         }
-        log("finished reading chat history file");
+//        log("finished reading chat history file");
         return list;
     }
 
