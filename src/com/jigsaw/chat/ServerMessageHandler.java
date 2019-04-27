@@ -3,6 +3,7 @@ package com.jigsaw.chat;
 import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.Resource;
 import com.jigsaw.accounts.User;
+import com.jigsaw.chat.packet.ChatPacketHandler;
 import com.jigsaw.chat.packet.FilePacket;
 import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.chat.packet.MessagePacket;
@@ -88,7 +89,11 @@ public class ServerMessageHandler {
             }
         }
         else if (packet instanceof FileRequestPacket){
-
+            FileRequestPacket fileRequestPacket = (FileRequestPacket) packet;
+            //File sendFile = new File(fileDir + File.separator + fileRequestPacket.getFileName());
+            Packet filePacket;
+            //filePacket = ChatPacketHandler.createFilePacket(user.getUsername(), sendFile);
+            //clientHandler.sendPacket(filePacket);
         }
     }
 
