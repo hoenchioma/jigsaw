@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.jigsaw.accounts.User;
 import com.jigsaw.calendar.ProjectTask;
@@ -67,6 +68,7 @@ public class DayViewController {
 
     void updateTable() throws InterruptedException {
         ArrayList<ProjectTask> taskList = NetClient.getInstance().getClientTaskSyncHandler().getTaskManager().getProjectTasks();
+        System.out.println(taskList.size());
 
 
         /*assigneesList.add("MemberList1");
@@ -142,7 +144,12 @@ public class DayViewController {
         window.setMinWidth(250);
 
         Menu menu = new Menu("Member List");
-        ArrayList<CheckBox> checkBoxes = new ArrayList<>();
+        ArrayList<CheckMenuItem> checkMenu = new ArrayList<>();
+        ArrayList<String> userList = NetClient.getInstance().getClientAccountSyncHandler().getProject().getMembers();
+        for(int i =0; i< userList.size(); i++){
+            checkMenu.add(new CheckMenuItem(userList.get(i)));
+            menu.getItems().add(checkMenu.get(i));
+        }
 
 
         VBox vBox = new VBox();
@@ -152,11 +159,10 @@ public class DayViewController {
         datePicker.setEditable(false);
 
         Button closeButton = new Button("Add Task");
-        closeButton.setOnAction(e -> overWriteData(projectTask, taskName, taskDescription, datePicker, window));
+        closeButton.setOnAction(e -> overWriteData(projectTask, taskName, taskDescription, datePicker, window, checkMenu));
 
 
-
-        vBox.getChildren().addAll(datePicker, taskName, taskDescription, closeButton);
+        vBox.getChildren().addAll(new MenuBar(menu), datePicker, taskName, taskDescription, closeButton);
         vBox.setAlignment(Pos.TOP_LEFT);
 
         Scene scene = new Scene(vBox);
@@ -165,12 +171,22 @@ public class DayViewController {
 
     }
 
-    public static void overWriteData(ProjectTask projectTask, TextField taskName, TextArea taskDescription, DatePicker datePicker, Stage window){
+    public static void overWriteData(ProjectTask projectTask, TextField taskName, TextArea taskDescription, DatePicker datePicker, Stage window, ArrayList<CheckMenuItem> checkMenu){
         System.out.println("overwrite starts");
-        projectTask.setName(taskName.getText());
-        projectTask.setDetails(taskDescription.getText());
-        projectTask.setDeadline(LocalDateTime.of(datePicker.getValue(), LocalTime.now()));
-        window.close();
+        Map<String, User> userDictionary = NetClient.getInstance().getClientTaskSyncHandler().getUserDictionary();
+        ArrayList<User> userList = new ArrayList<>();
+        for(CheckMenuItem checkMenuItem : checkMenu){
+            if(checkMenuItem.isSelected()){
+                userList.add(userDictionary.get(checkMenuItem.getText()));
+            }
+        }
+        if(userList.size() > 0){
+            projectTask.setName(taskName.getText());
+            projectTask.setDetails(taskDescription.getText());
+            projectTask.setDeadline(LocalDateTime.of(datePicker.getValue(), LocalTime.now()));
+            projectTask.setAssignees(userList);
+            window.close();
+        }
     }
 
 

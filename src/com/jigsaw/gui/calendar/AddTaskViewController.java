@@ -68,7 +68,9 @@ public class AddTaskViewController implements Initializable {
             //////add task to project
             String projectID = NetClient.getInstance().getClientAccountSyncHandler().getProject().getId();
             ClientTaskSyncHandler clientTaskSyncHandler = NetClient.getInstance().getClientTaskSyncHandler();
-            clientTaskSyncHandler.addTask(new ProjectTask(taskNameID.getText(), LocalDateTime.of(deadLineDatePickerID.getValue(), LocalTime.now()), creatorNameID.getText(),projectID, assignees ));
+            ProjectTask newProjectTask = new ProjectTask(taskNameID.getText(), LocalDateTime.of(deadLineDatePickerID.getValue(), LocalTime.now()), creatorNameID.getText(),projectID, assignees );
+            clientTaskSyncHandler.addTask(newProjectTask);
+            System.out.println(clientTaskSyncHandler.getTaskManager().getProjectTasks().size());
             System.out.println("fictional task created");
         }
     }
@@ -82,6 +84,7 @@ public class AddTaskViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        menuID.setText("Project Members");
         /*userDictionary.put("samin", "ill");
         userDictionary.put("aahad", "lil");
         userDictionary.put("shamim", "!lil");*/

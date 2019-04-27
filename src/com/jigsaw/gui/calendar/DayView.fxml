@@ -8,15 +8,15 @@
 
 <AnchorPane fx:id="anchorPaneID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="736.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.calendar.DayViewController">
     <children>
-        <JFXTreeTableView fx:id="treeView" layoutX="20.0" layoutY="94.0" onMouseClicked="#tableClickAction" prefHeight="497.0" prefWidth="736.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <JFXTreeTableView fx:id="treeView" layoutX="20.0" layoutY="94.0" onMouseClicked="#tableClickAction" prefHeight="497.0" prefWidth="736.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="86.0">
             <columns>
                 <TreeTableColumn fx:id="taskNameCol" prefWidth="130.0" text="Task Name" />
                 <TreeTableColumn fx:id="taskDesCol" prefWidth="385.0" text="Task Description" />
                 <TreeTableColumn fx:id="memberCol" minWidth="0.0" prefWidth="220.0" text="Mermbers" />
             </columns>
         </JFXTreeTableView>
-        <JFXDatePicker fx:id="datePickerID" editable="false" layoutX="263.0" layoutY="14.0" onAction="#DatePickerAction" promptText="Select Date" AnchorPane.leftAnchor="263.0" AnchorPane.topAnchor="14.0" />
-      <JFXButton fx:id="previousDayButtionID" buttonType="RAISED" layoutX="252.0" layoutY="54.0" onAction="#prevDayButtonAction" text="Previous Day" />
-      <JFXButton fx:id="nextDayButtonID" layoutX="384.0" layoutY="54.0" onAction="#nextDayButtonAction" text="Next Day" />
+        <JFXDatePicker fx:id="datePickerID" editable="false" layoutX="263.0" layoutY="14.0" onAction="#DatePickerAction" promptText="Select Date" AnchorPane.leftAnchor="263.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="14.0" />
+      <JFXButton fx:id="previousDayButtionID" buttonType="RAISED" layoutX="252.0" layoutY="54.0" onAction="#prevDayButtonAction" text="Previous Day" AnchorPane.leftAnchor="252.0" AnchorPane.topAnchor="54.0" />
+      <JFXButton fx:id="nextDayButtonID" layoutX="384.0" layoutY="54.0" onAction="#nextDayButtonAction" text="Next Day" AnchorPane.leftAnchor="384.0" AnchorPane.topAnchor="54.0" />
     </children>
 </AnchorPane>
