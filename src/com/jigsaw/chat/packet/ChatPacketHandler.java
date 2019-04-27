@@ -11,8 +11,11 @@ public class ChatPacketHandler {
         return (new MessagePacket(clientUserName, message));
     }
 
-    public static Packet createFilePacket(String clientUserName, File file){
+    public static Packet createFilePacket(String clientUserName, File file) throws Exception{
         return (new FilePacket(clientUserName, file));
+    }
+    public static Packet createFileReqeustPacket(String clientUsername, String fileName){
+        return (new FileRequestPacket(clientUsername, fileName));
     }
 
     public static String extractPacket(Packet packet) {
@@ -20,12 +23,19 @@ public class ChatPacketHandler {
             MessagePacket messagePacket = (MessagePacket) packet;
             return messagePacket.toString();
         }
-        else if (packet instanceof FilePacket) {
-            FilePacket filePacket = (FilePacket) packet;
-            return "Test";
+        else if (packet instanceof FileRequestPacket) {
+            FileRequestPacket fileRequestPacket = (FileRequestPacket) packet;
+            return fileRequestPacket.toString();
         }
         else{
             throw new IllegalArgumentException("Illegal packet");
+        }
+    }
+
+    public static void extractFilePacket(File file, Packet packet) throws Exception{
+        if(packet instanceof FilePacket){
+            FilePacket filePacket = (FilePacket) packet;
+            filePacket.toFile(file);
         }
     }
 }

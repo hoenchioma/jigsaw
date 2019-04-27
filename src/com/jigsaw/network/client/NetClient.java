@@ -1,10 +1,12 @@
 package com.jigsaw.network.client;
 
-import com.jigsaw.accounts.*;
+import com.jigsaw.accounts.Profile;
 import com.jigsaw.calendar.sync.ClientTaskSyncHandler;
 import com.jigsaw.calendar.sync.TaskPacket;
 import com.jigsaw.chat.ClientMessageHandler;
 import com.jigsaw.chat.packet.MessagePacket;
+import com.jigsaw.chat.packet.FilePacket;
+import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.network.Packet;
 
 import java.io.*;
@@ -45,6 +47,7 @@ public class NetClient {
 
     // related handlers
     private ClientTaskSyncHandler clientTaskSyncHandler;
+
     private ClientMessageHandler clientMessageHandler;
 
     private ClientAccountSyncHandler clientAccountSyncHandler;
@@ -54,7 +57,6 @@ public class NetClient {
      * to be called when such a Packet is received
      */
     private Map<String, Consumer<Packet>> callbackList = new HashMap<>();
-
 
     // private constructor so it can't be instantiated
 
@@ -152,8 +154,6 @@ public class NetClient {
                 }
             }
         }
-
-
     }
     private void initialize() {
         new PacketListener().start();
@@ -163,13 +163,17 @@ public class NetClient {
         // register message handler
         clientMessageHandler = new ClientMessageHandler();
         registerCallback(MessagePacket.class.getName(), clientMessageHandler::receiveMessage);
+        registerCallback(FilePacket.class.getName(), clientMessageHandler::receiveFile);
+        registerCallback(FileRequestPacket.class.getName(), clientMessageHandler::receiveFileName);
         // register account handler
         clientAccountSyncHandler = new ClientAccountSyncHandler();
         registerCallback(AccountPacket.class.getName(), clientAccountSyncHandler::receivePacket);
     }
+
     public void registerCallback(String packetClassName, Consumer<Packet> callbackFunction) {
         callbackList.put(packetClassName, callbackFunction);
     }
+
     public ClientTaskSyncHandler getClientTaskSyncHandler() {
         if (clientTaskSyncHandler == null) {
             throw new IllegalStateException("Task Sync Handler not instantiated yet");
