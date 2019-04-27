@@ -82,6 +82,7 @@ public class CreateProjectViewController implements Initializable {
 
                 System.out.println(projectIDText);
                 showMessage("Project ID : "+ projectIDText);
+                NetClient.getInstance().createdProjectID = projectIDText;
 
             } catch (Exception createProjectException) {
                 createProjectException.printStackTrace();

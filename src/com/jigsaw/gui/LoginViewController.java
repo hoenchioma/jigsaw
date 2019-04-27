@@ -33,8 +33,12 @@ public class LoginViewController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
-            popBox.setVisible(false);
-
+        popBox.setVisible(false);
+        serverAddress.setText(NetClient.DEFAULT_SERVER_ADDR);
+        portAddress.setText(NetClient.DEFAULT_SERVER_PORT + "");
+        if (NetClient.getInstance().createdProjectID != null) {
+            projectID.setText(NetClient.getInstance().createdProjectID);
+        }
     }
 
     //To Check whether the popBox is open or not;
@@ -63,16 +67,16 @@ public class LoginViewController implements Initializable {
     @FXML
     void popUpButtonAction(ActionEvent event) {
 
-        if (popBox.isVisible() == false) popBox.setVisible(true);
-        else if (popBox.isVisible() == true) {
+        if (!popBox.isVisible()) popBox.setVisible(true);
+        else {
+            popBox.isVisible();
             popBox.setVisible(false);
 
-
             String server = serverAddress.getText();
-            String port = portAddress.getText();
+            int port = Integer.parseInt(portAddress.getText());
 
-            //TODO Server Address and  port Address implementation
-
+            NetClient.getInstance().setCurrentServerAddress(server);
+            NetClient.getInstance().setCurrentServerPort(port);
         }
     }
     @FXML
@@ -94,7 +98,6 @@ public class LoginViewController implements Initializable {
         System.out.println(response);
         if (response.equals("success")) {
             // change to next scene on login
-            // FIXME: set scene to dashboard (project view) here
             changeToNextScene(ProjectViewController.getRoot());
         }
         else

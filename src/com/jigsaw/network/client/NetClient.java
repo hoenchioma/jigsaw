@@ -61,7 +61,12 @@ public class NetClient {
     private ClientMessageHandler clientMessageHandler;
     private ClientAccountSyncHandler clientAccountSyncHandler;
 
+    private String currentServerAddress = DEFAULT_SERVER_ADDR;
+    private int currentServerPort = DEFAULT_SERVER_PORT;
+
     private volatile boolean isLoggedOut = true;
+
+    public volatile String createdProjectID = null;
 
     /**
      * A map from a Packet class name (String) to a functor
@@ -69,9 +74,10 @@ public class NetClient {
      */
     private Map<String, Consumer<Packet>> callbackList = new HashMap<>();
 
-    // private constructor so it can't be instantiated
 
+    // private constructor so it can't be instantiated
     private NetClient() {}
+
     synchronized public void connect(String address, int port)
             throws IOException {
         if (socket != null && socket.isConnected()) socket.close();
@@ -82,9 +88,8 @@ public class NetClient {
         out = new ObjectOutputStream(socket.getOutputStream());
         in = new ObjectInputStream(socket.getInputStream());
     }
-
     synchronized public void connect() throws IOException {
-        connect(DEFAULT_SERVER_ADDR, DEFAULT_SERVER_PORT);
+        connect(currentServerAddress, currentServerPort);
     }
 
     /**
@@ -182,6 +187,7 @@ public class NetClient {
             }
             log("successfully logged out");
         }
+
     }
     private void initialize() {
         new PacketListener().start();
@@ -197,7 +203,6 @@ public class NetClient {
         clientAccountSyncHandler = new ClientAccountSyncHandler();
         registerCallback(AccountPacket.class.getName(), clientAccountSyncHandler::receivePacket);
     }
-
     public void registerCallback(String packetClassName, Consumer<Packet> callbackFunction) {
         callbackList.put(packetClassName, callbackFunction);
     }
@@ -221,6 +226,22 @@ public class NetClient {
             throw new IllegalStateException("Account Handler not instantiated yet");
         }
         return clientAccountSyncHandler;
+    }
+
+    public String getCurrentServerAddress() {
+        return currentServerAddress;
+    }
+
+    public void setCurrentServerAddress(String currentServerAddress) {
+        this.currentServerAddress = currentServerAddress;
+    }
+
+    public int getCurrentServerPort() {
+        return currentServerPort;
+    }
+
+    public void setCurrentServerPort(int currentServerPort) {
+        this.currentServerPort = currentServerPort;
     }
 
     private void log(String str) {
