@@ -43,7 +43,6 @@ public class LoginViewController implements Initializable {
 
     //To Check whether the popBox is open or not;
 
-
     @FXML
     private VBox popBox;
 

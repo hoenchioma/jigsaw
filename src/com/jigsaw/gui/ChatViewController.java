@@ -2,6 +2,7 @@ package com.jigsaw.gui;
 
 import com.jigsaw.chat.ClientMessageHandler;
 import com.jigsaw.chat.packet.ChatPacketHandler;
+import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.chat.packet.MessagePacket;
 import com.jigsaw.network.Packet;
 import com.jigsaw.network.client.NetClient;
@@ -52,6 +53,9 @@ public class ChatViewController {
         clientMessageHandler.setController(this);
         for (MessagePacket messages: clientMessageHandler.getMessageList()) {
             textAppend(ChatPacketHandler.extractPacket(messages));
+        }
+        for (FileRequestPacket files: clientMessageHandler.getFileList()) {
+            fileAppend(ChatPacketHandler.extractPacket(files));
         }
     }
 
