@@ -1,10 +1,11 @@
 package com.jigsaw.calendar;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 enum Progress { willdo, doing, done };
 
-public class Task {
+public class Task implements Serializable {
     private static final int DEFAULT_PRIORITY = 1;
 
     private String name;

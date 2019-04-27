@@ -11,8 +11,8 @@ public class ProjectTask extends Task {
     transient private Project project;
 
     private ArrayList<String> assigneeIDs;
-
     transient private ArrayList<User> assignees;
+
     public ProjectTask(String name, LocalDateTime deadline, String creatorUsername, String projectID, ArrayList<String> assigneeIDs) {
         super(name, deadline, creatorUsername);
         this.projectID = projectID;

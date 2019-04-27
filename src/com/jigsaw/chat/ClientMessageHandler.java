@@ -77,7 +77,9 @@ public class ClientMessageHandler {
     synchronized public void receiveFileName(Packet receivedPacket){
         String tempFileName = ChatPacketHandler.extractPacket(receivedPacket);
         fileList.add((FileRequestPacket) receivedPacket);
-        Platform.runLater(() -> this.controller.fileAppend(tempFileName));
+        if (controller != null) {
+            Platform.runLater(() -> this.controller.fileAppend(tempFileName));
+        }
     }
     //method to receive file and save to directory
 
