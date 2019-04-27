@@ -8,26 +8,15 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.ProjectViewController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.ProjectViewController">
     <left>
-        <AnchorPane prefHeight="438.0" prefWidth="230.0" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="359.0" prefWidth="230.0" BorderPane.alignment="CENTER">
             <children>
-                <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="230.0" style="-fx-background-color: #1d2026;">
+                <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="230.0" style="-fx-background-color: #1d2026;">
                     <children>
-                        <Pane layoutX="-2.0" prefHeight="58.0" prefWidth="227.0">
-                            <children>
-                                <Label layoutX="81.0" layoutY="14.0" text="Project" textFill="#dddddd">
-                                    <font>
-                                        <Font size="20.0" />
-                                    </font>
-                                </Label>
-                                <Separator layoutX="19.0" layoutY="56.0" prefHeight="3.0" prefWidth="200.0" />
-                            </children>
-                        </Pane>
-                        <JFXButton fx:id="dayViewButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="170.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#dayViewButtonAction" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #1d2026;" text="Day View" textFill="WHITE">
+                        <JFXButton fx:id="dayViewButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="239.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#dayViewButtonAction" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #1d2026;" text="Day View" textFill="WHITE">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -39,7 +28,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="teamMemberButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="270.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #1d2026;" text="Team Members" textFill="WHITE">
+                        <JFXButton fx:id="teamMemberButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="339.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #1d2026;" text="Team Members" textFill="WHITE">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -51,7 +40,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="groupChatButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="320.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#groupChatButtonAction" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #1d2026;" text="GroupChat" textFill="WHITE">
+                        <JFXButton fx:id="groupChatButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="389.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#groupChatButtonAction" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #1d2026;" text="GroupChat" textFill="WHITE">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -66,7 +55,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="calendarButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="70.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#slideDownButton" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Calendar View" textAlignment="CENTER" textFill="#fafafa">
+                        <JFXButton fx:id="calendarButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="139.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#slideDownButton" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Calendar View" textAlignment="CENTER" textFill="#fafafa">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -78,7 +67,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="addTaskButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="220.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#addTaskButtonAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Add Task" textFill="#fafafa">
+                        <JFXButton fx:id="addTaskButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="289.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#addTaskButtonAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Add Task" textFill="#fafafa">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -90,7 +79,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="kanBanButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="120.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#kanBanAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Kanban View" textFill="#fafafa">
+                        <JFXButton fx:id="kanBanButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="189.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#kanBanAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #1d2026;" text="Kanban View" textFill="#fafafa">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -102,12 +91,45 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
+                  <Separator layoutX="15.0" layoutY="124.0" prefHeight="3.0" prefWidth="200.0" />
+                  <Label fx:id="userNameLabel" layoutX="16.0" layoutY="14.0" prefWidth="132.0" text="Welcome," textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="15.0" layoutY="56.0" prefHeight="3.0" prefWidth="200.0" />
+                  <Label fx:id="projectNameLabel" layoutX="16.0" layoutY="70.0" prefWidth="132.0" text="Project :" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="projectIDLabel" layoutX="16.0" layoutY="102.0" prefWidth="132.0" text="ID :" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <JFXButton ellipsisString="" layoutX="161.0" layoutY="486.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="41.0" prefHeight="40.0" prefWidth="41.0" style="-fx-background-color: #1d2026;" text=" " textFill="#f0f0f0" />
+                  <JFXButton fx:id="logOutButton" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutY="486.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#logOutButtonAction" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #1d2026;" text="Logout" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@LogoutButton.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
                     </children>
                 </AnchorPane>
             </children>
         </AnchorPane>
     </left>
     <center>
-        <AnchorPane fx:id="testPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+        <AnchorPane fx:id="testPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="609.0" BorderPane.alignment="CENTER" />
     </center>
 </BorderPane>
