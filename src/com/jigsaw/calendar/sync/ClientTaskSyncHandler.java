@@ -41,6 +41,7 @@ public class ClientTaskSyncHandler {
         else if (receivedTaskPacket.command.equals("update task")) {
             updateTaskLocal(receivedTaskPacket.task);
         }
+        System.out.println(taskManager.getProjectTasks());
     }
 
     private void addTaskLocal(ProjectTask task) {
@@ -55,30 +56,51 @@ public class ClientTaskSyncHandler {
         taskManager.updateTask(task);
     }
 
-    public void addTask(ProjectTask task) throws IOException {
+    public void addTask(ProjectTask task) {
         TaskPacket packet = new TaskPacket();
         packet.task = task;
         packet.command = "add task";
-        NetClient.getInstance().sendPacket(packet);
+        try {
+            NetClient.getInstance().sendPacket(packet);
+        } catch (IOException e) {
+            e.printStackTrace();
+            log("unable to send add task packet");
+        }
     }
 
-    public void removeTask(ProjectTask task) throws IOException {
+    public void removeTask(ProjectTask task) {
         TaskPacket packet = new TaskPacket();
         packet.task = task;
         packet.command = "remove task";
-        NetClient.getInstance().sendPacket(packet);
+        try {
+            NetClient.getInstance().sendPacket(packet);
+        } catch (IOException e) {
+            e.printStackTrace();
+            log("unable to send remove task packet");
+        }
     }
 
-    public void updateTask(ProjectTask task) throws IOException {
+    public void updateTask(ProjectTask task) {
         TaskPacket packet = new TaskPacket();
         packet.task = task;
         packet.command = "update task";
-        NetClient.getInstance().sendPacket(packet);
+        try {
+            NetClient.getInstance().sendPacket(packet);
+        } catch (IOException e) {
+            e.printStackTrace();
+            log("unable to send update task packet");
+        }
     }
 
-    public TaskManager getTaskManager() throws InterruptedException {
+    public TaskManager getTaskManager() {
         synchronized (monitor) {
-            while (taskManager == null) monitor.wait();
+            while (taskManager == null) {
+                try {
+                    monitor.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             return taskManager;
         }
     }

@@ -2,11 +2,13 @@ package com.jigsaw.calendar;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-enum Progress { willdo, doing, done };
+import java.util.Objects;
+import java.util.UUID;
 
 public class Task implements Serializable {
     private static final int DEFAULT_PRIORITY = 1;
+
+    private String id = UUID.randomUUID().toString();
 
     private String name;
     private String details = "";
@@ -96,5 +98,18 @@ public class Task implements Serializable {
 
     public void setProgressPercentage(int progressPercentage) {
         this.progressPercentage = progressPercentage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id.equals(task.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

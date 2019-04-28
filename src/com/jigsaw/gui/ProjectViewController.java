@@ -82,7 +82,7 @@ public class ProjectViewController implements Initializable {
     }
     @FXML
     void  kanBanAction(){
-        loadUI("calendar/KanBanView.fxml");
+        loadUI("calendar/KanbanView.fxml");
     }
 
     @FXML

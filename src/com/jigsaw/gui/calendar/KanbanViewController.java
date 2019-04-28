@@ -2,8 +2,14 @@ package com.jigsaw.gui.calendar;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+import com.jigsaw.accounts.Project;
 import com.jigsaw.calendar.PriorityComparator;
+import com.jigsaw.calendar.Progress;
 import com.jigsaw.calendar.ProjectTask;
+import com.jigsaw.calendar.TaskManager;
+import com.jigsaw.calendar.sync.ClientTaskSyncHandler;
+import com.jigsaw.network.client.NetClient;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,33 +41,30 @@ public class KanbanViewController implements Initializable {
     private ObservableList<ProjectTask> doingList = FXCollections.observableArrayList();
     private ObservableList<ProjectTask> doneList = FXCollections.observableArrayList();
 
-    static final int LIST_HEIGHT = 400;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ClientTaskSyncHandler clientTaskSyncHandler = NetClient.getInstance().getClientTaskSyncHandler();
+        resetItems();
+
         willDoListView.setItems(willDoList);
         doingListView.setItems(doingList);
         doneListView.setItems(doneList);
 
-        willDoListView.setPrefHeight(LIST_HEIGHT);
-        doingListView.setPrefHeight(LIST_HEIGHT);
-        doneListView.setPrefHeight(LIST_HEIGHT);
+//        willDoList.addAll(
+//                new ProjectTask("Task 1", LocalDateTime.of(2099, 12, 12, 6, 6),
+//                        "Raheeb", "R56", new ArrayList<>()),
+//                new ProjectTask("Task 2", LocalDateTime.of(2099, 12, 12, 6, 6),
+//                        "Farhan", "R56", new ArrayList<>()),
+//                new ProjectTask("Task 3", LocalDateTime.of(2099, 12, 12, 6, 6),
+//                        "Samin", "R56", new ArrayList<>()),
+//                new ProjectTask("Task 4", LocalDateTime.of(2099, 12, 12, 6, 6),
+//                        "Shamim", "R56", new ArrayList<>())
+//        );
+//
+//        willDoList.get(3).setPriority(3);
+//        willDoList.get(0).setPriority(2);
 
-        willDoList.addAll(
-                new ProjectTask("Task 1", LocalDateTime.of(2099, 12, 12, 6, 6),
-                        "Raheeb", "R56", new ArrayList<>()),
-                new ProjectTask("Task 2", LocalDateTime.of(2099, 12, 12, 6, 6),
-                        "Farhan", "R56", new ArrayList<>()),
-                new ProjectTask("Task 3", LocalDateTime.of(2099, 12, 12, 6, 6),
-                        "Samin", "R56", new ArrayList<>()),
-                new ProjectTask("Task 4", LocalDateTime.of(2099, 12, 12, 6, 6),
-                        "Shamim", "R56", new ArrayList<>())
-        );
-
-        willDoList.get(3).setPriority(3);
-        willDoList.get(0).setPriority(2);
-
-        FXCollections.sort(willDoList, new PriorityComparator());
+//        FXCollections.sort(willDoList, new PriorityComparator());
 
         willDoListView.setCellFactory(new Callback<>() {
             @Override
@@ -80,7 +83,9 @@ public class KanbanViewController implements Initializable {
 
                             forwardButton.setOnAction((ActionEvent)->{
                                 willDoList.remove(item);
+                                item.setProgress(Progress.doing);
                                 doingList.add(item);
+                                clientTaskSyncHandler.updateTask(item);
                                 // sort the list added to
                                 FXCollections.sort(doingList, new PriorityComparator());
                             });
@@ -121,7 +126,9 @@ public class KanbanViewController implements Initializable {
 
                             prevButton.setOnAction((ActionEvent)->{
                                 doingList.remove(item);
+                                item.setProgress(Progress.willdo);
                                 willDoList.add(item);
+                                clientTaskSyncHandler.updateTask(item);
                                 // sort the list added to
                                 FXCollections.sort(willDoList, new PriorityComparator());
                             });
@@ -130,7 +137,9 @@ public class KanbanViewController implements Initializable {
 
                             forwardButton.setOnAction((ActionEvent)->{
                                 doingList.remove(item);
+                                item.setProgress(Progress.done);
                                 doneList.add(item);
+                                clientTaskSyncHandler.updateTask(item);
                                 // sort the list added to
                                 FXCollections.sort(doneList, new PriorityComparator());
                             });
@@ -174,7 +183,9 @@ public class KanbanViewController implements Initializable {
 
                             prevButton.setOnAction((ActionEvent)->{
                                 doneList.remove(item);
+                                item.setProgress(Progress.doing);
                                 doingList.add(item);
+                                clientTaskSyncHandler.updateTask(item);
                                 // sort the list added to
                                 FXCollections.sort(doingList, new PriorityComparator());
                             });
@@ -198,6 +209,33 @@ public class KanbanViewController implements Initializable {
             }
         });
 
+    }
+
+    private void resetItems() {
+        ClientTaskSyncHandler clientTaskSyncHandler = NetClient.getInstance().getClientTaskSyncHandler();
+        ArrayList<ProjectTask> projectTasks = clientTaskSyncHandler.getTaskManager().getProjectTasks();
+
+        willDoList.clear();
+        doingList.clear();
+        doneList.clear();
+
+        for (ProjectTask task: projectTasks) {
+            switch (task.getProgress()) {
+                case willdo:
+                    willDoList.add(task);
+                    break;
+                case doing:
+                    doingList.add(task);
+                    break;
+                case done:
+                    doneList.add(task);
+                    break;
+            }
+        }
+
+        FXCollections.sort(willDoList, new PriorityComparator());
+        FXCollections.sort(doingList, new PriorityComparator());
+        FXCollections.sort(doneList, new PriorityComparator());
     }
 
     public static Pane getRoot() throws IOException {
