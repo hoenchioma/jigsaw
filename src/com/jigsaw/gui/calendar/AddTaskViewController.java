@@ -71,7 +71,7 @@ public class AddTaskViewController implements Initializable {
             ProjectTask newProjectTask = new ProjectTask(taskNameID.getText(), LocalDateTime.of(deadLineDatePickerID.getValue(), LocalTime.now()), creatorNameID.getText(),projectID, assignees );
             clientTaskSyncHandler.addTask(newProjectTask);
             System.out.println(clientTaskSyncHandler.getTaskManager().getProjectTasks().size());
-            System.out.println("fictional task created");
+            System.out.println(assignees.size());
         }
     }
 

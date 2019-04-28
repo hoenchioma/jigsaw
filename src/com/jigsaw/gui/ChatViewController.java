@@ -2,6 +2,7 @@ package com.jigsaw.gui;
 
 import com.jigsaw.chat.ClientMessageHandler;
 import com.jigsaw.chat.packet.ChatPacketHandler;
+import com.jigsaw.chat.packet.FilePacket;
 import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.chat.packet.MessagePacket;
 import com.jigsaw.network.Packet;
@@ -113,7 +114,9 @@ public class ChatViewController {
 
     @FXML
     public void saveFile (Packet receivedPacket) throws Exception{
+        FilePacket filePacket = (FilePacket) receivedPacket;
         FileChooser fc = new FileChooser();
+        fc.setInitialFileName(filePacket.getFileName());
         File file = fc.showSaveDialog(null);
         if(file != null){
             ClientMessageHandler.saveFile(file, receivedPacket);
