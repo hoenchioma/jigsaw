@@ -6,14 +6,20 @@ import javafx.collections.ObservableList;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * A container class that holds the list of Project tasks
+ *
+ * @author Raheeb Hassan
+ */
 public class TaskManager implements Serializable {
     private ArrayList<ProjectTask> projectTasks;
 
-    transient private ObservableList<ProjectTask> willDoList = FXCollections.observableArrayList();
-    transient private ObservableList<ProjectTask> doingList = FXCollections.observableArrayList();
-    transient private ObservableList<ProjectTask> doneList = FXCollections.observableArrayList();
+    transient private ObservableList<ProjectTask> willDoList;
+    transient private ObservableList<ProjectTask> doingList;
+    transient private ObservableList<ProjectTask> doneList;
 
     public TaskManager(){
         projectTasks = new ArrayList<>();
@@ -21,6 +27,9 @@ public class TaskManager implements Serializable {
     }
 
     public void initialize() {
+        willDoList = FXCollections.observableArrayList();
+        doingList = FXCollections.observableArrayList();
+        doneList = FXCollections.observableArrayList();
         for (ProjectTask task: projectTasks) {
             if (task.getProgress() == Progress.willdo) {
                 willDoList.add(task);
@@ -42,10 +51,11 @@ public class TaskManager implements Serializable {
 
     public void addTask(ProjectTask projectTask){
         this.projectTasks.add(projectTask);
+        System.out.println(projectTask);
         if (projectTask.getProgress() == Progress.willdo) {
             willDoList.add(projectTask);
         } else if (projectTask.getProgress() == Progress.doing) {
-            doneList.add(projectTask);
+            doingList.add(projectTask);
         } else {
             doneList.add(projectTask);
         }
@@ -68,4 +78,10 @@ public class TaskManager implements Serializable {
         in.defaultReadObject();
         initialize();
     }
+
+//    public static void main(String[] args) {
+//        ProjectTask projectTask = new ProjectTask("yolo", LocalDateTime.now(), "bolo", "jigsaw", new ArrayList<>());
+//        TaskManager taskManager = new TaskManager();
+//        taskManager.addTask(projectTask);
+//    }
 }

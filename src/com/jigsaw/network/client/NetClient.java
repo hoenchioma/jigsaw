@@ -1,7 +1,7 @@
 package com.jigsaw.network.client;
 
-import com.jigsaw.accounts.AccountPacket;
-import com.jigsaw.accounts.ClientAccountSyncHandler;
+import com.jigsaw.accounts.sync.AccountPacket;
+import com.jigsaw.accounts.sync.ClientAccountSyncHandler;
 import com.jigsaw.accounts.Profile;
 import com.jigsaw.calendar.sync.ClientTaskSyncHandler;
 import com.jigsaw.calendar.sync.TaskPacket;
@@ -14,7 +14,6 @@ import com.jigsaw.network.server.SystemPacket;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;

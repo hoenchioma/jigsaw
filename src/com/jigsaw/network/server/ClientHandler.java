@@ -1,6 +1,8 @@
 package com.jigsaw.network.server;
 
 import com.jigsaw.accounts.*;
+import com.jigsaw.accounts.sync.AccountPacket;
+import com.jigsaw.accounts.sync.ServerAccountSyncHandler;
 import com.jigsaw.calendar.sync.ServerTaskSyncHandler;
 import com.jigsaw.calendar.sync.TaskPacket;
 import com.jigsaw.chat.ServerMessageHandler;
@@ -74,18 +76,19 @@ public class ClientHandler implements Runnable {
     public void run() {
         while (!isLoggedOut) {
             try {
-                Packet receivedPacket = (Packet) in.readObject();
+                Object obj = in.readObject();
+                assert obj != null: "received packet is null";
+                Packet receivedPacket = (Packet) obj;
                 // when a packet is received pass in on to a registered handler
                 callbackList.get(receivedPacket.getClass().getName()).accept(receivedPacket);
-            } catch (NullPointerException e) {
-                log("Invalid or corrupted packet received");
             } catch (EOFException e) {
 //                e.printStackTrace();
                 log("Client disconnected");
                 // close connection and exit thread
                 server.getActiveConnections().remove(user.getUsername());
                 break;
-            } catch (ClassNotFoundException | IOException e) {
+            } catch (NullPointerException | ClassNotFoundException | IOException e) {
+//                log("Invalid or corrupted packet received");
                 e.printStackTrace();
             }
         }

@@ -30,6 +30,7 @@ public class ClientTaskSyncHandler {
             userDictionary = receivedTaskPacket.projectMemberInfo;
             // notify other threads that the task manager is now set
             synchronized (monitor) { monitor.notify(); }
+            log("initial task download finished");
         }
         else if (receivedTaskPacket.command.equals("add task")) {
             addTaskLocal(receivedTaskPacket.task);
@@ -47,7 +48,7 @@ public class ClientTaskSyncHandler {
     }
 
     private void removeTaskLocal(ProjectTask task) {
-        taskManager.addTask(task);
+        taskManager.removeTask(task);
     }
 
     private void updateTaskLocal(ProjectTask task) {
@@ -91,5 +92,9 @@ public class ClientTaskSyncHandler {
 
     public Map<String, User> getUserDictionary() {
         return userDictionary;
+    }
+
+    private void log(String str) {
+        System.out.println(this.getClass().getCanonicalName() + ": " + str);
     }
 }

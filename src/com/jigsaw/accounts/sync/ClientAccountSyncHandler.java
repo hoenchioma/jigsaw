@@ -1,8 +1,9 @@
-package com.jigsaw.accounts;
+package com.jigsaw.accounts.sync;
 
+import com.jigsaw.accounts.Project;
+import com.jigsaw.accounts.User;
 import com.jigsaw.network.Packet;
 import com.jigsaw.network.client.NetClient;
-import com.jigsaw.network.server.ClientHandler;
 
 import java.io.IOException;
 

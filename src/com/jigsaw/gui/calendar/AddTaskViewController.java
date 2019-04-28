@@ -57,7 +57,7 @@ public class AddTaskViewController implements Initializable {
         for(int i = 0; i < checkMenu.size(); i++){
             if(checkMenu.get(i).isSelected()){
                 assignees.add(checkMenu.get(i).getText());
-                System.out.println(assignees.get(assignees.size()-1));
+//                System.out.println(assignees.get(assignees.size()-1));
 
             }
         }

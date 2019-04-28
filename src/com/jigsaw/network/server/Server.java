@@ -25,7 +25,8 @@ public class Server {
 
     public Server(int port) {
         try {
-            log("Server started");
+            log("server started");
+            log("awaiting connections from clients ...");
 
             serverSocket = new ServerSocket(port);
             activeConnections = new HashMap<>();
@@ -34,7 +35,7 @@ public class Server {
             while (true) {
                 Socket socket = serverSocket.accept();
 
-                log("socket connect with address " + socket.getInetAddress().getHostAddress());
+                log("accepted connection with socket [" + socket.getInetAddress().getHostAddress() + "]");
 
                 // pass on to login handler to complete login process
                 new Thread(new ServerLoginHandler(socket, this)).start();
