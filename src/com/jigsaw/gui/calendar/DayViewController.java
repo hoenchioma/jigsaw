@@ -11,6 +11,7 @@ import java.time.LocalTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.jigsaw.accounts.User;
 import com.jigsaw.calendar.ProjectTask;
@@ -66,9 +67,12 @@ public class DayViewController {
     private void filter(ActionEvent event) {
     }
 
+
+
     void updateTable() throws InterruptedException {
         ArrayList<ProjectTask> taskList = NetClient.getInstance().getClientTaskSyncHandler().getTaskManager().getProjectTasks();
-        System.out.println(taskList.size());
+
+        //System.out.println(taskList.get);
 
 
         /*assigneesList.add("MemberList1");
@@ -93,7 +97,11 @@ public class DayViewController {
         ObservableList<TreeItem<CalendarEntry>> taskEntry = FXCollections.observableArrayList();
         for (int i = 0; i < taskList.size(); i++) {
             if (taskList.get(i).getDeadline().toLocalDate().equals(datePickerID.getValue())) {
-                ArrayList<User> assigneesList = taskList.get(i).getAssignees();
+                Map<String, User> userDictionary = NetClient.getInstance().getClientTaskSyncHandler().getUserDictionary();
+                ArrayList<User> assigneesList = new ArrayList<>();
+                for(String assigneeID : taskList.get(i).getAssigneeIDs()) {
+                    assigneesList.add(userDictionary.get(assigneeID));
+                }
                 String name = taskList.get(i).getName();
                 String des = taskList.get(i).getDetails();
                 StringBuilder memberName = new StringBuilder(assigneesList.get(0).getUsername());
@@ -174,6 +182,7 @@ public class DayViewController {
     public static void overWriteData(ProjectTask projectTask, TextField taskName, TextArea taskDescription, DatePicker datePicker, Stage window, ArrayList<CheckMenuItem> checkMenu){
         System.out.println("overwrite starts");
         Map<String, User> userDictionary = NetClient.getInstance().getClientTaskSyncHandler().getUserDictionary();
+
         ArrayList<User> userList = new ArrayList<>();
         for(CheckMenuItem checkMenuItem : checkMenu){
             if(checkMenuItem.isSelected()){

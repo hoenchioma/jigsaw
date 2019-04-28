@@ -34,4 +34,12 @@ public class ProjectTask extends Task {
     public void setAssignees(ArrayList<User> assignees) {
         this.assignees = assignees;
     }
+
+    public ArrayList<String> getAssigneeIDs() {
+        return assigneeIDs;
+    }
+
+    public void setAssigneeIDs(ArrayList<String> assigneeIDs) {
+        this.assigneeIDs = assigneeIDs;
+    }
 }
