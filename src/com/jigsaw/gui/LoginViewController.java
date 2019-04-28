@@ -97,11 +97,11 @@ public class LoginViewController implements Initializable {
         System.out.println(response);
         if (response.equals("success")) {
             // change to next scene on login
-            changeToNextScene(ProjectViewController.getRoot());
+            changeToNextScene(ProjectViewController.getRoot(),true);
         }
         else
         {
-            // TODO 3 different error messages
+
 
             showError(response);
         }
@@ -116,11 +116,12 @@ public class LoginViewController implements Initializable {
         window.show();
     }
 
-    public void changeToNextScene(Parent root) throws IOException {
+    public void changeToNextScene(Parent root,boolean resizability) throws IOException {
         Scene scene = new Scene(root);
         Stage window = (Stage) username.getScene().getWindow();
         window.setScene(scene);
         window.show();
+        window.setResizable(resizability);
     }
     public static Pane getRoot() throws IOException {
         Parent root = FXMLLoader.load(LoginViewController.class.getResource("LoginView.fxml"));
@@ -128,10 +129,10 @@ public class LoginViewController implements Initializable {
     }
 
     // a method to show erro message
-    public void showError(String erroMessage){
+    public void showError(String errorMessage){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
-        alert.setContentText(erroMessage);
+        alert.setContentText(errorMessage);
         alert.setTitle("JIGSAW");
         alert.show();
     }

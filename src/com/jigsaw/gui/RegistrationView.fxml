@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="599.0" style="-fx-background-color: #2a0033;" stylesheets="@Scroll%20Pane.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.RegistrationController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="599.0" style="-fx-background-color: #2a0033;" stylesheets="@ScrollPaneStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.RegistrationController">
    <content>
       <AnchorPane prefHeight="707.0" prefWidth="590.0" style="-fx-background-color: #2a0033;">
          <children>
@@ -95,8 +95,8 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <Separator layoutX="176.0" layoutY="75.0" opacity="0.28" prefHeight="0.0" prefWidth="246.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="190.6" AnchorPane.topAnchor="75.0" />
-            <Label alignment="CENTER" layoutX="236.0" layoutY="27.0" prefHeight="31.0" prefWidth="125.0" text="Registration" textAlignment="JUSTIFY" textFill="#9c9c9c" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="229.0" AnchorPane.topAnchor="27.0">
+            <Separator layoutX="176.0" layoutY="75.0" opacity="0.28" prefHeight="0.0" prefWidth="246.0" />
+            <Label alignment="CENTER" layoutX="236.0" layoutY="27.0" prefHeight="31.0" prefWidth="125.0" text="Registration" textAlignment="JUSTIFY" textFill="#9c9c9c">
                <font>
                   <Font size="21.0" />
                </font>
@@ -151,7 +151,7 @@
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </TextField>
-            <JFXDatePicker fx:id="birthDay" defaultColor="#9643a9" editable="false" layoutX="234.0" layoutY="413.0" stylesheets="@Style.css" AnchorPane.leftAnchor="233.99999999999997" AnchorPane.rightAnchor="181.99999999999997" />
+            <JFXDatePicker fx:id="birthDay" defaultColor="#9643a9" editable="false" layoutX="234.0" layoutY="411.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@Style.css" />
             <JFXButton buttonType="RAISED" ellipsisString="" layoutX="14.0" layoutY="14.0" onAction="#backButtonAction" prefHeight="31.0" prefWidth="35.0" ripplerFill="#c888d7" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
