@@ -1,15 +1,6 @@
-/**
- * CreateProjectView Controller to create a project
- *
- * @version %I% %G%
- * @author Shadman Wadith
- */
-
 package com.jigsaw.gui;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
-import com.jigsaw.accounts.Project;
 import com.jigsaw.network.client.NetClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,38 +18,38 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+/**
+ * CreateProjectView Controller to create a project
+ *
+ * @author Shadman Wadith
+ * @version %I% %G%
+ */
+
 public class CreateProjectViewController implements Initializable {
-
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1){
-
-    }
-
-
 
     @FXML
     private DatePicker projectDueDate;
-
     @FXML
     private TextField projectName;
-
-
-
     @FXML
     private JFXTextArea projectDescription;
 
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+
+    }
+
     @FXML
     void backButtonAction(ActionEvent event) {
-        try{
-            changeScene("LoginView.fxml",event);
-        }
-        catch (Exception sceneChangeException){
+        try {
+            changeScene("LoginView.fxml", event);
+        } catch (Exception sceneChangeException) {
             sceneChangeException.printStackTrace();
         }
     }
 
-    /**it creates an instance of a project it generates a random projectID string from the server and pass to it and then changes the scene to Login screen
-     *
+    /**
+     * it creates an instance of a project it generates a random projectID string from the server and pass to it and then changes the scene to Login screen
      *
      * @param event
      */
@@ -66,11 +57,9 @@ public class CreateProjectViewController implements Initializable {
     public void createButtonAction(ActionEvent event) {
 
 
-
         if (projectName.getText().equals("") || projectDueDate.getValue() == null) {
             System.out.println("Give all Info");
-        }
-        else {
+        } else {
             try {
                 String projectNameText = projectName.getText();
                 String projectDescriptionText = projectDescription.getText();
@@ -83,7 +72,7 @@ public class CreateProjectViewController implements Initializable {
                 );
 
                 System.out.println(projectIDText);
-                showMessage("Project ID : "+ projectIDText);
+                showMessage("Project ID : " + projectIDText);
                 NetClient.getInstance().createdProjectID = projectIDText;
 
             } catch (Exception createProjectException) {
@@ -101,14 +90,15 @@ public class CreateProjectViewController implements Initializable {
         }
     }
 
-    public void changeScene(String  location, ActionEvent event) throws IOException {
+    public void changeScene(String location, ActionEvent event) throws IOException {
         Parent sceneView = FXMLLoader.load(getClass().getResource(location));
         Scene scene = new Scene(sceneView);
         Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
     }
-    public void showMessage(String Message){
+
+    public void showMessage(String Message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Project Created");
         alert.setContentText(Message);

@@ -1,9 +1,3 @@
-/**
- * Project Class
- * Holds the information of the project name id and members
- *
- * @author Shadman Wadith
- */
 package com.jigsaw.accounts;
 
 import com.jigsaw.calendar.ProjectTask;
@@ -13,6 +7,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Project Class
+ * Holds the information of the project name id and members
+ *
+ * @author Shadman Wadith
+ */
 public class Project implements Serializable {
     private String id;
     private String name;
@@ -26,7 +26,7 @@ public class Project implements Serializable {
     private TaskManager taskManager = new TaskManager();
 
     public Project() {
-        this.projectCreateDate=LocalDate.now();
+        this.projectCreateDate = LocalDate.now();
     }
 
     public Project(String id, String name, String description, LocalDate projectDueDate) {
@@ -55,10 +55,6 @@ public class Project implements Serializable {
         this.projectDueDate = projectDueDate;
     }
 
-    public void setMembers(ArrayList<String> members) {
-        this.members = members;
-    }
-
     public String getId() {
         return id;
     }
@@ -77,6 +73,10 @@ public class Project implements Serializable {
 
     public ArrayList<String> getMembers() {
         return members;
+    }
+
+    public void setMembers(ArrayList<String> members) {
+        this.members = members;
     }
 
     public void addMemberIfAbsent(User user) {

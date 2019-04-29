@@ -1,10 +1,3 @@
-/**
- * ProjectViewController Class
- * It controls the projectVIew
- *
- * @version %I% %G%
- * @author Shadman Wadith
- */
 package com.jigsaw.gui;
 
 import com.jfoenix.controls.JFXButton;
@@ -24,6 +17,14 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+/**
+ * ProjectViewController Class
+ * It controls the projectVIew
+ *
+ * @author Shadman Wadith
+ * @version %I% %G%
+ */
 
 public class ProjectViewController implements Initializable {
 
@@ -108,6 +109,7 @@ public class ProjectViewController implements Initializable {
 
     /**
      * a method to slide down the underneath buttons and show the hidden buttons
+     *
      * @param event
      */
     @FXML
@@ -130,6 +132,7 @@ public class ProjectViewController implements Initializable {
 
     /**
      * loads the acnhor pane with the given fxml FILE
+     *
      * @param location
      */
     public void loadUI(String location) {
@@ -163,6 +166,7 @@ public class ProjectViewController implements Initializable {
 
     /**
      * a method to change tthe scene of the full window
+     *
      * @param location
      * @param event
      * @param resizability

@@ -1,17 +1,15 @@
-/**
- * User Class
- *
- * @version %I% %G%
- *
- * @author Shadman Wadith
- */
-
 package com.jigsaw.accounts;
 
 import javafx.util.Pair;
 
 import java.io.Serializable;
 
+/**
+ * User Class
+ *
+ * @author Shadman Wadith
+ * @version %I% %G%
+ */
 public class User implements Serializable {
     private String id;
     private String username;

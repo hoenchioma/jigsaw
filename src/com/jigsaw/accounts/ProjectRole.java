@@ -1,28 +1,28 @@
-/**
- * ProjectRole class
- *
- * @version %I% %G%
- *
- * @author Shadman Wadith
- */
-
-
-
 package com.jigsaw.accounts;
 
 import java.util.Map;
 
+/**
+ * ProjectRole class
+ *
+ * @author Shadman Wadith
+ * @version %I% %G%
+ */
+
+
 public class ProjectRole {
     private String name;
-    private Map<String,Boolean> permissions;
+    private Map<String, Boolean> permissions;
 
-    public void addRole(String name,Boolean hasPermission) {
-        permissions.put(name,true);
+    public void addRole(String name, Boolean hasPermission) {
+        permissions.put(name, true);
 
     }
+
     public void removeRole(String name) {
-        permissions.put(name,false);
+        permissions.put(name, false);
     }
+
     public String getName() {
         return name;
     }

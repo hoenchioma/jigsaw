@@ -1,16 +1,17 @@
-/**
- * Profile Class
- * This class is used for getting info of a user
- *
- * @version %I% %G%
- * @author Shadman Wadith
- */
-
 package com.jigsaw.accounts;
 
 
 import java.io.Serializable;
 import java.time.LocalDate;
+
+/**
+ * Profile Class
+ * This class is used for getting info of a user
+ *
+ * @author Shadman Wadith
+ * @version %I% %G%
+ */
+
 
 public class Profile implements Serializable {
     private String name;

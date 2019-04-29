@@ -1,9 +1,3 @@
-/**
- * RegistrationController for Controlling Registration View
- *
- * @version %I% %G%
- * @author Shadman Wadith
- */
 package com.jigsaw.gui;
 
 import com.jfoenix.controls.JFXButton;
@@ -23,7 +17,12 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-
+/**
+ * RegistrationController for Controlling Registration View
+ *
+ * @author Shadman Wadith
+ * @version %I% %G%
+ */
 public class RegistrationController implements Initializable {
 
     @FXML
