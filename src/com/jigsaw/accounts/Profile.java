@@ -1,8 +1,8 @@
-/*
- * Profile
+/**
+ * Profile Class
+ * This class is used for getting info of a user
  *
- * JAVA 11.0.2
- *
+ * @version %I% %G%
  * @author Shadman Wadith
  */
 
@@ -22,7 +22,8 @@ public class Profile implements Serializable {
     private String contactNumber;
     private LocalDate birthDate;
 
-    public Profile() {}
+    public Profile() {
+    }
 
     public Profile(String name, String email, String userID, String profession, String institute, String sex, String contactNumber, LocalDate birthDate) {
         this.name = name;

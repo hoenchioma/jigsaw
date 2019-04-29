@@ -1,3 +1,9 @@
+/**
+ * Project Class
+ * Holds the information of the project name id and members
+ *
+ * @author Shadman Wadith
+ */
 package com.jigsaw.accounts;
 
 import com.jigsaw.calendar.ProjectTask;

@@ -1,8 +1,8 @@
-/*
- * Profile
+/**
+ * LoginViewController class
+ * Handles LoginUI
  *
- * JAVA 11.0.2
- *
+ * @version %I% %G%
  * @author Shadman Wadith
  */
 package com.jigsaw.gui;
@@ -31,6 +31,11 @@ import java.util.ResourceBundle;
 
 public class LoginViewController implements Initializable {
 
+    /**
+     * sets the default server Address which is localhost and default port address 4444
+     * @param arg0
+     * @param arg1
+     */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
         popBox.setVisible(false);
@@ -40,8 +45,6 @@ public class LoginViewController implements Initializable {
             projectID.setText(NetClient.getInstance().createdProjectID);
         }
     }
-
-    //To Check whether the popBox is open or not;
 
     @FXML
     private VBox popBox;
@@ -62,7 +65,10 @@ public class LoginViewController implements Initializable {
     private JFXTextField portAddress;
 
 
-
+    /**
+     * pops a small pane which sets information of server and and port address
+     * @param event
+     */
     @FXML
     void popUpButtonAction(ActionEvent event) {
 
@@ -78,6 +84,12 @@ public class LoginViewController implements Initializable {
             NetClient.getInstance().setCurrentServerPort(port);
         }
     }
+
+    /**
+     * Loads signUp scree
+     * @param event
+     * @throws IOException
+     */
     @FXML
     public void signUpAction (ActionEvent event) throws IOException {
         Parent signupView = FXMLLoader.load(getClass().getResource("RegistrationView.fxml"));
@@ -86,6 +98,14 @@ public class LoginViewController implements Initializable {
         window.setScene(signupScene);
         window.show();
     }
+
+    /**
+     * checks the entered username,password and project id from the server and store the response given from server
+     *
+     * @param event
+     * @throws Exception
+     */
+
     @FXML
     public void loginAction(ActionEvent event) throws Exception {
         String usernameString = username.getText();
@@ -129,7 +149,7 @@ public class LoginViewController implements Initializable {
         return (Pane) root;
     }
 
-    // a method to show error message
+
     public void showError(String errorMessage){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);

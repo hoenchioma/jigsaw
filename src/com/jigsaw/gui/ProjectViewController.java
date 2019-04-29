@@ -1,8 +1,15 @@
+/**
+ * ProjectViewController Class
+ * It controls the projectVIew
+ *
+ * @version %I% %G%
+ * @author Shadman Wadith
+ */
 package com.jigsaw.gui;
 
 import com.jfoenix.controls.JFXButton;
-import com.jigsaw.gui.calendar.CalendarViewController;
 import com.jigsaw.network.client.NetClient;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,8 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-
-import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -24,10 +29,47 @@ public class ProjectViewController implements Initializable {
 
     // TODO: make the icon backgrounds transparent
 
+    private int slideFlag = 1;
+    @FXML
+    private JFXButton dayViewButton;
+    @FXML
+    private JFXButton kanBanButton;
+    @FXML
+    private JFXButton taskButton;
+    @FXML
+    private JFXButton teamMemberButton;
+    @FXML
+    private JFXButton groupChatButton;
+    @FXML
+    private JFXButton calendarButton;
+    @FXML
+    private AnchorPane testPane;
+    @FXML
+    private BorderPane borderPane;
+    @FXML
+    private JFXButton addTaskButton;
+    @FXML
+    private Label userNameLabel;
+    @FXML
+    private Label projectNameLabel;
+    @FXML
+    private Label projectIDLabel;
+    @FXML
+    private JFXButton logOutButton;
+    @FXML
+    private AnchorPane UIPane;
+
+    public static Pane getRoot() throws IOException {
+        Parent root = FXMLLoader.load(ProjectViewController.class.getResource("ProjectView.fxml"));
+        return (Pane) root;
+    }
+
     @Override
 
-    public void initialize(URL url , ResourceBundle resourceBundle)
-    {
+    /**
+     * Intitilizes the initial view of Project
+     */
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         userNameLabel.setText("Username : " + NetClient.getInstance().getClientAccountSyncHandler().getUser().getUsername());
         projectIDLabel.setText("Project ID : " + NetClient.getInstance().getClientAccountSyncHandler().getProject().getId());
         projectNameLabel.setText("Project Name : " + NetClient.getInstance().getClientAccountSyncHandler().getProject().getName());
@@ -35,148 +77,98 @@ public class ProjectViewController implements Initializable {
         dayViewButton.setVisible(false);
         addTaskButton.setVisible(false);
         //teamMemberButton.setLayoutY(teamMemberButton.getLayoutY()-150);
-        groupChatButton.setLayoutY(groupChatButton.getLayoutY()-150);
+        groupChatButton.setLayoutY(groupChatButton.getLayoutY() - 150);
         loadUI("ChatView.fxml");
     }
 
-    private int slideFlag=1;
     @FXML
-    private JFXButton dayViewButton;
-
-    @FXML
-    private JFXButton kanBanButton;
-
-    @FXML
-    private JFXButton taskButton;
-
-    @FXML
-    private JFXButton teamMemberButton;
-
-    @FXML
-    private JFXButton groupChatButton;
-
-    @FXML
-    private JFXButton calendarButton;
-
-    @FXML
-    private AnchorPane testPane;
-    @FXML
-    private BorderPane borderPane;
-
-    @FXML
-    private JFXButton addTaskButton;
-
-    @FXML
-    private Label userNameLabel;
-
-    @FXML
-    private Label projectNameLabel;
-
-    @FXML
-    private Label projectIDLabel;
-
-
-    @FXML
-    private JFXButton logOutButton;
-
-    @FXML
-    private AnchorPane UIPane;
-
-    @FXML
-    void addTaskButtonAction()
-    {
-         loadUI("calendar/AddTaskView.fxml");
+    void addTaskButtonAction() {
+        loadUI("calendar/AddTaskView.fxml");
     }
+
     @FXML
-    void  kanBanAction(){
+    void kanBanAction() {
         loadUI("calendar/KanbanView.fxml");
     }
 
     @FXML
-
-    void dayViewButtonAction()
-    {
-        loadUI("calendar/DayView.fxml");
-    }
-    @FXML
-    void calendarButtonAction()
-    {
+    void dayViewButtonAction() {
         loadUI("calendar/DayView.fxml");
     }
 
     @FXML
-    void groupChatButtonAction(){
+    void calendarButtonAction() {
+        loadUI("calendar/DayView.fxml");
+    }
+
+    @FXML
+    void groupChatButtonAction() {
         loadUI("ChatView.fxml");
     }
 
+    /**
+     * a method to slide down the underneath buttons and show the hidden buttons
+     * @param event
+     */
     @FXML
-    void slideDownButton(ActionEvent event)
-    {
-        if(event.getTarget()==calendarButton)
-        {
-           // teamMemberButton.setLayoutY(teamMemberButton.getLayoutY()+slideFlag*150);
-            groupChatButton.setLayoutY(groupChatButton.getLayoutY()+slideFlag*150);
+    void slideDownButton(ActionEvent event) {
+        if (event.getTarget() == calendarButton) {
+            // teamMemberButton.setLayoutY(teamMemberButton.getLayoutY()+slideFlag*150);
+            groupChatButton.setLayoutY(groupChatButton.getLayoutY() + slideFlag * 150);
         }
-        if(slideFlag==1)
-        {
+        if (slideFlag == 1) {
             kanBanButton.setVisible(true);
             dayViewButton.setVisible(true);
             addTaskButton.setVisible(true);
-        }
-        else
-        {
+        } else {
             kanBanButton.setVisible(false);
             dayViewButton.setVisible(false);
             addTaskButton.setVisible(false);
         }
-        slideFlag*=-1;
+        slideFlag *= -1;
     }
 
-    public void loadUI(String location)
-    {
-//        Parent root=null;
-//        try {
-//
-//                 root= FXMLLoader.load(getClass().getResource(location));
-//            }
-//            catch (Exception e)
-//            {
-//                System.out.println(e);
-//            }
-//
-//            borderPane.setCenter(root);
-
+    /**
+     * loads the acnhor pane with the given fxml FILE
+     * @param location
+     */
+    public void loadUI(String location) {
         Parent root = null;
-        try{
-            root=FXMLLoader.load(getClass().getResource(location));
+        try {
+            root = FXMLLoader.load(getClass().getResource(location));
 
-        }catch (Exception uiLoadingException){
+        } catch (Exception uiLoadingException) {
             uiLoadingException.printStackTrace();
         }
         UIPane.getChildren().setAll(root);
 
 
-
-
-
-    }
-    public static Pane getRoot() throws IOException {
-        Parent root = FXMLLoader.load(ProjectViewController.class.getResource("ProjectView.fxml"));
-        return (Pane) root;
     }
 
+    /**
+     * performs logout and get to the signup page and  notify the server  that the user has logged out
+     *
+     * @param event
+     */
     @FXML
     void logOutButtonAction(ActionEvent event) {
         try {
             NetClient.getInstance().logOut();
             NetClient.reset();
-            changeScene("LoginView.fxml", event,false);
+            changeScene("LoginView.fxml", event, false);
         } catch (Exception sceneChangeException) {
             sceneChangeException.printStackTrace();
         }
     }
 
-    public void changeScene(String  location, ActionEvent event,boolean resizability) throws IOException {
+    /**
+     * a method to change tthe scene of the full window
+     * @param location
+     * @param event
+     * @param resizability
+     * @throws IOException
+     */
+    public void changeScene(String location, ActionEvent event, boolean resizability) throws IOException {
         Parent sceneView = FXMLLoader.load(getClass().getResource(location));
         Scene scene = new Scene(sceneView);
         Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();

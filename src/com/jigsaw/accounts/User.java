@@ -1,3 +1,11 @@
+/**
+ * User Class
+ *
+ * @version %I% %G%
+ *
+ * @author Shadman Wadith
+ */
+
 package com.jigsaw.accounts;
 
 import javafx.util.Pair;
@@ -44,6 +52,8 @@ public class User implements Serializable {
         return passwordSaltPair.getValue();
     }
 
+    //TODO raheeb documentation
+
     public Pair<String, String> getPasswordSaltPair() {
         return passwordSaltPair;
     }
@@ -52,6 +62,9 @@ public class User implements Serializable {
         this.passwordSaltPair = passwordSaltPair;
     }
 
+    /**
+     * Saves the data of the user to file
+     */
     public void saveToFile() {
         Resource.getInstance().updateUser(this);
     }

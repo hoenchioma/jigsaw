@@ -1,8 +1,7 @@
-/*
- * RegistrationController for Controlling Registration
+/**
+ * RegistrationController for Controlling Registration View
  *
- * JAVA 11.0.2
- *
+ * @version %I% %G%
  * @author Shadman Wadith
  */
 package com.jigsaw.gui;
@@ -12,31 +11,23 @@ import com.jigsaw.accounts.Profile;
 import com.jigsaw.network.client.NetClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 
-public class RegistrationController implements Initializable  {
+public class RegistrationController implements Initializable {
 
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1){
-            todayDate= LocalDate.now();
-
-    }
-
+    @FXML
+    public PasswordField password;
     private LocalDate todayDate;
     @FXML
     private RadioButton male;
@@ -67,13 +58,8 @@ public class RegistrationController implements Initializable  {
 
     @FXML
     private TextField contact;
-
-    @FXML
-    public PasswordField password;
-
     @FXML
     private PasswordField confirmPassword;
-
     @FXML
     private TextField username;
     @FXML
@@ -81,43 +67,64 @@ public class RegistrationController implements Initializable  {
     @FXML
     private JFXButton signUpButton;
 
+
+    /**
+     * Initialize today's date
+     *
+     * @param arg0
+     * @param arg1
+     */
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        todayDate = LocalDate.now();
+
+    }
+
+    /**
+     * Loads the SignUp page
+     *
+     * @param event
+     */
     @FXML
     void backButtonAction(ActionEvent event) {
-        try{
-            changeScene("LoginView.fxml",event);
-        }
-        catch (Exception sceneChangeException){
+        try {
+            changeScene("LoginView.fxml", event);
+        } catch (Exception sceneChangeException) {
             sceneChangeException.printStackTrace();
         }
     }
 
+    /**
+     * completes the registration process bu checking all information like
+     * 1.User has filled the full form
+     * 2.Confirms the password
+     * 3.Checks the birthDay of he user
+     * 4.Changes the scene of the stage
+     *
+     * @param event
+     */
     public void registerButtonAction(ActionEvent event) {
         Profile profile = new Profile();
         String usernameStr = "", passwordStr = "";
-        /**
-         * if all textFields are not filled
-          */
-         
+
+
         if (username.getText().equals("")
                 || firstName.getText().equals("")
                 || lastName.getText().equals("")
                 || password.getText().equals("")
                 || eMail.getText().equals("")
-                ||profession.getText().equals("")
+                || profession.getText().equals("")
                 || institute.getText().equals("")
                 || contact.getText().equals("")) {
             System.out.println("Give all Info");
             showError("Insufficient Information");
-        }
-        else if (!password.getText().equals(confirmPassword.getText())){
+        } else if (!password.getText().equals(confirmPassword.getText())) {
             showError("Password didn't match");
             System.out.println("Password didn't match ");
-        }
-        else if(todayDate.compareTo(birthDay.getValue())<0){
+        } else if (todayDate.compareTo(birthDay.getValue()) < 0) {
             showError("Hold it right there!\nWe don't accept people from the future");
-        }
-        else {
-            try{
+        } else {
+            try {
                 usernameStr = username.getText();
                 profile.setName(firstName.getText() + " " + lastName.getText());
                 passwordStr = password.getText();
@@ -128,7 +135,7 @@ public class RegistrationController implements Initializable  {
                 profile.setContactNumber(contact.getText());
                 profile.setSex(getGender());
 
-            } catch(Exception profileException) {
+            } catch (Exception profileException) {
                 profileException.printStackTrace();
             }
             String response = null;
@@ -141,14 +148,22 @@ public class RegistrationController implements Initializable  {
             System.out.println("Registration Done");
             try {
                 changeScene("LoginView.fxml", event);
-            } catch (Exception sceneChangeException){
+            } catch (Exception sceneChangeException) {
                 sceneChangeException.printStackTrace();
             }
         }
 
     }
 
-    public void changeScene(String  location, ActionEvent event)throws IOException {
+    /**
+     * A function to change the current Scene of the window
+     *
+     * @param location
+     * @param event
+     * @throws IOException
+     */
+
+    public void changeScene(String location, ActionEvent event) throws IOException {
         Parent sceneView = FXMLLoader.load(getClass().getResource(location));
         Scene scene = new Scene(sceneView);
         Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
@@ -156,23 +171,34 @@ public class RegistrationController implements Initializable  {
         window.show();
     }
 
+    /**
+     * simple method to get the Gender from user
+     *
+     * @return gender Information
+     */
     public String getGender() {
-        String gender="";
+        String gender = "";
 
-        if(male.isSelected()) {
+        if (male.isSelected()) {
             gender = "Male";
-        } else if(female.isSelected()) {
-            gender="Female";
+        } else if (female.isSelected()) {
+            gender = "Female";
         } else {
-            gender="Others";
+            gender = "Others";
         }
 
         return gender;
     }
-    public void showError(String erroMessage){
+
+    /**
+     * A method to show the Error Message in alert Box
+     *
+     * @param errorMessage
+     */
+    public void showError(String errorMessage) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
-        alert.setContentText(erroMessage);
+        alert.setContentText(errorMessage);
         alert.setTitle("JIGSAW");
         alert.show();
     }

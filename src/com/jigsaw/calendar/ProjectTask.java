@@ -1,8 +1,10 @@
+/**
+ *
+ */
 package com.jigsaw.calendar;
 
 import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.User;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 

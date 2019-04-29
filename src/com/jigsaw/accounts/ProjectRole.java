@@ -1,3 +1,13 @@
+/**
+ * ProjectRole class
+ *
+ * @version %I% %G%
+ *
+ * @author Shadman Wadith
+ */
+
+
+
 package com.jigsaw.accounts;
 
 import java.util.Map;

@@ -1,8 +1,7 @@
-/*
- * CrateProjectController
+/**
+ * CreateProjectView Controller to create a project
  *
- * JAVA 11.0.2
- *
+ * @version %I% %G%
  * @author Shadman Wadith
  */
 
@@ -58,12 +57,15 @@ public class CreateProjectViewController implements Initializable {
         }
     }
 
+    /**it creates an instance of a project it generates a random projectID string from the server and pass to it and then changes the scene to Login screen
+     *
+     *
+     * @param event
+     */
     @FXML
     public void createButtonAction(ActionEvent event) {
 
-        /**
-         * if all textFields are not filled
-         */
+
 
         if (projectName.getText().equals("") || projectDueDate.getValue() == null) {
             System.out.println("Give all Info");
