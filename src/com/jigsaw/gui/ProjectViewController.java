@@ -76,6 +76,9 @@ public class ProjectViewController implements Initializable {
     private JFXButton logOutButton;
 
     @FXML
+    private AnchorPane UIPane;
+
+    @FXML
     void addTaskButtonAction()
     {
          loadUI("calendar/AddTaskView.fxml");
@@ -127,17 +130,29 @@ public class ProjectViewController implements Initializable {
 
     public void loadUI(String location)
     {
-        Parent root=null;
-        try {
+//        Parent root=null;
+//        try {
+//
+//                 root= FXMLLoader.load(getClass().getResource(location));
+//            }
+//            catch (Exception e)
+//            {
+//                System.out.println(e);
+//            }
+//
+//            borderPane.setCenter(root);
 
-                 root= FXMLLoader.load(getClass().getResource(location));
-            }
-            catch (Exception e)
-            {
-                System.out.println(e);
-            }
+        Parent root = null;
+        try{
+            root=FXMLLoader.load(getClass().getResource(location));
 
-            borderPane.setCenter(root);
+        }catch (Exception uiLoadingException){
+            uiLoadingException.printStackTrace();
+        }
+        UIPane.getChildren().setAll(root);
+
+
+
 
 
     }
@@ -151,17 +166,18 @@ public class ProjectViewController implements Initializable {
         try {
             NetClient.getInstance().logOut();
             NetClient.reset();
-            changeScene("LoginView.fxml", event);
+            changeScene("LoginView.fxml", event,false);
         } catch (Exception sceneChangeException) {
             sceneChangeException.printStackTrace();
         }
     }
 
-    public void changeScene(String  location, ActionEvent event) throws IOException {
+    public void changeScene(String  location, ActionEvent event,boolean resizability) throws IOException {
         Parent sceneView = FXMLLoader.load(getClass().getResource(location));
         Scene scene = new Scene(sceneView);
         Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
+        window.setResizable(resizability);
         window.show();
     }
 
