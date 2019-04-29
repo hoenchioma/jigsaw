@@ -35,7 +35,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * add tasks to project
+ */
+
 public class AddTaskViewController implements Initializable {
+
+    ArrayList<CheckMenuItem> checkMenu = new ArrayList<CheckMenuItem>();
+
+    Map<String, User> userDictionary = NetClient.getInstance().getClientTaskSyncHandler().getUserDictionary();
+
 
     @FXML
     private JFXDatePicker deadLineDatePickerID;
@@ -55,11 +64,6 @@ public class AddTaskViewController implements Initializable {
     @FXML
     private Menu menuID;
 
-    ArrayList<CheckMenuItem> checkMenu = new ArrayList<CheckMenuItem>();
-
-    Map<String, User> userDictionary = NetClient.getInstance().getClientTaskSyncHandler().getUserDictionary();
-
-
     @FXML
     void addTaskButtonAction(ActionEvent event) throws InterruptedException, IOException {
         ArrayList<String> assignees = new ArrayList<>();
@@ -70,6 +74,13 @@ public class AddTaskViewController implements Initializable {
         }
 
         Label label = new Label();
+        Stage window = new Stage();
+        //Block events to other windows
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Information");
+        window.setMinWidth(250);
+        Button closeButton = new Button("Okay");
+        closeButton.setOnAction(e -> window.close());
 
         if(priorityID.getText().isBlank()){
             priorityID.setText(Integer.toString(Task.DEFAULT_PRIORITY));
@@ -98,16 +109,6 @@ public class AddTaskViewController implements Initializable {
             label.setText("No Member selected");
         }
 
-        Stage window = new Stage();
-
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Information");
-        window.setMinWidth(250);
-
-
-        Button closeButton = new Button("Okay");
-        closeButton.setOnAction(e -> window.close());
-
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, closeButton);
         layout.setAlignment(Pos.CENTER);
@@ -115,12 +116,6 @@ public class AddTaskViewController implements Initializable {
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
-    }
-
-    public static Pane getRoot() throws IOException {
-        Parent root = FXMLLoader.load(
-                AddTaskViewController.class.getResource("AddTaskView.fxml"));
-        return (Pane) root;
     }
 
     @Override
@@ -132,6 +127,11 @@ public class AddTaskViewController implements Initializable {
             checkMenu.add(new CheckMenuItem(entry.getKey()));
             menuID.getItems().add(checkMenu.get(j++));
         }
+    }
 
+    public static Pane getRoot() throws IOException {
+        Parent root = FXMLLoader.load(
+                AddTaskViewController.class.getResource("AddTaskView.fxml"));
+        return (Pane) root;
     }
 }
