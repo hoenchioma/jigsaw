@@ -11,7 +11,7 @@ public class ProjectTask extends Task {
     transient private Project project;
 
     private ArrayList<String> assigneeIDs;
-    transient private ArrayList<User> assignees;
+   // transient private ArrayList<User> assignees;
 
     public ProjectTask(String name, LocalDateTime deadline, String creatorUsername,
                        String projectID, ArrayList<String> assigneeIDs) {
@@ -35,13 +35,13 @@ public class ProjectTask extends Task {
         this.project = project;
     }
 
-    public ArrayList<User> getAssignees() {
+    /*public ArrayList<User> getAssignees() {
         return assignees;
     }
 
     public void setAssignees(ArrayList<User> assignees) {
         this.assignees = assignees;
-    }
+    }*/
 
     public ArrayList<String> getAssigneeIDs() {
         return assigneeIDs;

@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Task implements Serializable {
-    private static final int DEFAULT_PRIORITY = 1;
+    public static final int DEFAULT_PRIORITY = 1;
 
     private String id = UUID.randomUUID().toString();
 

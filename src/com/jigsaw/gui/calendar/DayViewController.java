@@ -107,11 +107,11 @@ public class DayViewController {
     }
 
     @FXML
-    void DatePickerAction(ActionEvent event) throws InterruptedException {
+    void DatePickerAction(ActionEvent event){
         updateTable();
     }
 
-    public void prevDayButtonAction(ActionEvent actionEvent) throws InterruptedException {
+    public void prevDayButtonAction(ActionEvent actionEvent){
         if(datePickerID.getValue() != null ){
             datePickerID.setValue(datePickerID.getValue().minus(Period.ofDays(1)));
             updateTable();
@@ -119,7 +119,7 @@ public class DayViewController {
 
     }
 
-    public void nextDayButtonAction(ActionEvent actionEvent) throws InterruptedException {
+    public void nextDayButtonAction(ActionEvent actionEvent){
         if(datePickerID.getValue() != null){
             datePickerID.setValue(datePickerID.getValue().plus(Period.ofDays(1)));
             updateTable();
@@ -127,7 +127,7 @@ public class DayViewController {
     }
 
 
-    public static void editTask(ProjectTask projectTask) {
+    public static void editTask(ProjectTask projectTask, LocalDate localDate) {
         Stage window = new Stage();
         boolean checkBoxFlag = false;
         //Block events to other windows
@@ -151,7 +151,7 @@ public class DayViewController {
         JFXTextField taskName = new JFXTextField(projectTask.getName());
         JFXTextField taskPriority = new JFXTextField(Integer.toString(projectTask.getPriority()));
         JFXTextArea taskDescription = new JFXTextArea(projectTask.getDetails());
-        JFXDatePicker datePicker = new JFXDatePicker(LocalDate.now());
+        JFXDatePicker datePicker = new JFXDatePicker(localDate);
         datePicker.setEditable(false);
 
         Button closeButton = new Button("Save Changes");
@@ -168,13 +168,11 @@ public class DayViewController {
     }
 
     public static void overWriteData(ProjectTask projectTask, TextField taskName,TextField taskPriority,  TextArea taskDescription, DatePicker datePicker, Stage window, ArrayList<CheckMenuItem> checkMenu){
-        Map<String, User> userDictionary = NetClient.getInstance().getClientTaskSyncHandler().getUserDictionary();
-
-        ArrayList<User> userList = new ArrayList<>();
+        ArrayList<String> userList = new ArrayList<>();
 
         for(CheckMenuItem checkMenuItem : checkMenu){
             if(checkMenuItem.isSelected()){
-                userList.add(userDictionary.get(checkMenuItem.getText()));
+                userList.add(checkMenuItem.getText());
             }
         }
         int priority = Integer.parseInt(taskPriority.getText());
@@ -183,16 +181,16 @@ public class DayViewController {
             projectTask.setDetails(taskDescription.getText());
             projectTask.setPriority(priority);
             projectTask.setDeadline(LocalDateTime.of(datePicker.getValue(), LocalTime.now()));
-            projectTask.setAssignees(userList);
+            projectTask.setAssigneeIDs(userList);
             window.close();
         }
     }
 
 
-    public void tableClickAction (MouseEvent mouseEvent) throws InterruptedException {
+    public void tableClickAction (MouseEvent mouseEvent){
         if (mouseEvent.getButton() == MouseButton.SECONDARY) {
             CalendarEntry selectedEntry = treeView.getSelectionModel().getSelectedItem().getValue();
-            editTask(selectedEntry.projectTasks);
+            editTask(selectedEntry.projectTasks, datePickerID.getValue());
 
 
 
