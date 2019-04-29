@@ -1,17 +1,12 @@
 package com.jigsaw.gui.calendar;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
-import com.jigsaw.accounts.Project;
 import com.jigsaw.calendar.PriorityComparator;
 import com.jigsaw.calendar.Progress;
 import com.jigsaw.calendar.ProjectTask;
-import com.jigsaw.calendar.TaskManager;
 import com.jigsaw.calendar.sync.ClientTaskSyncHandler;
 import com.jigsaw.network.client.NetClient;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -31,18 +25,31 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * View controller for the Kanban view controller
+ */
 public class KanbanViewController implements Initializable {
     @FXML private JFXListView<ProjectTask> willDoListView;
     @FXML private JFXListView<ProjectTask> doingListView;
     @FXML private JFXListView<ProjectTask> doneListView;
 
+    // Observable lists containing list view contents
     private ObservableList<ProjectTask> willDoList = FXCollections.observableArrayList();
     private ObservableList<ProjectTask> doingList = FXCollections.observableArrayList();
     private ObservableList<ProjectTask> doneList = FXCollections.observableArrayList();
+
+    /**
+     * Returns the scene root (loading from fxml)
+     * @return Pane type representing the scene root
+     */
+    public static Pane getRoot() throws IOException {
+        Parent root = FXMLLoader.load(
+                KanbanViewController.class.getResource("KanbanView.fxml"));
+        return (Pane) root;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -57,24 +64,6 @@ public class KanbanViewController implements Initializable {
         expandListView(doingListView);
         expandListView(doneListView);
 
-//        willDoList.addAll(
-//                new ProjectTask("Task 1", LocalDateTime.of(2099, 12, 12, 6, 6),
-//                        "Raheeb", "R56", new ArrayList<>()),
-//                new ProjectTask("Task 2", LocalDateTime.of(2099, 12, 12, 6, 6),
-//                        "Farhan", "R56", new ArrayList<>()),
-//                new ProjectTask("Task 3", LocalDateTime.of(2099, 12, 12, 6, 6),
-//                        "Samin", "R56", new ArrayList<>()),
-//                new ProjectTask("Task 4", LocalDateTime.of(2099, 12, 12, 6, 6),
-//                        "Shamim", "R56", new ArrayList<>())
-//        );
-//
-//        willDoList.get(3).setPriority(3);
-//        willDoList.get(0).setPriority(2);
-
-//        FXCollections.sort(willDoList, new PriorityComparator());
-
-//        willDoListView.setPrefHeight();
-
         willDoListView.setCellFactory(new Callback<>() {
             @Override
             public ListCell<ProjectTask> call(ListView<ProjectTask> list) {
@@ -85,17 +74,20 @@ public class KanbanViewController implements Initializable {
 
                         if (empty || item == null) {
                             setGraphic(null);
-                        }
-                        else {
+                        } else {
                             Label label = new Label(item.getName());
                             JFXButton forwardButton = new JFXButton(">");
 
-                            forwardButton.setOnAction((ActionEvent)->{
+                            // add forward button action
+                            forwardButton.setOnAction((ActionEvent) -> {
                                 willDoList.remove(item);
                                 item.setProgress(Progress.doing);
                                 doingList.add(item);
+
+                                // send to task sync to send to server
                                 clientTaskSyncHandler.updateTask(item);
 
+                                // recalculate the height of list (to prevent empty list items from showing)
                                 recalculateListSize(willDoListView, getHeight());
                                 recalculateListSize(doingListView, getHeight());
 
@@ -103,6 +95,7 @@ public class KanbanViewController implements Initializable {
                                 FXCollections.sort(doingList, new PriorityComparator());
                             });
 
+                            // create a grid pane to store the label and button
                             GridPane grid = new GridPane();
 
                             grid.add(label, 0, 1);
@@ -131,13 +124,12 @@ public class KanbanViewController implements Initializable {
 
                         if (empty || item == null) {
                             setGraphic(null);
-                        }
-                        else {
+                        } else {
                             Label label = new Label(item.getName());
 
                             JFXButton prevButton = new JFXButton("<");
 
-                            prevButton.setOnAction((ActionEvent)->{
+                            prevButton.setOnAction((ActionEvent) -> {
                                 doingList.remove(item);
                                 item.setProgress(Progress.willdo);
                                 willDoList.add(item);
@@ -152,7 +144,7 @@ public class KanbanViewController implements Initializable {
 
                             JFXButton forwardButton = new JFXButton(">");
 
-                            forwardButton.setOnAction((ActionEvent)->{
+                            forwardButton.setOnAction((ActionEvent) -> {
                                 doingList.remove(item);
                                 item.setProgress(Progress.done);
                                 doneList.add(item);
@@ -196,13 +188,12 @@ public class KanbanViewController implements Initializable {
 
                         if (empty || item == null) {
                             setGraphic(null);
-                        }
-                        else {
+                        } else {
                             Label label = new Label(item.getName());
 
                             JFXButton prevButton = new JFXButton("<");
 
-                            prevButton.setOnAction((ActionEvent)->{
+                            prevButton.setOnAction((ActionEvent) -> {
                                 doneList.remove(item);
                                 item.setProgress(Progress.doing);
                                 doingList.add(item);
@@ -235,6 +226,7 @@ public class KanbanViewController implements Initializable {
         });
     }
 
+    // reload tasks from client task sync handler and repopulate the list views
     private void resetItems() {
         ClientTaskSyncHandler clientTaskSyncHandler = NetClient.getInstance().getClientTaskSyncHandler();
         ArrayList<ProjectTask> projectTasks = clientTaskSyncHandler.getTaskManager().getProjectTasks();
@@ -243,7 +235,7 @@ public class KanbanViewController implements Initializable {
         doingList.clear();
         doneList.clear();
 
-        for (ProjectTask task: projectTasks) {
+        for (ProjectTask task : projectTasks) {
             switch (task.getProgress()) {
                 case willdo:
                     willDoList.add(task);
@@ -262,18 +254,14 @@ public class KanbanViewController implements Initializable {
         FXCollections.sort(doneList, new PriorityComparator());
     }
 
+    // recalculate and set the height according to present no of elements
     private void recalculateListSize(JFXListView listView, double cellHeight) {
         listView.setPrefHeight(cellHeight * listView.getItems().size() + 10);
     }
 
+    // set the expanded mode for the list view (3d depth effect)
     private void expandListView(JFXListView listView) {
         listView.depthProperty().set(1);
         listView.setExpanded(true);
-    }
-
-    public static Pane getRoot() throws IOException {
-        Parent root = FXMLLoader.load(
-                KanbanViewController.class.getResource("KanbanView.fxml"));
-        return (Pane) root;
     }
 }

@@ -1,6 +1,5 @@
 package com.jigsaw.accounts;
 
-import javafx.scene.layout.Border;
 import javafx.util.Pair;
 
 import java.io.*;
@@ -9,7 +8,9 @@ import java.util.*;
 /**
  * The singleton class which provides an interface for storing
  * and retrieving User and Project data from files
+ * (on server side)
  *
+ * @version %I%, %G%
  * @author Raheeb Hassan
  */
 public class Resource implements Serializable {
@@ -41,12 +42,12 @@ public class Resource implements Serializable {
 
     /* maps from username to hashed password and salt */
     private Map <String, Pair<String, String>> userPassDictionary = new HashMap<>();
-    /* Users that have already been loaded */
+    /* Users that have already been loaded (active users) */
     transient private Map<String, User> activeUsers = new HashMap<>();
 
     /* a set of strings containing project IDs of existing projects */
     private Set<String> existingProjects = new HashSet<>();
-    /* Projects that have already been loaded */
+    /* Projects that have already been loaded (active projects) */
     transient private Map<String, Project> activeProjects = new HashMap<>();
 
 
@@ -64,10 +65,12 @@ public class Resource implements Serializable {
         return userPassDictionary.get(username);
     }
 
+    /* add to the active users list */
     public void activateUser(User user) {
         activeUsers.putIfAbsent(user.getUsername(), user);
     }
 
+    /* remove from active users list */
     public void deactivateUser(User user) {
         activeUsers.remove(user.getUsername());
     }

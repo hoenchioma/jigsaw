@@ -8,12 +8,13 @@ import java.util.ArrayList;
 /**
  * A container class that holds the list of Project tasks
  *
+ * @version %I%, %G%
  * @author Raheeb Hassan
  */
 public class TaskManager implements Serializable {
     private ArrayList<ProjectTask> projectTasks;
 
-    public TaskManager(){
+    public TaskManager() {
         projectTasks = new ArrayList<>();
     }
 
@@ -25,11 +26,11 @@ public class TaskManager implements Serializable {
         this.projectTasks = projectTasks;
     }
 
-    public void addTask(ProjectTask projectTask){
+    public void addTask(ProjectTask projectTask) {
         this.projectTasks.add(projectTask);
     }
 
-    public void removeTask(ProjectTask projectTask){
+    public void removeTask(ProjectTask projectTask) {
         this.projectTasks.remove(projectTask);
     }
 

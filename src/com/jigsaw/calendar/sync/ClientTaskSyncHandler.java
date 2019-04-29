@@ -9,6 +9,13 @@ import com.jigsaw.network.client.NetClient;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Handler for syncing for sending, receiving
+ * and processing
+ *
+ * @version %I%, %G%
+ * @author Raheeb Hassan
+ */
 public class ClientTaskSyncHandler {
     private volatile TaskManager taskManager;
     private Map<String, User> userDictionary;
@@ -56,6 +63,10 @@ public class ClientTaskSyncHandler {
         taskManager.updateTask(task);
     }
 
+    /**
+     * Send packet to server for requesting adding task
+     * @param task projectTask to be added
+     */
     public void addTask(ProjectTask task) {
         TaskPacket packet = new TaskPacket();
         packet.task = task;
@@ -68,6 +79,10 @@ public class ClientTaskSyncHandler {
         }
     }
 
+    /**
+     * Send packet to server for requesting removing task
+     * @param task projectTask to be added
+     */
     public void removeTask(ProjectTask task) {
         TaskPacket packet = new TaskPacket();
         packet.task = task;
@@ -80,6 +95,10 @@ public class ClientTaskSyncHandler {
         }
     }
 
+    /**
+     * Send packet to server for requesting updating task
+     * @param task projectTask to be added
+     */
     public void updateTask(ProjectTask task) {
         TaskPacket packet = new TaskPacket();
         packet.task = task;
@@ -92,6 +111,13 @@ public class ClientTaskSyncHandler {
         }
     }
 
+    /**
+     * getter method for getting the related task manager instance
+     * makes the thread wait if the task manager is not yet available
+     * (not arrived from server yet)
+     *
+     * @return the task manager
+     */
     public TaskManager getTaskManager() {
         synchronized (monitor) {
             while (taskManager == null) {
@@ -105,6 +131,13 @@ public class ClientTaskSyncHandler {
         }
     }
 
+    /**
+     * Getter for user from username
+     * throws illegal argument exception when user is not in dictionary
+     *
+     * @param username to get user from
+     * @return user with username equal to @param
+     */
     public User getUser(String username) {
         if (!userDictionary.containsKey(username)) {
             throw new IllegalArgumentException("User is not part of this project");

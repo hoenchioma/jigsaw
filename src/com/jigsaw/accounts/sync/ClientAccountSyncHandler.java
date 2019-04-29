@@ -7,6 +7,13 @@ import com.jigsaw.network.client.NetClient;
 
 import java.io.IOException;
 
+/**
+ * Handler for sending and processing account packets
+ * on client side
+ *
+ * @version %I%, %G%
+ * @author Raheeb Hassan
+ */
 public class ClientAccountSyncHandler {
     // user and project info
     private User user;

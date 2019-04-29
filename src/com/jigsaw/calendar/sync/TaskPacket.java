@@ -7,6 +7,13 @@ import com.jigsaw.network.Packet;
 
 import java.util.Map;
 
+/**
+ * A container object for sending entire task manager,
+ * task edit, add and remove commands over the network
+ *
+ * @version %I%, %G%
+ * @author Raheeb Hassan
+ */
 public class TaskPacket implements Packet {
     public String command;
     public TaskManager taskManager;

@@ -36,6 +36,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * shows the project tasks on a table based on deadline.
+ * Tasks can be edited.
+ */
 
 public class DayViewController {
 
@@ -72,7 +76,12 @@ public class DayViewController {
         updateTable();
     }
 
-    void updateTable(){
+    @FXML
+    public void DatePickerAction(ActionEvent event){
+        updateTable();
+    }
+
+    public void updateTable(){
         ArrayList<ProjectTask> taskList = NetClient.getInstance().getClientTaskSyncHandler().getTaskManager().getProjectTasks();
 
         ProjectTask rootProjectTask = new ProjectTask("name", LocalDateTime.now(), "creator", "00", new ArrayList<String>());
@@ -83,15 +92,19 @@ public class DayViewController {
             if (taskList.get(i).getDeadline().toLocalDate().equals(datePickerID.getValue()) && taskList.get(i).getProgress() != Progress.done) {
                 Map<String, User> userDictionary = NetClient.getInstance().getClientTaskSyncHandler().getUserDictionary();
                 ArrayList<User> assigneesList = new ArrayList<>();
+
                 for(String assigneeID : taskList.get(i).getAssigneeIDs()) {
                     assigneesList.add(userDictionary.get(assigneeID));
                 }
+
                 String name = taskList.get(i).getName();
                 String des = taskList.get(i).getDetails();
+
                 StringBuilder memberName = new StringBuilder(assigneesList.get(0).getUsername());
                 for (int j = 1; j < assigneesList.size(); j++) {
                     memberName.append(" ").append(assigneesList.get(j).getUsername());
                 }
+
                 taskEntry.add(new TreeItem<>(new CalendarEntry(name, des, memberName.toString(), taskList.get(i))));
                 root.getChildren().add(taskEntry.get(taskEntry.size()-1));
             }
@@ -106,12 +119,7 @@ public class DayViewController {
 
     }
 
-    @FXML
-    void DatePickerAction(ActionEvent event) throws InterruptedException {
-        updateTable();
-    }
-
-    public void prevDayButtonAction(ActionEvent actionEvent) throws InterruptedException {
+    public void prevDayButtonAction(ActionEvent actionEvent){
         if(datePickerID.getValue() != null ){
             datePickerID.setValue(datePickerID.getValue().minus(Period.ofDays(1)));
             updateTable();
@@ -119,25 +127,40 @@ public class DayViewController {
 
     }
 
-    public void nextDayButtonAction(ActionEvent actionEvent) throws InterruptedException {
+    public void nextDayButtonAction(ActionEvent actionEvent){
         if(datePickerID.getValue() != null){
             datePickerID.setValue(datePickerID.getValue().plus(Period.ofDays(1)));
             updateTable();
         }
     }
 
+    public void tableClickAction (MouseEvent mouseEvent){
+        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+            CalendarEntry selectedEntry = treeView.getSelectionModel().getSelectedItem().getValue();
+            editTask(selectedEntry.projectTasks, datePickerID.getValue());
+            updateTable();
+        }
+    }
 
-    public static void editTask(ProjectTask projectTask) {
+
+    public static void editTask(ProjectTask projectTask, LocalDate localDate) {
         Stage window = new Stage();
-        boolean checkBoxFlag = false;
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Edit Task");
         window.setMinWidth(250);
-
         Menu menu = new Menu("Member List");
+        VBox vBox = new VBox();
+        JFXTextField taskName = new JFXTextField(projectTask.getName());
+        JFXTextField taskPriority = new JFXTextField(Integer.toString(projectTask.getPriority()));
+        JFXTextArea taskDescription = new JFXTextArea(projectTask.getDetails());
+
+        JFXDatePicker datePicker = new JFXDatePicker(localDate);
+        datePicker.setEditable(false);
+
         ArrayList<CheckMenuItem> checkMenu = new ArrayList<>();
         ArrayList<String> userList = NetClient.getInstance().getClientAccountSyncHandler().getProject().getMembers();
+
         for(int i =0; i< userList.size(); i++){
             checkMenu.add(new CheckMenuItem(userList.get(i)));
             if(projectTask.getAssigneeIDs().contains(userList.get(i))){
@@ -146,17 +169,8 @@ public class DayViewController {
             menu.getItems().add(checkMenu.get(i));
         }
 
-
-        VBox vBox = new VBox();
-        JFXTextField taskName = new JFXTextField(projectTask.getName());
-        JFXTextField taskPriority = new JFXTextField(Integer.toString(projectTask.getPriority()));
-        JFXTextArea taskDescription = new JFXTextArea(projectTask.getDetails());
-        JFXDatePicker datePicker = new JFXDatePicker(LocalDate.now());
-        datePicker.setEditable(false);
-
         Button closeButton = new Button("Save Changes");
         closeButton.setOnAction(e -> overWriteData(projectTask, taskName,taskPriority, taskDescription, datePicker, window, checkMenu));
-
 
         vBox.getChildren().addAll(new MenuBar(menu), datePicker, taskName,taskPriority ,taskDescription, closeButton);
         vBox.setAlignment(Pos.TOP_LEFT);
@@ -168,40 +182,33 @@ public class DayViewController {
     }
 
     public static void overWriteData(ProjectTask projectTask, TextField taskName,TextField taskPriority,  TextArea taskDescription, DatePicker datePicker, Stage window, ArrayList<CheckMenuItem> checkMenu){
-        Map<String, User> userDictionary = NetClient.getInstance().getClientTaskSyncHandler().getUserDictionary();
-
-        ArrayList<User> userList = new ArrayList<>();
+        ArrayList<String> userList = new ArrayList<>();
+        int priority = Integer.parseInt(taskPriority.getText());
 
         for(CheckMenuItem checkMenuItem : checkMenu){
             if(checkMenuItem.isSelected()){
-                userList.add(userDictionary.get(checkMenuItem.getText()));
+                userList.add(checkMenuItem.getText());
             }
         }
-        int priority = Integer.parseInt(taskPriority.getText());
+
         if(userList.size() > 0 && priority > 0){
             projectTask.setName(taskName.getText());
             projectTask.setDetails(taskDescription.getText());
             projectTask.setPriority(priority);
             projectTask.setDeadline(LocalDateTime.of(datePicker.getValue(), LocalTime.now()));
-            projectTask.setAssignees(userList);
+            projectTask.setAssigneeIDs(userList);
             window.close();
         }
     }
 
-
-    public void tableClickAction (MouseEvent mouseEvent) throws InterruptedException {
-        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-            CalendarEntry selectedEntry = treeView.getSelectionModel().getSelectedItem().getValue();
-            editTask(selectedEntry.projectTasks);
-
-
-
-            updateTable();
-        }
+    public static Pane getRoot() throws IOException {
+        Parent root = FXMLLoader.load(
+                DayViewController.class.getResource("DayView.fxml"));
+        return (Pane) root;
     }
 
+    //Data model class
     class CalendarEntry extends RecursiveTreeObject<CalendarEntry> {
-
         StringProperty taskName;
         StringProperty description;
         StringProperty members;
@@ -213,11 +220,5 @@ public class DayViewController {
             this.members = new SimpleStringProperty(members);
             this.projectTasks = projectTasks;
         }
-    }
-
-    public static Pane getRoot() throws IOException {
-        Parent root = FXMLLoader.load(
-                DayViewController.class.getResource("DayView.fxml"));
-        return (Pane) root;
     }
 }
