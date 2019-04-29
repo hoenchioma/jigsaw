@@ -8,6 +8,13 @@ import com.jigsaw.network.server.Server;
 
 import java.io.IOException;
 
+/**
+ * Handler for sending and processing task packets
+ * on server side (for each user)
+ *
+ * @version %I%, %G%
+ * @author Raheeb Hassan
+ */
 public class ServerTaskSyncHandler {
     private ClientHandler clientHandler;
     private Project project;
