@@ -149,15 +149,16 @@ public class DayViewController {
 
         VBox vBox = new VBox();
         JFXTextField taskName = new JFXTextField(projectTask.getName());
+        JFXTextField taskPriority = new JFXTextField(Integer.toString(projectTask.getPriority()));
         JFXTextArea taskDescription = new JFXTextArea(projectTask.getDetails());
         JFXDatePicker datePicker = new JFXDatePicker(LocalDate.now());
         datePicker.setEditable(false);
 
-        Button closeButton = new Button("Add Task");
-        closeButton.setOnAction(e -> overWriteData(projectTask, taskName, taskDescription, datePicker, window, checkMenu));
+        Button closeButton = new Button("Save Changes");
+        closeButton.setOnAction(e -> overWriteData(projectTask, taskName,taskPriority, taskDescription, datePicker, window, checkMenu));
 
 
-        vBox.getChildren().addAll(new MenuBar(menu), datePicker, taskName, taskDescription, closeButton);
+        vBox.getChildren().addAll(new MenuBar(menu), datePicker, taskName,taskPriority ,taskDescription, closeButton);
         vBox.setAlignment(Pos.TOP_LEFT);
 
         Scene scene = new Scene(vBox);
@@ -166,19 +167,21 @@ public class DayViewController {
 
     }
 
-    public static void overWriteData(ProjectTask projectTask, TextField taskName, TextArea taskDescription, DatePicker datePicker, Stage window, ArrayList<CheckMenuItem> checkMenu){
-        System.out.println("overwrite starts");
+    public static void overWriteData(ProjectTask projectTask, TextField taskName,TextField taskPriority,  TextArea taskDescription, DatePicker datePicker, Stage window, ArrayList<CheckMenuItem> checkMenu){
         Map<String, User> userDictionary = NetClient.getInstance().getClientTaskSyncHandler().getUserDictionary();
 
         ArrayList<User> userList = new ArrayList<>();
+
         for(CheckMenuItem checkMenuItem : checkMenu){
             if(checkMenuItem.isSelected()){
                 userList.add(userDictionary.get(checkMenuItem.getText()));
             }
         }
-        if(userList.size() > 0){
+        int priority = Integer.parseInt(taskPriority.getText());
+        if(userList.size() > 0 && priority > 0){
             projectTask.setName(taskName.getText());
             projectTask.setDetails(taskDescription.getText());
+            projectTask.setPriority(priority);
             projectTask.setDeadline(LocalDateTime.of(datePicker.getValue(), LocalTime.now()));
             projectTask.setAssignees(userList);
             window.close();
