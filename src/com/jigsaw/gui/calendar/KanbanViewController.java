@@ -1,6 +1,7 @@
 package com.jigsaw.gui.calendar;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 import com.jigsaw.accounts.Project;
 import com.jigsaw.calendar.PriorityComparator;
@@ -9,6 +10,7 @@ import com.jigsaw.calendar.ProjectTask;
 import com.jigsaw.calendar.TaskManager;
 import com.jigsaw.calendar.sync.ClientTaskSyncHandler;
 import com.jigsaw.network.client.NetClient;
+import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -50,6 +53,10 @@ public class KanbanViewController implements Initializable {
         doingListView.setItems(doingList);
         doneListView.setItems(doneList);
 
+        expandListView(willDoListView);
+        expandListView(doingListView);
+        expandListView(doneListView);
+
 //        willDoList.addAll(
 //                new ProjectTask("Task 1", LocalDateTime.of(2099, 12, 12, 6, 6),
 //                        "Raheeb", "R56", new ArrayList<>()),
@@ -65,6 +72,8 @@ public class KanbanViewController implements Initializable {
 //        willDoList.get(0).setPriority(2);
 
 //        FXCollections.sort(willDoList, new PriorityComparator());
+
+//        willDoListView.setPrefHeight();
 
         willDoListView.setCellFactory(new Callback<>() {
             @Override
@@ -86,6 +95,10 @@ public class KanbanViewController implements Initializable {
                                 item.setProgress(Progress.doing);
                                 doingList.add(item);
                                 clientTaskSyncHandler.updateTask(item);
+
+                                recalculateListSize(willDoListView, getHeight());
+                                recalculateListSize(doingListView, getHeight());
+
                                 // sort the list added to
                                 FXCollections.sort(doingList, new PriorityComparator());
                             });
@@ -129,6 +142,10 @@ public class KanbanViewController implements Initializable {
                                 item.setProgress(Progress.willdo);
                                 willDoList.add(item);
                                 clientTaskSyncHandler.updateTask(item);
+
+                                recalculateListSize(doingListView, getHeight());
+                                recalculateListSize(willDoListView, getHeight());
+
                                 // sort the list added to
                                 FXCollections.sort(willDoList, new PriorityComparator());
                             });
@@ -140,6 +157,10 @@ public class KanbanViewController implements Initializable {
                                 item.setProgress(Progress.done);
                                 doneList.add(item);
                                 clientTaskSyncHandler.updateTask(item);
+
+                                recalculateListSize(doingListView, getHeight());
+                                recalculateListSize(doneListView, getHeight());
+
                                 // sort the list added to
                                 FXCollections.sort(doneList, new PriorityComparator());
                             });
@@ -186,6 +207,10 @@ public class KanbanViewController implements Initializable {
                                 item.setProgress(Progress.doing);
                                 doingList.add(item);
                                 clientTaskSyncHandler.updateTask(item);
+
+                                recalculateListSize(doneListView, getHeight());
+                                recalculateListSize(doingListView, getHeight());
+
                                 // sort the list added to
                                 FXCollections.sort(doingList, new PriorityComparator());
                             });
@@ -208,7 +233,6 @@ public class KanbanViewController implements Initializable {
                 };
             }
         });
-
     }
 
     private void resetItems() {
@@ -236,6 +260,15 @@ public class KanbanViewController implements Initializable {
         FXCollections.sort(willDoList, new PriorityComparator());
         FXCollections.sort(doingList, new PriorityComparator());
         FXCollections.sort(doneList, new PriorityComparator());
+    }
+
+    private void recalculateListSize(JFXListView listView, double cellHeight) {
+        listView.setPrefHeight(cellHeight * listView.getItems().size() + 10);
+    }
+
+    private void expandListView(JFXListView listView) {
+        listView.depthProperty().set(1);
+        listView.setExpanded(true);
     }
 
     public static Pane getRoot() throws IOException {

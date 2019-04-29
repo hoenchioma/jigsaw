@@ -7,9 +7,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="586.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.calendar.KanbanViewController">
     <children>
-        <JFXListView fx:id="willDoListView" layoutX="59.0" layoutY="100.0" prefHeight="410.0" prefWidth="190.0" />
-        <JFXListView fx:id="doingListView" layoutX="288.0" layoutY="100.0" prefHeight="410.0" prefWidth="190.0" />
-        <JFXListView fx:id="doneListView" layoutX="525.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="190.0" />
+        <JFXListView fx:id="willDoListView" layoutX="59.0" layoutY="100.0" prefWidth="190.0" stylesheets="@ListViewStyleSheet.css" />
+        <JFXListView fx:id="doingListView" layoutX="288.0" layoutY="100.0" prefWidth="190.0" stylesheets="@ListViewStyleSheet.css" />
+        <JFXListView fx:id="doneListView" layoutX="525.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="190.0" stylesheets="@ListViewStyleSheet.css" />
         <Label layoutX="134.0" layoutY="58.0" text="Draft" textAlignment="CENTER">
             <font>
                 <Font size="16.0" />

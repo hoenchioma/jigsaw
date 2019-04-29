@@ -41,7 +41,7 @@ public class ClientTaskSyncHandler {
         else if (receivedTaskPacket.command.equals("update task")) {
             updateTaskLocal(receivedTaskPacket.task);
         }
-        System.out.println(taskManager.getProjectTasks());
+//        System.out.println(taskManager.getProjectTasks());
     }
 
     private void addTaskLocal(ProjectTask task) {
