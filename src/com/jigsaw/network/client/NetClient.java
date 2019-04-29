@@ -23,6 +23,8 @@ import java.util.function.Consumer;
  * A singleton instance of NetClient
  * It acts as the central portal for connecting to the Server
  *
+ * @version %I%, %G%
+ * @author Raheeb Hassan
  */
 public class NetClient {
     // singleton instance of itself

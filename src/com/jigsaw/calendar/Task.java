@@ -8,6 +8,7 @@ import java.util.UUID;
 public class Task implements Serializable {
     public static final int DEFAULT_PRIORITY = 1;
 
+    // a randomly generated identifier for identifying tasks with same task id
     private String id = UUID.randomUUID().toString();
 
     private String name;

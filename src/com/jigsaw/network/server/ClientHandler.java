@@ -22,6 +22,7 @@ import java.util.function.Consumer;
 
 /**
  * The main handler which communicates with clients
+ * (one per client)
  *
  * @author Raheeb Hassan
  */

@@ -7,9 +7,17 @@ import com.jigsaw.network.server.ClientHandler;
 
 import java.io.IOException;
 
+/**
+ * Handler for sending and processing account packets
+ * on server side (for each user)
+ *
+ * @version %I%, %G%
+ * @author Raheeb Hassan
+ */
 public class ServerAccountSyncHandler {
-    // user and project info
+    // client handler responsible for said user
     private ClientHandler clientHandler;
+    // user and project info
     private User user;
     private Project project;
 
