@@ -122,13 +122,14 @@ public class LoginViewController implements Initializable {
         window.setScene(scene);
         window.show();
         window.setResizable(resizability);
+        window.centerOnScreen();
     }
     public static Pane getRoot() throws IOException {
         Parent root = FXMLLoader.load(LoginViewController.class.getResource("LoginView.fxml"));
         return (Pane) root;
     }
 
-    // a method to show erro message
+    // a method to show error message
     public void showError(String errorMessage){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);

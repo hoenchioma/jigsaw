@@ -28,6 +28,9 @@ public class ProjectViewController implements Initializable {
 
     public void initialize(URL url , ResourceBundle resourceBundle)
     {
+        userNameLabel.setText("Username : " + NetClient.getInstance().getClientAccountSyncHandler().getUser().getUsername());
+        projectIDLabel.setText("Project ID : " + NetClient.getInstance().getClientAccountSyncHandler().getProject().getId());
+        projectNameLabel.setText("Project Name : " + NetClient.getInstance().getClientAccountSyncHandler().getProject().getName());
         kanBanButton.setVisible(false);
         dayViewButton.setVisible(false);
         addTaskButton.setVisible(false);
