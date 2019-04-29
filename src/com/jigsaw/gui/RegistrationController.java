@@ -24,6 +24,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 
@@ -31,8 +33,11 @@ public class RegistrationController implements Initializable  {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
+            todayDate= LocalDate.now();
 
     }
+
+    private LocalDate todayDate;
     @FXML
     private RadioButton male;
 
@@ -108,6 +113,9 @@ public class RegistrationController implements Initializable  {
             showError("Password didn't match");
             System.out.println("Password didn't match ");
         }
+        else if(todayDate.compareTo(birthDay.getValue())<0){
+            showError("Hold it right there!\nWe don't accept people from the future");
+        }
         else {
             try{
                 usernameStr = username.getText();
@@ -123,20 +131,21 @@ public class RegistrationController implements Initializable  {
             } catch(Exception profileException) {
                 profileException.printStackTrace();
             }
+            String response = null;
+            try {
+                response = NetClient.getInstance().register(usernameStr, passwordStr, profile);
+            } catch (Exception exp) {
+                exp.printStackTrace();
+            }
+            System.out.println(response);
+            System.out.println("Registration Done");
+            try {
+                changeScene("LoginView.fxml", event);
+            } catch (Exception sceneChangeException){
+                sceneChangeException.printStackTrace();
+            }
         }
-        String response = null;
-        try {
-            response = NetClient.getInstance().register(usernameStr, passwordStr, profile);
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
-        System.out.println(response);
-        System.out.println("Registration Done");
-        try {
-            changeScene("LoginView.fxml", event);
-        } catch (Exception sceneChangeException){
-            sceneChangeException.printStackTrace();
-        }
+
     }
 
     public void changeScene(String  location, ActionEvent event)throws IOException {

@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.calendar.AddTaskViewController">
+<AnchorPane prefHeight="720.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.calendar.AddTaskViewController">
    <children>
-      <JFXDatePicker fx:id="deadLineDatePickerID" editable="false" layoutX="57.0" layoutY="23.0" prefHeight="28.0" prefWidth="125.0" promptText="Select Deadline" AnchorPane.rightAnchor="418.0" AnchorPane.topAnchor="23.0" />
+      <JFXDatePicker fx:id="deadLineDatePickerID" editable="false" layoutX="425.0" layoutY="75.0" prefHeight="28.0" prefWidth="125.0" promptText="Select Deadline" AnchorPane.rightAnchor="497.0" AnchorPane.topAnchor="75.0" />
       <JFXTextField fx:id="priorityID" focusColor="#8c8c8c00" layoutX="57.0" layoutY="65.0" prefHeight="25.0" prefWidth="254.0" promptText="Task Priority (non-negative value)" unFocusColor="#ccccccba" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="65.0">
          <font>
             <Font name="System Italic" size="12.0" />
@@ -22,17 +22,17 @@
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextArea fx:id="taskDescriptionID" focusColor="#8c8b8b00" layoutX="57.0" layoutY="140.0" prefHeight="175.0" prefWidth="439.0" promptText="Task Description" unFocusColor="#ffffff00" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="104.0" AnchorPane.topAnchor="140.0">
+      <JFXTextArea fx:id="taskDescriptionID" focusColor="#8c8b8b00" layoutX="57.0" layoutY="140.0" prefHeight="175.0" prefWidth="439.0" promptText="Task Description" style="-fx-border-color: #009688; -fx-border-radius: 10; -fx-border-width: 2;" unFocusColor="#ffffff00" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="104.0" AnchorPane.topAnchor="140.0">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextArea>
-      <JFXButton fx:id="addTaskButtonID" buttonType="RAISED" layoutX="487.0" layoutY="346.0" onAction="#addTaskButtonAction" prefHeight="25.0" prefWidth="82.0" ripplerFill="#b9b9b9" text="Add Task" textAlignment="CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="31.0">
+      <JFXButton fx:id="addTaskButtonID" buttonType="RAISED" layoutX="828.0" layoutY="56.0" onAction="#addTaskButtonAction" prefHeight="48.0" prefWidth="111.0" ripplerFill="#b9b9b9" style="-fx-background-color: #009688;" text="Add Task" textAlignment="CENTER" AnchorPane.bottomAnchor="616.0" AnchorPane.rightAnchor="110.79999999999995">
          <font>
             <Font size="13.0" />
          </font>
       </JFXButton>
-      <MenuBar layoutX="368.0" layoutY="27.0" AnchorPane.rightAnchor="104.0" AnchorPane.topAnchor="27.0">
+      <MenuBar layoutX="427.0" layoutY="37.0" AnchorPane.rightAnchor="495.0" AnchorPane.topAnchor="37.0">
          <menus>
             <Menu fx:id="menuID" mnemonicParsing="false" text="Unspecified Menu" />
          </menus>

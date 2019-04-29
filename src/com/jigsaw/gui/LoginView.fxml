@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -45,7 +46,7 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
       </JFXPasswordField>
-      <JFXButton fx:id="popUpButton" ellipsisString="" layoutX="325.0" layoutY="19.0" onAction="#popUpButtonAction" prefHeight="32.0" prefWidth="43.0">
+      <JFXButton fx:id="popUpButton" ellipsisString="" layoutX="335.0" layoutY="19.0" onAction="#popUpButtonAction" prefHeight="32.0" prefWidth="43.0">
          <graphic>
             <ImageView fitHeight="49.0" fitWidth="32.0" onDragDetected="#popUpButtonAction" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -60,10 +61,13 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <VBox fx:id="popBox" layoutX="267.0" layoutY="60.0" prefHeight="100.0" prefWidth="120.0" style="-fx-background-color: #ffe5e5;">
+      <VBox fx:id="popBox" layoutX="255.0" layoutY="60.0" prefHeight="100.0" prefWidth="120.0" style="-fx-background-color: #ffe5e5;">
          <children>
-            <JFXTextField fx:id="serverAddress" prefHeight="50.0" prefWidth="116.0" promptText="Server Address" unFocusColor="#400a63" />
-            <JFXTextField fx:id="portAddress" prefHeight="50.0" prefWidth="114.0" promptText="Port" unFocusColor="#400a63" />
+            <JFXTextField fx:id="serverAddress" prefHeight="50.0" prefWidth="116.0" promptText="   Server Address" unFocusColor="#400a63">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></JFXTextField>
+            <JFXTextField fx:id="portAddress" prefHeight="50.0" prefWidth="114.0" promptText="  Port" unFocusColor="#400a63" />
          </children>
          <effect>
             <Blend />
