@@ -1,5 +1,6 @@
-package com.jigsaw.gui;
+package com.jigsaw.gui.login;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jigsaw.network.client.NetClient;
@@ -27,6 +28,12 @@ import java.util.ResourceBundle;
  */
 public class LoginViewController implements Initializable {
 
+    @FXML
+    private JFXButton login;
+    @FXML
+    private JFXButton signUpButton;
+    @FXML
+    private JFXButton createProjectButton;
     @FXML
     private VBox popBox;
     @FXML
@@ -83,7 +90,7 @@ public class LoginViewController implements Initializable {
     }
 
     /**
-     * Loads signUp scree
+     * Loads signUp screen
      *
      * @param event
      * @throws IOException
@@ -132,7 +139,7 @@ public class LoginViewController implements Initializable {
         window.show();
     }
 
-    public void changeToNextScene(Parent root, boolean resizability) throws IOException {
+    public void changeToNextScene(Parent root, boolean resizability) {
         Scene scene = new Scene(root);
         Stage window = (Stage) username.getScene().getWindow();
         window.setScene(scene);

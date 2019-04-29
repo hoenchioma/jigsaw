@@ -1,4 +1,4 @@
-package com.jigsaw.gui;
+package com.jigsaw.gui.login;
 
 import com.jfoenix.controls.JFXButton;
 import com.jigsaw.accounts.Profile;
@@ -18,12 +18,12 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 /**
- * RegistrationController for Controlling Registration View
+ * RegistrationViewController for Controlling Registration View
  *
  * @author Shadman Wadith
  * @version %I% %G%
  */
-public class RegistrationController implements Initializable {
+public class RegistrationViewController implements Initializable {
 
     @FXML
     public PasswordField password;

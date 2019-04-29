@@ -1,21 +1,26 @@
-package com.jigsaw.gui;
+package com.jigsaw.gui.chat;
 
 import com.jigsaw.chat.ClientMessageHandler;
 import com.jigsaw.chat.packet.ChatPacketHandler;
 import com.jigsaw.chat.packet.FilePacket;
 import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.chat.packet.MessagePacket;
+import com.jigsaw.gui.calendar.KanbanViewController;
 import com.jigsaw.network.Packet;
 import com.jigsaw.network.client.NetClient;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -121,5 +126,15 @@ public class ChatViewController {
         if(file != null){
             ClientMessageHandler.saveFile(file, receivedPacket);
         }
+    }
+
+    /**
+     * Returns the scene root (loading from fxml)
+     * @return Pane type representing the scene root
+     */
+    public static Pane getRoot() throws IOException {
+        Parent root = FXMLLoader.load(
+                ChatViewController.class.getResource("ChatView.fxml"));
+        return (Pane) root;
     }
 }

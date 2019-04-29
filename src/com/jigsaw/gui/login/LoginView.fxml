@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="462.0" prefWidth="390.0" style="-fx-background-color: #2a0033 #2a0033;"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.jigsaw.gui.login.LoginViewController">
+    <children>
+        <JFXTextField fx:id="username" focusColor="#0480d0" layoutX="43.0" layoutY="97.0" prefHeight="26.0"
+                      prefWidth="286.0" promptText="Username" stylesheets="@TextfieldStyle.css" unFocusColor="#d3d7dd">
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+        </JFXTextField>
+        <Label layoutX="152.0" layoutY="39.0" text="Sign In" textFill="#bdbbbb">
+            <font>
+                <Font size="22.0"/>
+            </font>
+        </Label>
+        <Hyperlink layoutX="138.0" layoutY="283.0" text="Forgot Password?" textFill="#cdcdcd">
+            <font>
+                <Font size="11.0"/>
+            </font>
+        </Hyperlink>
+        <JFXButton fx:id="login" layoutX="40.0" layoutY="243.0" onAction="#loginAction" prefHeight="26.0"
+                   prefWidth="286.0" style="-fx-background-color: #400a63;" text="Login" textFill="#fdfdfd"/>
+        <JFXButton fx:id="signUpButton" layoutX="247.0" layoutY="321.0" onAction="#signUpAction" prefHeight="31.0"
+                   prefWidth="67.0" style="-fx-background-color: #400a63 #400a63; -fx-border-radius: 10;" text="SIgn Up"
+                   textFill="#fdfdfd"/>
+        <Label layoutX="62.0" layoutY="328.0" text="Don't have an account?" textFill="WHITE"/>
+        <JFXButton fx:id="createProjectButton" layoutX="247.0" layoutY="361.0" onAction="#createProjectAction"
+                   prefHeight="31.0" prefWidth="104.0"
+                   style="-fx-background-color: #400a63 #400a63; -fx-border-radius: 10;" text="Create Porject"
+                   textFill="#fdfdfd"/>
+        <Label layoutX="62.0" layoutY="368.0" text="Want to Create a Project?" textFill="WHITE"/>
+        <JFXTextField fx:id="projectID" focusColor="#0480d0" layoutX="43.0" layoutY="178.0" prefHeight="26.0"
+                      prefWidth="286.0" promptText="Project ID" stylesheets="@TextfieldStyle.css" unFocusColor="#d3d7dd">
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+        </JFXTextField>
+        <JFXPasswordField fx:id="password" focusColor="#0480d0" layoutX="43.0" layoutY="132.0" prefHeight="32.0"
+                          prefWidth="286.0" promptText="Password" stylesheets="@TextfieldStyle.css" unFocusColor="#d3d7dd">
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+        </JFXPasswordField>
+        <JFXButton fx:id="popUpButton" ellipsisString="" layoutX="335.0" layoutY="19.0" onAction="#popUpButtonAction"
+                   prefHeight="32.0" prefWidth="43.0">
+            <graphic>
+                <ImageView fitHeight="49.0" fitWidth="32.0" onDragDetected="#popUpButtonAction" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../resources/Three-dot-menu-icon 2.png"/>
+                    </image>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </ImageView>
+            </graphic>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+        </JFXButton>
+        <VBox fx:id="popBox" layoutX="255.0" layoutY="60.0" prefHeight="100.0" prefWidth="120.0"
+              style="-fx-background-color: #ffe5e5;">
+            <children>
+                <JFXTextField fx:id="serverAddress" prefHeight="50.0" prefWidth="116.0" promptText="   Server Address"
+                              unFocusColor="#400a63">
+                    <VBox.margin>
+                        <Insets/>
+                    </VBox.margin>
+                </JFXTextField>
+                <JFXTextField fx:id="portAddress" prefHeight="50.0" prefWidth="114.0" promptText="  Port"
+                              unFocusColor="#400a63"/>
+            </children>
+            <effect>
+                <Blend/>
+            </effect>
+        </VBox>
+    </children>
+</AnchorPane>

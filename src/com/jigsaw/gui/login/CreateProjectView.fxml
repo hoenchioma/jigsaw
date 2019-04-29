@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.validation.ValidationFacade?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="522.0" prefWidth="490.0" style="-fx-background-color: #2a0033;"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.jigsaw.gui.login.CreateProjectViewController">
+    <children>
+        <Label layoutX="33.0" layoutY="101.0" prefHeight="22.0" prefWidth="104.0" text="Project Name" textFill="#979797"
+               AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="101.0">
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </Label>
+        <Label layoutX="35.0" layoutY="196.0" text="Project Description" textFill="#979797">
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </Label>
+        <JFXButton fx:id="submitButton" layoutX="200.0" layoutY="442.0" onAction="#createButtonAction" prefHeight="31.0"
+                   prefWidth="90.0"
+                   style="-fx-background-color: #2a0033; -fx-border-color: #DA70D6; -fx-border-width: 2; -fx-border-radius: 20;"
+                   text="Create" textFill="#a29b9b">
+            <font>
+                <Font size="16.0"/>
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+        </JFXButton>
+        <ValidationFacade/>
+        <Separator layoutX="147.0" layoutY="74.0" opacity="0.28" prefHeight="4.0" prefWidth="221.0"
+                   AnchorPane.leftAnchor="147.0" AnchorPane.rightAnchor="146.0" AnchorPane.topAnchor="74.0"/>
+        <Label alignment="CENTER" layoutX="209.0" layoutY="28.0" prefHeight="31.0" prefWidth="137.0" text="Project"
+               textAlignment="JUSTIFY" textFill="#a4a4a4" AnchorPane.leftAnchor="209.0" AnchorPane.rightAnchor="207.0"
+               AnchorPane.topAnchor="28.0">
+            <font>
+                <Font size="21.0"/>
+            </font>
+        </Label>
+        <TextField fx:id="projectName" layoutX="176.0" layoutY="98.0" prefHeight="26.0" prefWidth="260.0"
+                   style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20; -fx-border-insets: 0;"
+                   styleClass="text-input" stylesheets="@TextfieldStyle.css">
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+        </TextField>
+        <Label layoutX="35.0" layoutY="147.0" prefHeight="22.0" prefWidth="90.0" text="Due Date" textFill="#979797"
+               AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="388.0" AnchorPane.topAnchor="147.0">
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </Label>
+        <JFXTextArea fx:id="projectDescription" focusColor="#2a0033" layoutX="176.0" layoutY="196.0" prefHeight="216.0"
+                     prefWidth="260.0" style="-fx-border-color: #9643A9; -fx-border-radius: 10;"
+                     stylesheets="@TextfieldStyle.css" unFocusColor="#2a0033">
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+        </JFXTextArea>
+        <JFXDatePicker fx:id="projectDueDate" defaultColor="#9643a9" editable="false" layoutX="176.0" layoutY="142.0"
+                       prefHeight="32.0" prefWidth="198.0" stylesheets="@TextfieldStyle.css"
+                       AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="134.0"/>
+        <JFXButton buttonType="RAISED" ellipsisString="" layoutX="14.0" layoutY="14.0" onAction="#backButtonAction"
+                   prefHeight="31.0" prefWidth="35.0" ripplerFill="#c888d7" textFill="WHITE">
+            <graphic>
+                <ImageView fitHeight="40.0" fitWidth="37.0" onDragDetected="#backButtonAction" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../resources/Button-Back 2.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+    </children>
+</AnchorPane>

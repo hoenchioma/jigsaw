@@ -1,6 +1,10 @@
-package com.jigsaw.gui;
+package com.jigsaw.gui.login;
 
 import com.jfoenix.controls.JFXButton;
+import com.jigsaw.gui.calendar.AddTaskViewController;
+import com.jigsaw.gui.calendar.DayViewController;
+import com.jigsaw.gui.calendar.KanbanViewController;
+import com.jigsaw.gui.chat.ChatViewController;
 import com.jigsaw.network.client.NetClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +29,6 @@ import java.util.ResourceBundle;
  * @author Shadman Wadith
  * @version %I% %G%
  */
-
 public class ProjectViewController implements Initializable {
 
     // TODO: make the icon backgrounds transparent
@@ -65,11 +68,11 @@ public class ProjectViewController implements Initializable {
         return (Pane) root;
     }
 
-    @Override
 
     /**
-     * Intitilizes the initial view of Project
+      Initializes the initial view of Project
      */
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userNameLabel.setText("Username : " + NetClient.getInstance().getClientAccountSyncHandler().getUser().getUsername());
         projectIDLabel.setText("Project ID : " + NetClient.getInstance().getClientAccountSyncHandler().getProject().getId());
@@ -79,38 +82,40 @@ public class ProjectViewController implements Initializable {
         addTaskButton.setVisible(false);
         //teamMemberButton.setLayoutY(teamMemberButton.getLayoutY()-150);
         groupChatButton.setLayoutY(groupChatButton.getLayoutY() - 150);
-        loadUI("ChatView.fxml");
+        try {
+            loadUI(ChatViewController.getRoot());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    void addTaskButtonAction() {
-        loadUI("calendar/AddTaskView.fxml");
+    void addTaskButtonAction() throws IOException {
+        loadUI(AddTaskViewController.getRoot());
     }
 
     @FXML
-    void kanBanAction() {
-        loadUI("calendar/KanbanView.fxml");
+    void kanBanAction() throws IOException {
+        loadUI(KanbanViewController.getRoot());
     }
 
     @FXML
-    void dayViewButtonAction() {
-        loadUI("calendar/DayView.fxml");
+    void dayViewButtonAction() throws IOException {
+        loadUI(DayViewController.getRoot());
     }
 
     @FXML
-    void calendarButtonAction() {
-        loadUI("calendar/DayView.fxml");
+    void calendarButtonAction() throws IOException {
+        loadUI(DayViewController.getRoot());
     }
 
     @FXML
-    void groupChatButtonAction() {
-        loadUI("ChatView.fxml");
+    void groupChatButtonAction() throws IOException {
+        loadUI(ChatViewController.getRoot());
     }
 
     /**
      * a method to slide down the underneath buttons and show the hidden buttons
-     *
-     * @param event
      */
     @FXML
     void slideDownButton(ActionEvent event) {
@@ -131,55 +136,39 @@ public class ProjectViewController implements Initializable {
     }
 
     /**
-     * loads the acnhor pane with the given fxml FILE
+     * loads the anchor pane with the given pane
      *
-     * @param location
+     * @param root the root pane of the scene
      */
-    public void loadUI(String location) {
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource(location));
-
-        } catch (Exception uiLoadingException) {
-            uiLoadingException.printStackTrace();
-        }
+    private void loadUI(Pane root) {
         UIPane.getChildren().setAll(root);
-
-
     }
 
     /**
-     * performs logout and get to the signup page and  notify the server  that the user has logged out
-     *
-     * @param event
+     * performs logout and get to the sign-up page and  notify the server that the user has logged out
      */
     @FXML
     void logOutButtonAction(ActionEvent event) {
         try {
             NetClient.getInstance().logOut();
             NetClient.reset();
-            changeScene("LoginView.fxml", event, false);
+            changeScene(LoginViewController.getRoot(), event, false);
         } catch (Exception sceneChangeException) {
             sceneChangeException.printStackTrace();
         }
     }
 
     /**
-     * a method to change tthe scene of the full window
+     * a method to change the scene of the full window
      *
-     * @param location
-     * @param event
-     * @param resizability
-     * @throws IOException
+     * @param sceneView the root pane of the scene which will be loaded
+     * @param resizability whether the scene should be resizable
      */
-    public void changeScene(String location, ActionEvent event, boolean resizability) throws IOException {
-        Parent sceneView = FXMLLoader.load(getClass().getResource(location));
+    private void changeScene(Pane sceneView, ActionEvent event, boolean resizability) throws IOException {
         Scene scene = new Scene(sceneView);
         Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.setResizable(resizability);
         window.show();
     }
-
-
 }

@@ -30,6 +30,9 @@ import java.util.ResourceBundle;
 
 /**
  * View controller for the Kanban view controller
+ *
+ * @version %I%, %G%
+ * @author Raheeb Hassan
  */
 public class KanbanViewController implements Initializable {
     @FXML private JFXListView<ProjectTask> willDoListView;

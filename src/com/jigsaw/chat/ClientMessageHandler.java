@@ -2,7 +2,7 @@ package com.jigsaw.chat;
 
 import com.jigsaw.network.Packet;
 import com.jigsaw.network.client.NetClient;
-import com.jigsaw.gui.ChatViewController;
+import com.jigsaw.gui.chat.ChatViewController;
 import javafx.application.Platform;
 
 import com.jigsaw.chat.packet.*;

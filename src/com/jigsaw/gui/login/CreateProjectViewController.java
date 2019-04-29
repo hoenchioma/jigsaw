@@ -1,8 +1,9 @@
-package com.jigsaw.gui;
+package com.jigsaw.gui.login;
 
 import com.jfoenix.controls.JFXTextArea;
 import com.jigsaw.network.client.NetClient;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -40,9 +43,9 @@ public class CreateProjectViewController implements Initializable {
     }
 
     @FXML
-    void backButtonAction(ActionEvent event) {
+    void backButtonAction(MouseEvent event) {
         try {
-            changeScene("LoginView.fxml", event);
+            changeScene(LoginViewController.getRoot(), event);
         } catch (Exception sceneChangeException) {
             sceneChangeException.printStackTrace();
         }
@@ -81,7 +84,7 @@ public class CreateProjectViewController implements Initializable {
 
 
             try {
-                changeScene("LoginView.fxml", event);
+                changeScene(LoginViewController.getRoot(), event);
             } catch (Exception sceneChangeException) {
                 sceneChangeException.printStackTrace();
             }
@@ -90,8 +93,7 @@ public class CreateProjectViewController implements Initializable {
         }
     }
 
-    public void changeScene(String location, ActionEvent event) throws IOException {
-        Parent sceneView = FXMLLoader.load(getClass().getResource(location));
+    public void changeScene(Pane sceneView, Event event) throws IOException {
         Scene scene = new Scene(sceneView);
         Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
