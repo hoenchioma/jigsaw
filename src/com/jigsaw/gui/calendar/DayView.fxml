@@ -16,7 +16,7 @@
             </columns>
         </JFXTreeTableView>
         <JFXDatePicker fx:id="datePickerID" editable="false" layoutX="263.0" layoutY="14.0" onAction="#DatePickerAction" promptText="Select Date" AnchorPane.leftAnchor="263.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="14.0" />
-      <JFXButton fx:id="previousDayButtionID" buttonType="RAISED" layoutX="252.0" layoutY="54.0" onAction="#prevDayButtonAction" text="Previous Day" AnchorPane.leftAnchor="252.0" AnchorPane.topAnchor="54.0" />
-      <JFXButton fx:id="nextDayButtonID" layoutX="384.0" layoutY="54.0" onAction="#nextDayButtonAction" text="Next Day" AnchorPane.leftAnchor="384.0" AnchorPane.topAnchor="54.0" />
+      <JFXButton fx:id="previousDayButtionID" buttonType="RAISED" layoutX="128.0" layoutY="32.0" onAction="#prevDayButtonAction" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #009688;" text="Previous Day" AnchorPane.leftAnchor="128.0" AnchorPane.topAnchor="32.0" />
+      <JFXButton fx:id="nextDayButtonID" layoutX="768.0" layoutY="31.0" onAction="#nextDayButtonAction" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #009688;" text="Next Day" AnchorPane.leftAnchor="768.0" AnchorPane.topAnchor="31.0" />
     </children>
 </AnchorPane>
