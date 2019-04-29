@@ -34,8 +34,9 @@ public class ProjectViewController implements Initializable {
         kanBanButton.setVisible(false);
         dayViewButton.setVisible(false);
         addTaskButton.setVisible(false);
-        teamMemberButton.setLayoutY(teamMemberButton.getLayoutY()-150);
+        //teamMemberButton.setLayoutY(teamMemberButton.getLayoutY()-150);
         groupChatButton.setLayoutY(groupChatButton.getLayoutY()-150);
+        loadUI("ChatView.fxml");
     }
 
     private int slideFlag=1;
@@ -113,7 +114,7 @@ public class ProjectViewController implements Initializable {
     {
         if(event.getTarget()==calendarButton)
         {
-            teamMemberButton.setLayoutY(teamMemberButton.getLayoutY()+slideFlag*150);
+           // teamMemberButton.setLayoutY(teamMemberButton.getLayoutY()+slideFlag*150);
             groupChatButton.setLayoutY(groupChatButton.getLayoutY()+slideFlag*150);
         }
         if(slideFlag==1)
