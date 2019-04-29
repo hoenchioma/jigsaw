@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXButton;
 import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.User;
+import com.jigsaw.accounts.sync.ClientAccountSyncHandler;
 import com.jigsaw.calendar.ProjectTask;
 import com.jigsaw.calendar.sync.ClientTaskSyncHandler;
 import com.jigsaw.network.client.NetClient;
@@ -32,7 +33,7 @@ public class AddTaskViewController implements Initializable {
     private JFXDatePicker deadLineDatePickerID;
 
     @FXML
-    private JFXTextField creatorNameID;
+    private JFXTextField priorityID;
 
     @FXML
     private JFXTextField taskNameID;
@@ -62,16 +63,16 @@ public class AddTaskViewController implements Initializable {
             }
         }
 
-        if(!creatorNameID.getText().isBlank() && !taskNameID.getText().isBlank() && !taskDescriptionID.getText().isBlank() && assignees.size()>0){
+        if(!priorityID.getText().isBlank() && (Integer.parseInt(priorityID.getText()) > 0)  && !taskNameID.getText().isBlank() && !taskDescriptionID.getText().isBlank() && assignees.size()>0){
 
 
             //////add task to project
             String projectID = NetClient.getInstance().getClientAccountSyncHandler().getProject().getId();
             ClientTaskSyncHandler clientTaskSyncHandler = NetClient.getInstance().getClientTaskSyncHandler();
-            ProjectTask newProjectTask = new ProjectTask(taskNameID.getText(), LocalDateTime.of(deadLineDatePickerID.getValue(), LocalTime.now()), creatorNameID.getText(),projectID, assignees );
+            String creatorName = NetClient.getInstance().getClientAccountSyncHandler().getUser().getUsername();
+            ProjectTask newProjectTask = new ProjectTask(taskNameID.getText(), LocalDateTime.of(deadLineDatePickerID.getValue(), LocalTime.now()),creatorName  ,projectID, assignees );
+            newProjectTask.setPriority(Integer.parseInt(priorityID.getText()));
             clientTaskSyncHandler.addTask(newProjectTask);
-//            System.out.println(clientTaskSyncHandler.getTaskManager().getProjectTasks().size());
-//            System.out.println(assignees.size());
         }
     }
 

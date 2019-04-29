@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.jigsaw.accounts.User;
+import com.jigsaw.calendar.Progress;
 import com.jigsaw.calendar.ProjectTask;
 import com.jigsaw.network.client.NetClient;
 import javafx.beans.property.SimpleStringProperty;
@@ -62,41 +63,24 @@ public class DayViewController {
     @FXML
     private JFXButton nextDayButtonID;
 
-
     @FXML
     private void filter(ActionEvent event) {
     }
 
+    @FXML void initialize(){
+        datePickerID.setValue(LocalDate.now());
+        updateTable();
+    }
 
-
-    void updateTable() throws InterruptedException {
+    void updateTable(){
         ArrayList<ProjectTask> taskList = NetClient.getInstance().getClientTaskSyncHandler().getTaskManager().getProjectTasks();
-
-        //System.out.println(taskList.get);
-
-
-        /*assigneesList.add("MemberList1");
-        assigneesList.add("MemberList2");
-        assigneesList.add("MemberList3");
-
-        taskList.add(new ProjectTask("Raheeb", LocalDateTime.now(), "User 1","001",assigneesList));
-        taskList.add(new ProjectTask("Samin", LocalDateTime.now(), "User 2", "001",assigneesList));
-        taskList.add(new ProjectTask("Aahad", LocalDateTime.now(), "User 3","001",assigneesList));
-        taskList.add(new ProjectTask("Farhan", LocalDateTime.now(), "User 4","001",assigneesList));
-        taskList.add(new ProjectTask("Wadith", LocalDateTime.now(), "User 5","001",assigneesList));
-        taskList.add(new ProjectTask("Shamim", LocalDateTime.now(), "User 6","001",assigneesList));*/
-
 
         ProjectTask rootProjectTask = new ProjectTask("name", LocalDateTime.now(), "creator", "00", new ArrayList<String>());
         TreeItem<CalendarEntry> root = new TreeItem<>(new CalendarEntry("Task Name", "Task Description", "Members", rootProjectTask));
 
-
-
-
-
         ObservableList<TreeItem<CalendarEntry>> taskEntry = FXCollections.observableArrayList();
         for (int i = 0; i < taskList.size(); i++) {
-            if (taskList.get(i).getDeadline().toLocalDate().equals(datePickerID.getValue())) {
+            if (taskList.get(i).getDeadline().toLocalDate().equals(datePickerID.getValue()) && taskList.get(i).getProgress() != Progress.done) {
                 Map<String, User> userDictionary = NetClient.getInstance().getClientTaskSyncHandler().getUserDictionary();
                 ArrayList<User> assigneesList = new ArrayList<>();
                 for(String assigneeID : taskList.get(i).getAssigneeIDs()) {
@@ -156,6 +140,9 @@ public class DayViewController {
         ArrayList<String> userList = NetClient.getInstance().getClientAccountSyncHandler().getProject().getMembers();
         for(int i =0; i< userList.size(); i++){
             checkMenu.add(new CheckMenuItem(userList.get(i)));
+            if(projectTask.getAssigneeIDs().contains(userList.get(i))){
+                checkMenu.get(checkMenu.size() - 1).setSelected(true);
+            }
             menu.getItems().add(checkMenu.get(i));
         }
 
