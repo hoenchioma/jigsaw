@@ -89,18 +89,18 @@
                </graphic>
             </JFXButton>
             <Separator layoutX="15.0" layoutY="124.0" prefHeight="3.0" prefWidth="200.0" />
-            <Label fx:id="userNameLabel" layoutX="16.0" layoutY="14.0" prefWidth="132.0" text="Welcome," textFill="WHITE">
+            <Label fx:id="userNameLabel" layoutX="16.0" layoutY="14.0" prefHeight="22.0" prefWidth="211.0" text="Welcome," textFill="WHITE">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
             <Separator layoutX="15.0" layoutY="56.0" prefHeight="3.0" prefWidth="200.0" />
-            <Label fx:id="projectNameLabel" layoutX="16.0" layoutY="70.0" prefWidth="132.0" text="Project :" textFill="WHITE">
+            <Label fx:id="projectNameLabel" layoutX="16.0" layoutY="70.0" prefHeight="22.0" prefWidth="211.0" text="Project :" textFill="WHITE">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label fx:id="projectIDLabel" layoutX="16.0" layoutY="102.0" prefWidth="132.0" text="ID :" textFill="WHITE">
+            <Label fx:id="projectIDLabel" layoutX="16.0" layoutY="102.0" prefHeight="22.0" prefWidth="211.0" text="ID :" textFill="WHITE">
                <font>
                   <Font size="15.0" />
                </font>
