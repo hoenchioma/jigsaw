@@ -10,6 +10,7 @@ import com.jigsaw.chat.packet.MessagePacket;
 import com.jigsaw.chat.packet.FilePacket;
 import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.network.Packet;
+import com.jigsaw.network.server.Server;
 import com.jigsaw.network.server.SystemPacket;
 
 import java.io.*;
@@ -50,7 +51,7 @@ public class NetClient {
 
     // static (constant) variables
     public static final String DEFAULT_SERVER_ADDR = "localhost";
-    public static final int DEFAULT_SERVER_PORT = 4444;
+    public static final int DEFAULT_SERVER_PORT = Server.DEFAULT_SERVER_PORT;
 
     // instance attributes
     private Socket socket;
@@ -97,27 +98,29 @@ public class NetClient {
      * Communicates with server and returns server response
      * @return String with server response
      */
-    synchronized public String login(String username, String password, String projectID)
-            throws IOException, ClassNotFoundException {
-        connect();
-        out.writeObject("login"); // command
-        out.writeObject(username);
-        out.writeObject(password);
-        out.writeObject(projectID);
-        String response = (String) in.readObject();
-        if (response.equals("success")) {
-            // TODO: Implement sessionID security
-            String sessionID = (String) in.readObject();
-            isLoggedOut = false;
-            log("successfully logged in");
-            initialize();
+    synchronized public String login(String username, String password, String projectID) {
+        String response = null;
+        try {
+            out.writeObject("login"); // command
+            out.writeObject(username);
+            out.writeObject(password);
+            out.writeObject(projectID);
+            response = (String) in.readObject();
+            if (response.equals("success")) {
+                // TODO: Implement sessionID security
+                String sessionID = (String) in.readObject();
+                isLoggedOut = false;
+                log("successfully logged in");
+                initialize();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            response = "error";
         }
         return response;
     }
 
     public String register(String username, String password, Profile profile)
             throws IOException, ClassNotFoundException {
-        connect();
         out.writeObject("register"); // command
         out.writeObject(username);
         out.writeObject(password);

@@ -176,6 +176,5 @@ public class ProjectViewController implements Initializable {
         window.setScene(scene);
         window.setResizable(resizability);
         window.show();
-        window.centerOnScreen();
     }
 }

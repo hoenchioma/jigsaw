@@ -77,7 +77,7 @@ public class ServerMessageHandler {
 //                log("message received on server, content: " + messagePacket.toString());
                 writeToFile(messagePacket, messagePath);
                 for (String member : project.getMembers()) {
-                    log(member);
+//                    log(member);
                     Server server = clientHandler.getServer();
                     if (server.getActiveConnections().containsKey(member)) {
 //                        log(clientHandler.toString());

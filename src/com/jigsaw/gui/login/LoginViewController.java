@@ -3,12 +3,15 @@ package com.jigsaw.gui.login;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jigsaw.gui.GUIUtil;
 import com.jigsaw.gui.main.ProjectViewController;
 import com.jigsaw.network.client.NetClient;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 /**
@@ -98,11 +102,8 @@ public class LoginViewController implements Initializable {
      */
     @FXML
     public void signUpAction(ActionEvent event) throws IOException {
-        Parent signupView = FXMLLoader.load(getClass().getResource("RegistrationView.fxml"));
-        Scene signupScene = new Scene(signupView);
-        Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        window.setScene(signupScene);
-        window.show();
+        Parent signUpView = RegistrationViewController.getRoot();
+        GUIUtil.changeScene(signUpView, event);
     }
 
     /**
@@ -113,47 +114,43 @@ public class LoginViewController implements Initializable {
      */
 
     @FXML
-    public void loginAction(ActionEvent event) throws Exception {
+    public void loginAction(ActionEvent event) {
         String usernameString = username.getText();
         String passwordString = password.getText();
         String projectIDString = projectID.getText();
 
-        String response = NetClient.getInstance().login(usernameString, passwordString, projectIDString);
+        try {
+            NetClient.getInstance().connect();
 
-        System.out.println(response);
-        if (response.equals("success")) {
-            // change to next scene on login
-            changeToNextScene(ProjectViewController.getRoot(), true);
-        } else {
+            String response = NetClient.getInstance().login(usernameString, passwordString, projectIDString);
 
-
-            showError(response);
+            if (response.equals("success")) {
+                // change to next scene on login
+                try {
+                    GUIUtil.changeScene(ProjectViewController.getRoot(),
+                            (Stage) username.getScene().getWindow(), true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    GUIUtil.showError("Error loading next screen");
+                }
+            } else {
+                GUIUtil.showError(response);
+            }
+            System.out.println(response);
+        } catch (UnknownHostException e) {
+            GUIUtil.showError("Cannot find server");
+        } catch (IOException e) {
+            e.printStackTrace();
+            GUIUtil.showError("Error finding or connecting to server");
         }
     }
 
     @FXML
     public void createProjectAction(ActionEvent event) throws IOException {
-        Parent createProjectView = FXMLLoader.load(getClass().getResource("CreateProjectView.fxml"));
+        Parent createProjectView = CreateProjectViewController.getRoot();
         Scene createProjectScene = new Scene(createProjectView);
         Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(createProjectScene);
         window.show();
-    }
-
-    public void changeToNextScene(Parent root, boolean resizability) {
-        Scene scene = new Scene(root);
-        Stage window = (Stage) username.getScene().getWindow();
-        window.setScene(scene);
-        window.show();
-        window.setResizable(resizability);
-        window.centerOnScreen();
-    }
-
-    public void showError(String errorMessage) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(null);
-        alert.setContentText(errorMessage);
-        alert.setTitle("JIGSAW");
-        alert.show();
     }
 }

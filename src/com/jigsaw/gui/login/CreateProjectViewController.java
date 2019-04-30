@@ -1,6 +1,7 @@
 package com.jigsaw.gui.login;
 
 import com.jfoenix.controls.JFXTextArea;
+import com.jigsaw.gui.GUIUtil;
 import com.jigsaw.network.client.NetClient;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -43,18 +44,17 @@ public class CreateProjectViewController implements Initializable {
     }
 
     @FXML
-    void backButtonAction(MouseEvent event) {
+    private void backButtonAction(Event event) {
         try {
-            changeScene(LoginViewController.getRoot(), event);
+            GUIUtil.changeScene(LoginViewController.getRoot(), event);
         } catch (Exception sceneChangeException) {
             sceneChangeException.printStackTrace();
         }
     }
 
     /**
-     * it creates an instance of a project it generates a random projectID string from the server and pass to it and then changes the scene to Login screen
-     *
-     * @param event
+     * it creates an instance of a project it generates a random projectID string
+     * from the server and pass to it and then changes the scene to Login screen
      */
     @FXML
     public void createButtonAction(ActionEvent event) {
@@ -75,7 +75,7 @@ public class CreateProjectViewController implements Initializable {
                 );
 
                 System.out.println(projectIDText);
-                showMessage("Project ID : " + projectIDText);
+                GUIUtil.showAlert("Project ID : " + projectIDText, Alert.AlertType.INFORMATION);
                 NetClient.getInstance().createdProjectID = projectIDText;
 
             } catch (Exception createProjectException) {
@@ -84,7 +84,7 @@ public class CreateProjectViewController implements Initializable {
 
 
             try {
-                changeScene(LoginViewController.getRoot(), event);
+                GUIUtil.changeScene(LoginViewController.getRoot(), event);
             } catch (Exception sceneChangeException) {
                 sceneChangeException.printStackTrace();
             }
@@ -93,18 +93,13 @@ public class CreateProjectViewController implements Initializable {
         }
     }
 
-    public void changeScene(Pane sceneView, Event event) throws IOException {
-        Scene scene = new Scene(sceneView);
-        Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.show();
-    }
-
-    public void showMessage(String Message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Project Created");
-        alert.setContentText(Message);
-        alert.setTitle("JIGSAW");
-        alert.show();
+    /**
+     * Returns the scene root (loading from fxml)
+     * @return Pane type representing the scene root
+     */
+    public static Pane getRoot() throws IOException {
+        Parent root = FXMLLoader.load(
+                CreateProjectViewController.class.getResource("CreateProjectView.fxml"));
+        return (Pane) root;
     }
 }
