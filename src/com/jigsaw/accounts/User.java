@@ -13,6 +13,10 @@ import java.io.Serializable;
 public class User implements Serializable {
     private String id;
     private String username;
+    /**
+     * Saves the hashed password and salt
+     * (random string used to hash password)
+     */
     private Pair<String, String> passwordSaltPair;
 
     private Profile profile;
@@ -49,8 +53,6 @@ public class User implements Serializable {
     public String getPasswordSalt() {
         return passwordSaltPair.getValue();
     }
-
-    //TODO raheeb documentation
 
     public Pair<String, String> getPasswordSaltPair() {
         return passwordSaltPair;

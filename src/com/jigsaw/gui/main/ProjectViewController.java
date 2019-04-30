@@ -33,8 +33,6 @@ import java.util.ResourceBundle;
  */
 public class ProjectViewController implements Initializable {
 
-    // TODO: make the icon backgrounds transparent
-
     private int slideFlag = 1;
     @FXML
     private JFXButton dayViewButton;
