@@ -5,7 +5,7 @@ import com.jigsaw.accounts.sync.ClientAccountSyncHandler;
 import com.jigsaw.accounts.Profile;
 import com.jigsaw.calendar.sync.ClientTaskSyncHandler;
 import com.jigsaw.calendar.sync.TaskPacket;
-import com.jigsaw.chat.ClientMessageHandler;
+import com.jigsaw.chat.sync.ClientMessageHandler;
 import com.jigsaw.chat.packet.MessagePacket;
 import com.jigsaw.chat.packet.FilePacket;
 import com.jigsaw.chat.packet.FileRequestPacket;

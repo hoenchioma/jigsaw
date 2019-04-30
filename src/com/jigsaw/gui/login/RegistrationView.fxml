@@ -2,22 +2,16 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0"
             prefWidth="599.0" style="-fx-background-color: #2a0033;" stylesheets="@ScrollPaneStyle.css"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.jigsaw.gui.login.RegistrationViewController">
     <content>
         <AnchorPane prefHeight="707.0" prefWidth="590.0" style="-fx-background-color: #2a0033;">
@@ -32,6 +26,13 @@
                 <Label layoutX="96.0" layoutY="146.0" prefHeight="22.0" prefWidth="82.0" text="Last Name"
                        textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="412.0"
                        AnchorPane.topAnchor="146.0">
+                    <font>
+                        <Font size="15.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="96.0" layoutY="199.0" prefHeight="22.0" prefWidth="85.0" text="Username"
+                       textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="409.0"
+                       AnchorPane.topAnchor="199.0">
                     <font>
                         <Font size="15.0"/>
                     </font>
@@ -51,27 +52,6 @@
                         <Font size="15.0"/>
                     </font>
                 </Label>
-                <RadioButton fx:id="male" layoutX="247.0" layoutY="460.0" mnemonicParsing="false" text="Male"
-                             textFill="#979797">
-                    <cursor>
-                        <Cursor fx:constant="HAND"/>
-                    </cursor>
-                    <toggleGroup>
-                        <ToggleGroup fx:id="SexGroup"/>
-                    </toggleGroup>
-                </RadioButton>
-                <RadioButton fx:id="female" layoutX="327.0" layoutY="460.0" mnemonicParsing="false" text="Female"
-                             textFill="#979797" toggleGroup="$SexGroup">
-                    <cursor>
-                        <Cursor fx:constant="HAND"/>
-                    </cursor>
-                </RadioButton>
-                <RadioButton fx:id="others" layoutX="419.0" layoutY="460.0" mnemonicParsing="false" text="Others"
-                             textFill="#979797" toggleGroup="$SexGroup">
-                    <cursor>
-                        <Cursor fx:constant="HAND"/>
-                    </cursor>
-                </RadioButton>
                 <Label layoutX="94.0" layoutY="533.0" text="Institute" textFill="#979797">
                     <font>
                         <Font size="15.0"/>
@@ -92,16 +72,6 @@
                         <Font size="15.0"/>
                     </font>
                 </Label>
-                <JFXButton layoutX="252.0" layoutY="634.0" onAction="#registerButtonAction"
-                           style="-fx-background-color: #2a0033; -fx-border-color: #DA70D6; -fx-border-width: 2; -fx-border-radius: 20;"
-                           text="Submit" textFill="#a29b9b">
-                    <font>
-                        <Font size="19.0"/>
-                    </font>
-                    <cursor>
-                        <Cursor fx:constant="HAND"/>
-                    </cursor>
-                </JFXButton>
                 <Label layoutX="94.0" layoutY="416.0" text="BirthDay" textFill="#979797">
                     <font>
                         <Font size="15.0"/>
@@ -128,14 +98,60 @@
                         <Cursor fx:constant="TEXT"/>
                     </cursor>
                 </TextField>
-                <TextField fx:id="profession" layoutX="234.0" layoutY="485.0" prefHeight="26.0" prefWidth="283.0"
+                <TextField fx:id="username" layoutX="235.0" layoutY="196.0" prefHeight="26.0" prefWidth="283.0"
+                           style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20; -fx-border-insets: 0;"
+                           styleClass="text-input" stylesheets="@TextfieldStyle.css">
+                    <cursor>
+                        <Cursor fx:constant="TEXT"/>
+                    </cursor>
+                </TextField>
+                <PasswordField fx:id="password" layoutX="234.0" layoutY="247.0" prefHeight="26.0" prefWidth="283.0"
+                               style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;"
+                               stylesheets="@TextfieldStyle.css">
+                    <cursor>
+                        <Cursor fx:constant="TEXT"/>
+                    </cursor>
+                </PasswordField>
+                <PasswordField fx:id="confirmPassword" layoutX="234.0" layoutY="297.0" prefHeight="26.0"
+                               prefWidth="283.0"
+                               style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;"
+                               stylesheets="@TextfieldStyle.css">
+                    <cursor>
+                        <Cursor fx:constant="TEXT"/>
+                    </cursor>
+                </PasswordField>
+                <TextField fx:id="eMail" layoutX="234.0" layoutY="359.0" prefHeight="26.0" prefWidth="283.0"
                            style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;"
                            stylesheets="@TextfieldStyle.css">
                     <cursor>
                         <Cursor fx:constant="TEXT"/>
                     </cursor>
                 </TextField>
-                <TextField fx:id="eMail" layoutX="234.0" layoutY="359.0" prefHeight="26.0" prefWidth="283.0"
+                <JFXDatePicker fx:id="birthDay" defaultColor="#9643a9" editable="false" layoutX="234.0" layoutY="411.0"
+                               maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                               minHeight="-Infinity" minWidth="-Infinity" stylesheets="@TextfieldStyle.css"/>
+                <RadioButton fx:id="male" layoutX="247.0" layoutY="460.0" mnemonicParsing="false" text="Male"
+                             textFill="#979797">
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                    <toggleGroup>
+                        <ToggleGroup fx:id="SexGroup"/>
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton fx:id="female" layoutX="327.0" layoutY="460.0" mnemonicParsing="false" text="Female"
+                             textFill="#979797" toggleGroup="$SexGroup">
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </RadioButton>
+                <RadioButton fx:id="others" layoutX="419.0" layoutY="460.0" mnemonicParsing="false" text="Others"
+                             textFill="#979797" toggleGroup="$SexGroup">
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </RadioButton>
+                <TextField fx:id="profession" layoutX="234.0" layoutY="485.0" prefHeight="26.0" prefWidth="283.0"
                            style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;"
                            stylesheets="@TextfieldStyle.css">
                     <cursor>
@@ -156,38 +172,16 @@
                         <Cursor fx:constant="TEXT"/>
                     </cursor>
                 </TextField>
-                <PasswordField fx:id="password" layoutX="234.0" layoutY="247.0" prefHeight="26.0" prefWidth="283.0"
-                               style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;"
-                               stylesheets="@TextfieldStyle.css">
-                    <cursor>
-                        <Cursor fx:constant="TEXT"/>
-                    </cursor>
-                </PasswordField>
-                <PasswordField fx:id="confirmPassword" layoutX="234.0" layoutY="297.0" prefHeight="26.0"
-                               prefWidth="283.0"
-                               style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20;"
-                               stylesheets="@TextfieldStyle.css">
-                    <cursor>
-                        <Cursor fx:constant="TEXT"/>
-                    </cursor>
-                </PasswordField>
-                <Label layoutX="96.0" layoutY="199.0" prefHeight="22.0" prefWidth="85.0" text="Username"
-                       textFill="#979797" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="409.0"
-                       AnchorPane.topAnchor="199.0">
+                <JFXButton layoutX="252.0" layoutY="634.0" onAction="#registerButtonAction"
+                           style="-fx-background-color: #2a0033; -fx-border-color: #DA70D6; -fx-border-width: 2; -fx-border-radius: 20;"
+                           text="Submit" textFill="#a29b9b">
                     <font>
-                        <Font size="15.0"/>
+                        <Font size="19.0"/>
                     </font>
-                </Label>
-                <TextField fx:id="username" layoutX="235.0" layoutY="196.0" prefHeight="26.0" prefWidth="283.0"
-                           style="-fx-background-color: #2a0033; -fx-border-color: #9643A9; -fx-border-radius: 20; -fx-border-insets: 0;"
-                           styleClass="text-input" stylesheets="@TextfieldStyle.css">
                     <cursor>
-                        <Cursor fx:constant="TEXT"/>
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
-                </TextField>
-                <JFXDatePicker fx:id="birthDay" defaultColor="#9643a9" editable="false" layoutX="234.0" layoutY="411.0"
-                               maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                               minHeight="-Infinity" minWidth="-Infinity" stylesheets="@TextfieldStyle.css"/>
+                </JFXButton>
                 <JFXButton buttonType="RAISED" ellipsisString="" layoutX="14.0" layoutY="14.0"
                            onAction="#backButtonAction" prefHeight="31.0" prefWidth="35.0" ripplerFill="#c888d7"
                            textFill="WHITE">

@@ -1,10 +1,11 @@
-package com.jigsaw.gui.login;
+package com.jigsaw.gui.main;
 
 import com.jfoenix.controls.JFXButton;
 import com.jigsaw.gui.calendar.AddTaskViewController;
 import com.jigsaw.gui.calendar.DayViewController;
 import com.jigsaw.gui.calendar.KanbanViewController;
 import com.jigsaw.gui.chat.ChatViewController;
+import com.jigsaw.gui.login.LoginViewController;
 import com.jigsaw.network.client.NetClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,14 +1,12 @@
 package com.jigsaw.gui.chat;
 
-import com.jigsaw.chat.ClientMessageHandler;
+import com.jigsaw.chat.sync.ClientMessageHandler;
 import com.jigsaw.chat.packet.ChatPacketHandler;
 import com.jigsaw.chat.packet.FilePacket;
 import com.jigsaw.chat.packet.FileRequestPacket;
 import com.jigsaw.chat.packet.MessagePacket;
-import com.jigsaw.gui.calendar.KanbanViewController;
 import com.jigsaw.network.Packet;
 import com.jigsaw.network.client.NetClient;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

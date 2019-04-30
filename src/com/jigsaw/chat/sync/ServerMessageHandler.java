@@ -1,4 +1,4 @@
-package com.jigsaw.chat;
+package com.jigsaw.chat.sync;
 
 import com.jigsaw.accounts.Project;
 import com.jigsaw.accounts.Resource;

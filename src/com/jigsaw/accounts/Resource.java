@@ -258,12 +258,25 @@ public class Resource implements Serializable {
 
     public static final ArrayList<String> secretProjectIDs =
             new ArrayList<>(Arrays.asList(
-                    "yoloboys",
                     "stormtroopers",
                     "wesuck",
                     "karatekids",
-                    "purainh",
-                    "saminfanclub"
+                    "jigsaw",
+                    "raheeb",
+                    "farhan",
+                    "wadith",
+                    "aahad",
+                    "samin",
+                    "shamim",
+                    "amhungry",
+                    "lightyagami",
+                    "lelouch",
+                    "thanosproject!",
+                    "iambatman",
+                    "ozymandias",
+                    "webyte",
+                    "pera",
+                    "iamgpa5"
             ));
 
     private void log(String str) {

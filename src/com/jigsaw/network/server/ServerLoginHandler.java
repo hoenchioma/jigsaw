@@ -237,11 +237,12 @@ public class ServerLoginHandler implements Runnable {
     private static String generateRandomID(int length) {
         Random rng = new Random();
 
-        final int probabilityOfSpecialRandom = 9929;
+        final int probabilityOfSpecialRandom = 97;
         if (rng.nextInt()%probabilityOfSpecialRandom == 0) {
             return Resource.secretProjectIDs.get(rng.nextInt(Resource.secretProjectIDs.size()));
         }
 
+        // alphabets to choose for making the ID
         String alphabet = "1234567890abcdefghijklmnopqrstuvwxyz";
         StringBuilder temp = new StringBuilder();
         for (int i = 0; i < length; i++) {

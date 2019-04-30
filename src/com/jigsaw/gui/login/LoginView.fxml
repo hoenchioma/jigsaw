@@ -13,11 +13,25 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="462.0" prefWidth="390.0" style="-fx-background-color: #2a0033 #2a0033;"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.jigsaw.gui.login.LoginViewController">
     <children>
         <JFXTextField fx:id="username" focusColor="#0480d0" layoutX="43.0" layoutY="97.0" prefHeight="26.0"
                       prefWidth="286.0" promptText="Username" stylesheets="@TextfieldStyle.css" unFocusColor="#d3d7dd">
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+        </JFXTextField>
+        <JFXPasswordField fx:id="password" focusColor="#0480d0" layoutX="43.0" layoutY="132.0" prefHeight="32.0"
+                          prefWidth="286.0" promptText="Password" stylesheets="@TextfieldStyle.css"
+                          unFocusColor="#d3d7dd">
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+        </JFXPasswordField>
+        <JFXTextField fx:id="projectID" focusColor="#0480d0" layoutX="43.0" layoutY="178.0" prefHeight="26.0"
+                      prefWidth="286.0" promptText="Project ID" stylesheets="@TextfieldStyle.css"
+                      unFocusColor="#d3d7dd">
             <cursor>
                 <Cursor fx:constant="TEXT"/>
             </cursor>
@@ -43,18 +57,6 @@
                    style="-fx-background-color: #400a63 #400a63; -fx-border-radius: 10;" text="Create Porject"
                    textFill="#fdfdfd"/>
         <Label layoutX="62.0" layoutY="368.0" text="Want to Create a Project?" textFill="WHITE"/>
-        <JFXTextField fx:id="projectID" focusColor="#0480d0" layoutX="43.0" layoutY="178.0" prefHeight="26.0"
-                      prefWidth="286.0" promptText="Project ID" stylesheets="@TextfieldStyle.css" unFocusColor="#d3d7dd">
-            <cursor>
-                <Cursor fx:constant="TEXT"/>
-            </cursor>
-        </JFXTextField>
-        <JFXPasswordField fx:id="password" focusColor="#0480d0" layoutX="43.0" layoutY="132.0" prefHeight="32.0"
-                          prefWidth="286.0" promptText="Password" stylesheets="@TextfieldStyle.css" unFocusColor="#d3d7dd">
-            <cursor>
-                <Cursor fx:constant="TEXT"/>
-            </cursor>
-        </JFXPasswordField>
         <JFXButton fx:id="popUpButton" ellipsisString="" layoutX="335.0" layoutY="19.0" onAction="#popUpButtonAction"
                    prefHeight="32.0" prefWidth="43.0">
             <graphic>
@@ -75,14 +77,21 @@
         <VBox fx:id="popBox" layoutX="255.0" layoutY="60.0" prefHeight="100.0" prefWidth="120.0"
               style="-fx-background-color: #ffe5e5;">
             <children>
-                <JFXTextField fx:id="serverAddress" prefHeight="50.0" prefWidth="116.0" promptText="   Server Address"
+                <JFXTextField fx:id="serverAddress" prefHeight="50.0" prefWidth="116.0" promptText="Server Address"
                               unFocusColor="#400a63">
                     <VBox.margin>
                         <Insets/>
                     </VBox.margin>
+                    <padding>
+                        <Insets left="6.0" right="6.0"/>
+                    </padding>
                 </JFXTextField>
-                <JFXTextField fx:id="portAddress" prefHeight="50.0" prefWidth="114.0" promptText="  Port"
-                              unFocusColor="#400a63"/>
+                <JFXTextField fx:id="portAddress" prefHeight="50.0" prefWidth="114.0" promptText="Port"
+                              unFocusColor="#400a63">
+                    <VBox.margin>
+                        <Insets left="6.0" right="6.0"/>
+                    </VBox.margin>
+                </JFXTextField>
             </children>
             <effect>
                 <Blend/>

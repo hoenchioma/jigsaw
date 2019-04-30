@@ -1,4 +1,4 @@
-package com.jigsaw.chat;
+package com.jigsaw.chat.sync;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

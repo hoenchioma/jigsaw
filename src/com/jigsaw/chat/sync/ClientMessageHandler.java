@@ -1,4 +1,4 @@
-package com.jigsaw.chat;
+package com.jigsaw.chat.sync;
 
 import com.jigsaw.network.Packet;
 import com.jigsaw.network.client.NetClient;
