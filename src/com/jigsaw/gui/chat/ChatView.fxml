@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -8,23 +9,24 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1050.0" style="-fx-background-color: #1d2026;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.chat.ChatViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1050.0" style="-fx-background-color: #1d2026;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jigsaw.gui.chat.ChatViewController">
     <children>
-        <ScrollPane fx:id="chatScrollPane" prefHeight="668.0" prefWidth="790.0" style="-fx-background-color: #2a0033;" stylesheets="@../login/ScrollPaneStyle.css" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="260.0" AnchorPane.topAnchor="0.0">
-            <content>
-                <TextArea fx:id="chatBox" editable="false" prefHeight="662.0" prefWidth="787.0" stylesheets="@../login/TextareaStyle.css" wrapText="true">
-                    <font>
-                        <Font size="16.0" />
-                    </font></TextArea>
-            </content>
-        </ScrollPane>
-        <TextField fx:id="typeArea" layoutX="13.0" layoutY="519.0" onAction="#userSendMessage" prefHeight="34.0" prefWidth="484.0" promptText="Type a message..." style="-fx-background-color: #1d2026; -fx-border-radius: 10; -fx-border-color: #ffffff;" stylesheets="@../login/TextfieldSyle.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="103.0" />
+        <TextField fx:id="typeArea" layoutX="5.0" layoutY="677.0" onAction="#userSendMessage" prefHeight="34.0" prefWidth="484.0" promptText="Type a message..." style="-fx-background-color: #1d2026; -fx-border-radius: 10; -fx-border-color: #ffffff;" stylesheets="@../login/TextfieldSyle.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="111.0" />
         <JFXButton fx:id="sendButton" buttonType="RAISED" layoutX="507.0" layoutY="462.0" onAction="#userSendMessage" ripplerFill="#bcbaba" style="-fx-background-color: #fff;" text="Send" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="50.0" />
-        <JFXButton fx:id="fileButton" buttonType="RAISED" layoutX="561.0" layoutY="462.0" onAction="#userSendFile" ripplerFill="#bcbaba" style="-fx-background-color: #fff;" text="+" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="14.0" />
-        <ScrollPane fx:id="fileScrollPane" layoutX="786.0" prefHeight="668.0" prefWidth="262.0" style="-fx-background-color: #2a0033;" stylesheets="@../login/ScrollPaneStyle.css">
-            <content>
-                <VBox fx:id="fileBox" prefHeight="665.0" prefWidth="260.0" />
-            </content>
+        <JFXButton fx:id="fileButton" buttonType="RAISED" layoutX="1009.0" layoutY="681.0" onAction="#userSendFile" ripplerFill="#bcbaba" style="-fx-background-color: #fff;" text="+" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="12.0" />
+          <TextArea fx:id="chatBox" editable="false" prefHeight="668.0" prefWidth="787.0" wrapText="true" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="263.0" AnchorPane.topAnchor="0.0">
+              <font>
+                  <Font size="16.0" />
+              </font>
+         <stylesheets>
+            <URL value="@../login/TextareaStyle.css" />
+            <URL value="@../login/ScrollPaneStyle.css" />
+         </stylesheets>
+      </TextArea>
+        <ScrollPane fx:id="fileScrollPane" layoutX="786.0" prefHeight="668.0" prefWidth="263.0" style="-fx-background-color: #2a0033;" stylesheets="@../login/ScrollPaneStyle.css" AnchorPane.bottomAnchor="52.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="0.0">
+         <content>
+                <VBox fx:id="fileBox" prefHeight="666.0" prefWidth="261.0" />
+         </content>
         </ScrollPane>
     </children>
 </AnchorPane>
